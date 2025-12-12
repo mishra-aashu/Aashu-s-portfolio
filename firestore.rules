@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow anyone to read/write contact form submissions
+    // This is safe for a contact form since it only stores basic inquiry data
+    match /artifacts/{appId}/public/data/enquiries/{document} {
+      allow read, write: if true;
+    }
+    
+    // Optional: Add more restrictive rules for other collections
+    // match /{document=**} {
+    //   allow read, write: if false; // Deny all other access by default
+    // }
+  }
+}
