@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
-import { 
-  Github, 
-  Linkedin, 
-  Twitter, 
-  Mail, 
-  ExternalLink, 
-  Code2, 
-  Terminal, 
-  Cpu, 
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  Mail,
+  ExternalLink,
+  Code2,
+  Terminal,
+  Cpu,
   Globe,
   Send,
   ChevronDown,
@@ -24,8 +24,10 @@ import {
   Layout,
   Server,
   Smartphone,
-  MousePointer2
+  MousePointer2,
+  X
 } from 'lucide-react';
+import ArchitectureMap from './ArchitectureMap';
 
 // Firebase Imports
 import { initializeApp } from "firebase/app";
@@ -145,7 +147,7 @@ const Navbar = ({ activeSection, scrollToSection }) => {
           onClick={() => scrollToSection('hero')}
         >
           <Code2 size={24} className="text-cyan-400" />
-          <span>Dev<span className="text-white">Folio</span></span>
+          <span>Aashu's<span className="text-white"> Portfolio</span></span>
         </div>
         
         <div className="hidden md:flex gap-1 bg-slate-800/50 p-1 rounded-full border border-white/5">
@@ -178,7 +180,7 @@ const Navbar = ({ activeSection, scrollToSection }) => {
 
 const Hero = ({ scrollToSection }) => {
   const [text, setText] = useState('');
-  const fullText = "Frontend Engineer & Data Science Undergraduate";
+  const fullText = "Full Stack Engineer & Data Science Undergraduate";
   
   useEffect(() => {
     let index = 0;
@@ -202,20 +204,13 @@ const Hero = ({ scrollToSection }) => {
       </div>
       
       <div className="max-w-6xl mx-auto px-6 relative z-20 flex flex-col items-center text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-cyan-500/30 text-cyan-400 text-xs font-bold mb-8 shadow-[0_0_20px_rgba(6,182,212,0.15)] animate-fade-in-up">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-          </span>
-          OPEN TO OPPORTUNITIES
-        </div>
         
-        <h1 className="text-5xl md:text-8xl font-bold text-white mb-6 tracking-tight leading-none">
-          Crafting Digital <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-gradient-x">
-            Masterpieces
-          </span>
+        <h1 className="text-6xl md:text-9xl font-bold text-white mb-4 tracking-tight leading-none">
+          Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 animate-gradient-x">Aashutosh</span>
         </h1>
+        <p className="text-2xl md:text-4xl font-light text-slate-300 mb-6">
+          CRAFTING DIGITAL MASTERPIECES
+        </p>
         
         <div className="h-8 mb-8">
            <p className="text-xl md:text-2xl font-mono text-cyan-400 border-r-2 border-cyan-400 pr-2 animate-pulse">
@@ -224,7 +219,7 @@ const Hero = ({ scrollToSection }) => {
         </div>
         
         <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-          I am a Frontend Developer specializing in building responsive, high-performance web applications using React and JavaScript.
+          I am a Backened & Frontend Developer specializing in building responsive, high-performance web applications using React and JavaScript.
           With a mastery of HTML5 and CSS3, I bridge the gap between design and technology, ensuring pixel-perfect execution in every project.
         </p>
         
@@ -249,8 +244,8 @@ const Hero = ({ scrollToSection }) => {
 
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-slate-600">
           <div className="flex flex-col items-center gap-2">
-            <span className="text-xs uppercase tracking-widest">Scroll</span>
-            <ChevronDown size={20} />
+           
+           
           </div>
         </div>
       </div>
@@ -315,7 +310,7 @@ const About = () => {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <StatCard icon={GraduationCap} value="IIT Madras" label="Data Science" color="cyan" />
-              <StatCard icon={CheckCircle2} value="Frontend" label="Specialist" color="purple" />
+              <StatCard icon={CheckCircle2} value="Full Stack" label="Web Developer" color="purple" />
             </div>
 
             <button className="flex items-center gap-2 text-cyan-400 font-semibold hover:gap-4 transition-all group">
@@ -347,7 +342,7 @@ const About = () => {
               active={false}
             />
             <TimelineItem
-              year="2021"
+              year="2024"
               title="Web Development Journey"
               company="Self-Taught"
               desc="Started with HTML5 and CSS3 mastery, progressively advancing to React and modern frontend technologies with focus on responsive design."
@@ -390,7 +385,7 @@ const Skills = () => {
             <div className="flex flex-wrap gap-3">
               <SkillPill icon={Code2} name="React" color="cyan" />
               <SkillPill icon={Zap} name="Next.js" color="white" />
-              <SkillPill icon={Layout} name="Tailwind" color="cyan" />
+              <SkillPill icon={Layout} name="CSS3" color="cyan" />
               <SkillPill icon={Globe} name="Three.js" color="yellow" />
             </div>
           </div>
@@ -417,9 +412,9 @@ const Skills = () => {
             <h3 className="text-xl font-bold text-white mb-6">Tools & Mobile</h3>
             <div className="flex flex-wrap gap-3">
               <SkillPill icon={Github} name="Git" color="orange" />
-              <SkillPill icon={Layers} name="Figma" color="purple" />
+              <SkillPill icon={Layers} name="Gradle" color="purple" />
               <SkillPill icon={Smartphone} name="React Native" color="cyan" />
-              <SkillPill icon={Server} name="Docker" color="blue" />
+              <SkillPill icon={Server} name="Capacitor" color="blue" />
             </div>
           </div>
         </div>
@@ -428,7 +423,7 @@ const Skills = () => {
   );
 };
 
-const ProjectCard = ({ title, desc, tags, color, size }) => (
+const ProjectCard = ({ title, desc, tags, color, size, onGithubClick }) => (
   <div className={`group relative rounded-3xl bg-slate-900 border border-white/5 overflow-hidden hover:border-${color}-500/50 transition-all duration-500 hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] ${size === 'large' ? 'md:col-span-2' : 'md:col-span-1'}`}>
     {/* Hover Gradient Overlay */}
     <div className={`absolute inset-0 bg-gradient-to-br from-${color}-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
@@ -440,7 +435,7 @@ const ProjectCard = ({ title, desc, tags, color, size }) => (
             {size === 'large' ? <Globe size={24} /> : <Code2 size={24} />}
           </div>
           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-             <button className="p-2 rounded-full bg-slate-800 hover:bg-white hover:text-slate-900 transition-colors">
+             <button onClick={onGithubClick} className="p-2 rounded-full bg-slate-800 hover:bg-white hover:text-slate-900 transition-colors">
                <Github size={18} />
              </button>
              <button className="p-2 rounded-full bg-slate-800 hover:bg-white hover:text-slate-900 transition-colors">
@@ -468,7 +463,7 @@ const ProjectCard = ({ title, desc, tags, color, size }) => (
   </div>
 );
 
-const Projects = () => {
+const Projects = ({ openModal }) => {
   return (
     <section id="projects" className="py-24 bg-slate-950">
       <div className="max-w-6xl mx-auto px-6">
@@ -506,12 +501,20 @@ const Projects = () => {
             color="green"
             size="small"
           />
-          <ProjectCard 
-            title="Lumina UI Kit" 
+          <ProjectCard
+            title="Lumina UI Kit"
             desc="An open-source React component library focusing on accessibility and dark mode."
             tags={['React', 'Storybook', 'NPM']}
             color="pink"
             size="large"
+          />
+          <ProjectCard
+            title="CaBa"
+            desc="A real-time messaging application with user authentication, chat rooms, and instant message delivery."
+            tags={['React', 'Firebase', 'Real-time']}
+            color="blue"
+            size="small"
+            onGithubClick={openModal}
           />
         </div>
       </div>
@@ -731,6 +734,10 @@ const Footer = () => (
 const App = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [user, setUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   // No authentication needed - contact form works without user
   useEffect(() => {
@@ -774,9 +781,21 @@ const App = () => {
       <Hero scrollToSection={scrollToSection} />
       <About />
       <Skills />
-      <Projects />
+      <Projects openModal={openModal} />
       <Contact user={user} />
       <Footer />
+
+      {showModal && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm">
+          <button
+            onClick={closeModal}
+            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-slate-800 text-white hover:bg-white hover:text-slate-900 transition-colors"
+          >
+            <X size={24} />
+          </button>
+          <ArchitectureMap />
+        </div>
+      )}
     </div>
   );
 };
