@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/Aashu-s-portfolio/',
+  base: process.env.NODE_ENV === 'production' ? '/Aashu-s-portfolio/' : '/',
 })
