@@ -15,132 +15,120 @@ import {
   Grid
 } from 'lucide-react';
 
-// --- CONFIGURATION ---
-const APP_NAME = "CaBa"; // <--- YAHAN APNE APP KA NAAM LIKHEIN
+// --- Data: Architecture Mappings for different projects ---
+const ARCHITECTURE_DATA = {
+  CaBa: [
+    {
+      id: 'frontend',
+      title: 'Frontend Core',
+      icon: <Code2 size={20} />,
+      color: 'text-cyan-400',
+      borderColor: 'border-cyan-500',
+      shadowColor: 'shadow-cyan-500/20',
+      gradient: 'from-cyan-500/20 to-blue-500/5',
+      description: 'Scalable UI architecture powered by React 19 and TypeScript.',
+      details: [
+        {
+          tech: 'React',
+          role: 'UI FRAMEWORK',
+          desc: 'Powers scalable component architecture for dynamic user interfaces, enabling event-driven rendering and seamless state management.',
+          meta: 'v19.2.0',
+          highlight: '#61DAFB'
+        },
+        {
+          tech: 'TypeScript',
+          role: 'TYPE SYSTEM',
+          desc: 'Enforces strict type safety and compile-time error detection, enhancing code reliability.',
+          meta: 'v5.9.3',
+          highlight: '#3178C6'
+        }
+      ]
+    },
+    {
+      id: 'backend',
+      title: 'Backend Infrastructure',
+      icon: <Server size={20} />,
+      color: 'text-green-400',
+      borderColor: 'border-green-500',
+      shadowColor: 'shadow-green-500/20',
+      gradient: 'from-green-500/20 to-emerald-500/5',
+      description: 'Real-time data synchronization and cross-platform bridges.',
+      details: [
+        {
+          tech: 'Supabase',
+          role: 'DATABASE SERVICE',
+          desc: 'Provides real-time database synchronization and authentication for messaging and call history.',
+          meta: 'v2.83.0',
+          highlight: '#3ECF8E'
+        },
+        {
+          tech: 'WebRTC',
+          role: 'REAL-TIME ENGINE',
+          desc: 'Facilitates peer-to-peer audio/video streaming with low-latency signaling.',
+          meta: 'Native',
+          highlight: '#000000'
+        }
+      ]
+    }
+  ],
+  "Listen Together": [
+    {
+      id: 'streaming',
+      title: 'Streaming Engine',
+      icon: <Activity size={20} />,
+      color: 'text-indigo-400',
+      borderColor: 'border-indigo-500',
+      shadowColor: 'shadow-indigo-500/20',
+      gradient: 'from-indigo-500/20 to-purple-500/5',
+      description: 'Multi-layered proxy architecture for resilient audio extraction.',
+      details: [
+        {
+          tech: 'Cobalt',
+          role: 'PRIMARY EXTRACTOR',
+          desc: 'High-performance media extraction engine bypassing rate limits.',
+          meta: 'v3.x',
+          highlight: '#6366F1'
+        },
+        {
+          tech: 'Invidious',
+          role: 'FALLBACK LAYER',
+          desc: 'Open-source privacy-focused YouTube proxy for fallback streams.',
+          meta: 'API v1',
+          highlight: '#FF0000'
+        }
+      ]
+    },
+    {
+      id: 'sync',
+      title: 'Real-time Sync',
+      icon: <Zap size={20} />,
+      color: 'text-amber-400',
+      borderColor: 'border-amber-500',
+      shadowColor: 'shadow-amber-500/20',
+      gradient: 'from-amber-500/20 to-yellow-500/5',
+      description: 'Sub-0.5s drift tolerance across distributed clients.',
+      details: [
+        {
+          tech: 'WebSocket',
+          role: 'SIGNALING',
+          desc: 'Bi-directional communication for playback state broadcasting.',
+          meta: 'WSS',
+          highlight: '#F59E0B'
+        },
+        {
+          tech: 'Drift Correction',
+          role: 'SYNC ALGORITHM',
+          desc: 'Proprietary logic to align audio timestamps with host state.',
+          meta: '0.5s Tol.',
+          highlight: '#10B981'
+        }
+      ]
+    }
+  ]
+};
 
-// --- Data: Architecture Mapping ---
-const techData = [
-  {
-    id: 'frontend',
-    title: 'Frontend Core',
-    icon: <Code2 size={20} />,
-    color: 'text-cyan-400',
-    borderColor: 'border-cyan-500',
-    shadowColor: 'shadow-cyan-500/20',
-    gradient: 'from-cyan-500/20 to-blue-500/5',
-    description: 'Scalable UI architecture powered by React 19 and TypeScript.',
-    details: [
-      {
-        tech: 'React',
-        role: 'UI FRAMEWORK',
-        desc: 'Powers scalable component architecture for dynamic user interfaces, enabling event-driven rendering and seamless state management in real-time communication flows.',
-        meta: 'v19.2.0',
-        highlight: '#61DAFB'
-      },
-      {
-        tech: 'TypeScript',
-        role: 'TYPE SYSTEM',
-        desc: 'Enforces strict type safety and compile-time error detection, enhancing code reliability and maintainability in complex WebRTC integrations.',
-        meta: 'v5.9.3',
-        highlight: '#3178C6'
-      },
-      {
-        tech: 'Vite',
-        role: 'BUILD TOOL',
-        desc: 'Delivers lightning-fast hot module replacement and optimized bundling, minimizing latency in development and production environments.',
-        meta: 'v7.2.2',
-        highlight: '#646CFF'
-      }
-    ]
-  },
-  {
-    id: 'backend',
-    title: 'Backend Infrastructure',
-    icon: <Server size={20} />,
-    color: 'text-green-400',
-    borderColor: 'border-green-500',
-    shadowColor: 'shadow-green-500/20',
-    gradient: 'from-green-500/20 to-emerald-500/5',
-    description: 'Real-time data synchronization and cross-platform bridges.',
-    details: [
-      {
-        tech: 'Supabase',
-        role: 'DATABASE SERVICE',
-        desc: 'Provides real-time database synchronization and authentication, supporting scalable user management and data persistence for messaging and call history.',
-        meta: 'v2.83.0',
-        highlight: '#3ECF8E'
-      },
-      {
-        tech: 'Capacitor',
-        role: 'MOBILE BRIDGE',
-        desc: 'Enables cross-platform native functionality, bridging web technologies to mobile hardware for camera access and push notifications.',
-        meta: 'v8.0.0',
-        highlight: '#119EFF'
-      },
-      {
-        tech: 'WebRTC',
-        role: 'REAL-TIME ENGINE',
-        desc: 'Facilitates peer-to-peer audio/video streaming with low-latency signaling, ensuring high-quality communication channels.',
-        meta: 'Native',
-        highlight: '#000000'
-      }
-    ]
-  },
-  {
-    id: 'design',
-    title: 'Design System',
-    icon: <Palette size={20} />,
-    color: 'text-purple-400',
-    borderColor: 'border-purple-500',
-    shadowColor: 'shadow-purple-500/20',
-    gradient: 'from-purple-500/20 to-fuchsia-500/5',
-    description: 'Adaptive visual language with consistent iconography.',
-    details: [
-      {
-        tech: 'Lucide React',
-        role: 'ICON LIBRARY',
-        desc: 'Delivers consistent, scalable vector icons for intuitive UI elements, optimizing visual hierarchy and user experience.',
-        meta: 'v0.554.0',
-        highlight: '#FFFFFF'
-      },
-      {
-        tech: 'Custom CSS',
-        role: 'STYLE ARCHITECTURE',
-        desc: 'Implements responsive, theme-aware styling with glassmorphism effects, ensuring adaptive layouts across devices.',
-        meta: 'CSS3',
-        highlight: '#1572B6'
-      }
-    ]
-  },
-  {
-    id: 'performance',
-    title: 'Performance Optimization',
-    icon: <Zap size={20} />,
-    color: 'text-yellow-400',
-    borderColor: 'border-yellow-500',
-    shadowColor: 'shadow-yellow-500/20',
-    gradient: 'from-yellow-500/20 to-orange-500/5',
-    description: 'Ensuring instant load times and seamless updates.',
-    details: [
-      {
-        tech: 'Vite Optimized',
-        role: 'DEV SERVER',
-        desc: 'Accelerates development cycles with instant hot reloading and efficient asset processing, reducing build times significantly.',
-        meta: 'v7.2.2',
-        highlight: '#646CFF'
-      },
-      {
-        tech: 'Capacitor Updater',
-        role: 'OTA UPDATES',
-        desc: 'Enables over-the-air app updates, minimizing downtime and ensuring seamless feature deployments across mobile platforms.',
-        meta: 'v7.34.2',
-        highlight: '#FF6B35'
-      }
-    ]
-  }
-];
-
-const ArchitectureMap = () => {
+const ArchitectureMap = ({ projectName = "CaBa" }) => {
+  const techData = ARCHITECTURE_DATA[projectName] || ARCHITECTURE_DATA["CaBa"];
   const [activeCategory, setActiveCategory] = useState(techData[0]);
   const [hoveredNode, setHoveredNode] = useState(null);
   const [linePath, setLinePath] = useState('');
@@ -215,7 +203,7 @@ const ArchitectureMap = () => {
               </div>
               <div>
                 <h1 className="text-xl md:text-2xl font-bold text-white tracking-widest uppercase flex items-center gap-2">
-                   {APP_NAME}
+                   {projectName}
                    <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_8px_cyan]"></div>
                 </h1>
                 <div className="text-[10px] md:text-xs font-mono text-slate-500 leading-none mt-0.5">
@@ -274,7 +262,7 @@ const ArchitectureMap = () => {
                   Tech<span className="text-slate-700">Stack</span>.Map<span className="text-cyan-500 animate-pulse">_</span>
                 </h1>
                 <p className="mt-2 text-slate-400 max-w-lg text-sm md:text-base leading-relaxed">
-                   Visualizing the component logic, backend bridges, and design tokens powering {APP_NAME}.
+                   Visualizing the component logic, backend bridges, and design tokens powering {projectName}.
                 </p>
              </div>
            </div>

@@ -519,7 +519,15 @@ const Projects = ({ openModal }) => {
             tags={['React', 'Firebase', 'Real-time']}
             color="blue"
             size="small"
-            onGithubClick={openModal}
+            onGithubClick={() => openModal('CaBa')}
+          />
+          <ProjectCard
+            title="Listen Together"
+            desc="Real-time synchronized music streaming platform with sub-0.5s drift tolerance and resilient multi-layered proxy architecture."
+            tags={['WebRTC', 'Edge Functions', 'WebSocket', 'Tailwind']}
+            color="indigo"
+            size="small"
+            onGithubClick={() => openModal('Listen Together')}
           />
         </div>
       </div>
@@ -738,7 +746,7 @@ const Footer = () => (
 
 const App = () => {
   const [activeSection, setActiveSection] = useState('hero');
-  const [user, setUser] = useState(null);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
@@ -762,8 +770,14 @@ const App = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
+  const openModal = (projectName) => {
+    setSelectedProject(projectName);
+    setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedProject(null);
+  };
 
   // No authentication needed - contact form works without user
   useEffect(() => {
@@ -819,7 +833,7 @@ const App = () => {
           >
             <X size={24} />
           </button>
-          <ArchitectureMap />
+          <ArchitectureMap projectName={selectedProject} />
         </div>
       )}
     </div>
