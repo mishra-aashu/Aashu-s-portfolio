@@ -747,6 +747,7 @@ const Footer = () => (
 const App = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [selectedProject, setSelectedProject] = useState(null);
+  const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
