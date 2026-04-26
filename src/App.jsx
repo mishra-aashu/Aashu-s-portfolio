@@ -746,10 +746,14 @@ const App = () => {
     console.log('Current theme:', theme);
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
-      console.log('Applied dark class to html');
+      document.documentElement.style.backgroundColor = '#020617'; // slate-950
+      document.body.style.backgroundColor = '#020617';
+      console.log('Applied dark theme styles');
     } else {
       document.documentElement.classList.remove('dark');
-      console.log('Removed dark class from html');
+      document.documentElement.style.backgroundColor = '#ffffff';
+      document.body.style.backgroundColor = '#ffffff';
+      console.log('Applied light theme styles');
     }
     localStorage.setItem('theme', theme);
   }, [theme]);
@@ -797,7 +801,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-200 selection:bg-cyan-500/30 font-sans cursor-default transition-colors duration-300">
+    <div className="min-h-screen bg-transparent text-slate-900 dark:text-slate-200 selection:bg-cyan-500/30 font-sans cursor-default transition-colors duration-300">
       <MouseFollower />
       <Navbar activeSection={activeSection} scrollToSection={scrollToSection} theme={theme} toggleTheme={toggleTheme} />
       <Hero scrollToSection={scrollToSection} />

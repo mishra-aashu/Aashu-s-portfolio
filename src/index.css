@@ -32,3 +32,18 @@
 .animate-gradient-x {
   animation: gradient-x 3s ease infinite;
 }
+
+/* Force theme colors if Tailwind class strategy fails */
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark body {
+  background-color: #020617; /* slate-950 */
+  color: #f1f5f9; /* slate-100 */
+}
+
+html:not(.dark) body {
+  background-color: #ffffff;
+  color: #0f172a; /* slate-900 */
+}
