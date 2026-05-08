@@ -30,10 +30,55 @@
 }
 
 .animate-gradient-x {
-  animation: gradient-x 3s ease infinite;
+  animation: gradient-x 15s ease infinite;
 }
 
-/* Force theme colors if Tailwind class strategy fails */
+/* Base styling */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Glassmorphism Utilities */
+.glass-effect {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Selection color */
+::selection {
+  background: #06b6d4;
+  color: white;
+}
+
+/* Theme config */
 html.dark {
   color-scheme: dark;
 }

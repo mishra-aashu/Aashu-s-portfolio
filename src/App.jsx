@@ -339,7 +339,7 @@ const TimelineItem = ({ year, title, company, desc, active }) => (
     <div className={`absolute left-[-5px] top-1 w-3 h-3 rounded-full border-2 border-white dark:border-slate-900 md:hidden ${active ? 'bg-cyan-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
     
     <div className="md:col-span-1 md:text-right md:pt-1">
-      <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold border ${active ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'}`}>
+      <span className={`inline-block px-4 py-1.5 rounded-full text-xs font-bold border whitespace-nowrap transition-all duration-300 ${active ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20 ring-4 ring-cyan-500/5 shadow-sm' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700'}`}>
         {year}
       </span>
     </div>
@@ -420,6 +420,13 @@ const About = () => {
               active={true}
             />
             <TimelineItem
+              year="2024"
+              title="Web Development Journey"
+              company="Self-Taught"
+              desc="Started with HTML5 and CSS3 mastery, progressively advancing to React and modern frontend technologies with focus on responsive design."
+              active={false}
+            />
+            <TimelineItem
               year="2023"
               title="Frontend Development"
               company="Self-Learning & Projects"
@@ -431,13 +438,6 @@ const About = () => {
               title="Video Editing"
               company="Passion Project"
               desc="Developing skills in video editing, which enhances attention to detail and aesthetic sensibility - valuable for creating visually compelling digital experiences."
-              active={false}
-            />
-            <TimelineItem
-              year="2024"
-              title="Web Development Journey"
-              company="Self-Taught"
-              desc="Started with HTML5 and CSS3 mastery, progressively advancing to React and modern frontend technologies with focus on responsive design."
               active={false}
             />
           </div>
