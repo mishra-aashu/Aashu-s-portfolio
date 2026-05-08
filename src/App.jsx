@@ -27,7 +27,15 @@ import {
   MousePointer2,
   X,
   Sun,
-  Moon
+  Moon,
+  Youtube,
+  Play,
+  Video,
+  Monitor,
+  Film,
+  Aperture,
+  PlayCircle,
+  Palette
 } from 'lucide-react';
 import ArchitectureMap from './ArchitectureMap';
 
@@ -190,6 +198,42 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
   );
 };
 
+const HeroHighlight = ({ icon: Icon, title, sub, detail, color }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
+  return (
+    <div 
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => setIsHovered(!isHovered)}
+      className={`group relative flex flex-col p-6 rounded-3xl bg-white dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-white/10 text-left transition-all duration-500 cursor-pointer overflow-hidden h-fit ${isHovered ? 'bg-slate-50 dark:bg-white/10 border-slate-300 dark:border-white/20 shadow-2xl shadow-' + color + '-500/10' : ''}`}
+    >
+      <div className="flex items-center gap-4">
+        <div className={`p-3 rounded-xl bg-${color}-500/10 dark:bg-${color}-500/20 text-${color}-600 dark:text-${color}-400 transition-all duration-500 ${isHovered ? 'scale-110 rotate-12' : ''}`}>
+          <Icon size={24} />
+        </div>
+        <div>
+          <div className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-widest transition-colors">{title}</div>
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">{sub}</div>
+        </div>
+      </div>
+      
+      <div className={`grid transition-all duration-500 ease-in-out ${isHovered ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0 mt-0'}`}>
+        <div className="overflow-hidden">
+          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-l-2 border-slate-200 dark:border-white/10 pl-3">
+            {detail}
+          </p>
+        </div>
+      </div>
+      
+      {/* Animated Corner Accent */}
+      <div className={`absolute top-0 right-0 w-8 h-8 transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute top-2 right-2 w-1 h-1 rounded-full bg-${color}-500`} />
+      </div>
+    </div>
+  );
+};
+
 const Hero = ({ scrollToSection }) => {
   const [text, setText] = useState('');
   const fullText = "Full Stack Engineer & Data Science Undergraduate";
@@ -220,20 +264,39 @@ const Hero = ({ scrollToSection }) => {
         <h1 className="text-6xl md:text-9xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight leading-none">
           Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-700 to-purple-800 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-600 animate-gradient-x">Aashutosh</span>
         </h1>
-        <p className="text-2xl md:text-4xl font-light text-slate-700 dark:text-slate-300 mb-6">
-          CRAFTING DIGITAL MASTERPIECES
+        <p className="text-2xl md:text-4xl font-light text-slate-700 dark:text-slate-300 mb-6 uppercase tracking-[0.2em]">
+          Data Science & Engineering
         </p>
         
-        <div className="h-8 mb-8">
-           <p className="text-xl md:text-2xl font-mono text-cyan-600 dark:text-cyan-400 border-r-2 border-cyan-600 dark:border-cyan-400 pr-2 animate-pulse">
+        <div className="h-8 mb-12">
+           <p className="text-xl md:text-2xl font-mono text-cyan-600 dark:text-cyan-400 border-r-2 border-cyan-600 dark:border-cyan-400 pr-2 animate-pulse inline-block">
              {'>'} {text}
            </p>
         </div>
         
-        <p className="text-lg text-slate-700 dark:text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed">
-          I am a Backened & Frontend Developer specializing in building responsive, high-performance web applications using React and JavaScript.
-          With a mastery of HTML5 and CSS3, I bridge the gap between design and technology, ensuring pixel-perfect execution in every project.
-        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16">
+          <HeroHighlight 
+            icon={Database} 
+            title="Data Insights" 
+            sub="STATISTICAL FOUNDATION"
+            color="cyan"
+            detail="Transforming complex datasets into actionable intelligence. Specializing in exploratory data analysis (EDA) and driving ROI through quantitative evidence."
+          />
+          <HeroHighlight 
+            icon={Cpu} 
+            title="Predictive Models" 
+            sub="ML ARCHITECTURE"
+            color="purple"
+            detail="Designing and deploying machine learning pipelines. From regression models to advanced classification, building systems that predict future trends."
+          />
+          <HeroHighlight 
+            icon={Aperture} 
+            title="Visual Narratives" 
+            sub="HIGH-IMPACT STORYTELLING"
+            color="orange"
+            detail="Bridging data and creativity. Crafting cinematic visual experiences that translate technical metrics into compelling human stories."
+          />
+        </div>
         
         <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
           <button 
@@ -307,11 +370,35 @@ const About = () => {
               Engineering <br />
               <span className="text-purple-600 dark:text-purple-500">Excellence</span>
             </h2>
-            <p className="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed">
-              Currently pursuing a BS in Data Science at IIT Madras, I bring a unique analytical perspective to web development,
-              focusing on data-driven optimization and scalable architecture. Beyond the code, I am a passionate video editor,
-              a hobby that sharpens my attention to detail and aesthetic sensibility.
-            </p>
+            <div className="space-y-4 mb-10">
+              <div className="group flex gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-white/5 hover:border-cyan-500/30 transition-all">
+                <div className="mt-1 text-cyan-600 dark:text-cyan-400"><Database size={20} /></div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm uppercase tracking-wide">Data Science Core</h4>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Driving performance through statistical analysis and machine learning at IIT Madras.
+                  </p>
+                </div>
+              </div>
+              <div className="group flex gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-white/5 hover:border-purple-500/30 transition-all">
+                <div className="mt-1 text-purple-600 dark:text-purple-400"><Code2 size={20} /></div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm uppercase tracking-wide">Software Architecture</h4>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Building scalable, full-stack web applications with modern frameworks.
+                  </p>
+                </div>
+              </div>
+              <div className="group flex gap-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-white/5 hover:border-red-500/30 transition-all">
+                <div className="mt-1 text-red-600 dark:text-red-400"><Film size={20} /></div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white text-sm uppercase tracking-wide">Post-Production</h4>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Crafting cinematic narratives through advanced video editing and visual storytelling.
+                  </p>
+                </div>
+              </div>
+            </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <StatCard icon={GraduationCap} value="IIT Madras" label="Data Science" color="cyan" />
@@ -326,10 +413,10 @@ const About = () => {
           <div className="space-y-0">
             <h3 className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-8">Background</h3>
             <TimelineItem
-              year="2022 - Present"
+              year="2025 - 2029"
               title="BS Data Science"
               company="IIT Madras"
-              desc="Currently pursuing a Bachelor of Science in Data Science, combining analytical thinking with frontend development skills. Focus on data-driven web optimization."
+              desc="Pursuing a Bachelor of Science in Data Science, combining analytical thinking with software engineering. Focus on data-driven optimization and predictive modeling."
               active={true}
             />
             <TimelineItem
@@ -340,7 +427,7 @@ const About = () => {
               active={false}
             />
              <TimelineItem
-              year="2022"
+              year="2021"
               title="Video Editing"
               company="Passion Project"
               desc="Developing skills in video editing, which enhances attention to detail and aesthetic sensibility - valuable for creating visually compelling digital experiences."
@@ -380,7 +467,7 @@ const Skills = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Frontend */}
           <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-cyan-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
             <div className="w-12 h-12 rounded-xl bg-cyan-500/10 dark:bg-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400 mb-6">
@@ -409,17 +496,31 @@ const Skills = () => {
             </div>
           </div>
 
+           {/* Creative Suite */}
+           <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-red-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
+            <div className="w-12 h-12 rounded-xl bg-red-500/10 dark:bg-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400 mb-6">
+              <Aperture size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Creative Suite</h3>
+            <div className="flex flex-wrap gap-3">
+              <SkillPill icon={Film} name="Premiere Pro" color="red" />
+              <SkillPill icon={Play} name="Capcut" color="red" />
+              <SkillPill icon={Palette} name="After Effects" color="purple" />
+              <SkillPill icon={Video} name="DaVinci" color="blue" />
+            </div>
+          </div>
+
            {/* Tools */}
            <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-pink-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
             <div className="w-12 h-12 rounded-xl bg-pink-500/10 dark:bg-pink-500/20 flex items-center justify-center text-pink-600 dark:text-pink-400 mb-6">
               <Smartphone size={24} />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Tools & Mobile</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Tools & Data</h3>
             <div className="flex flex-wrap gap-3">
               <SkillPill icon={Github} name="Git" color="orange" />
               <SkillPill icon={Layers} name="Gradle" color="purple" />
-              <SkillPill icon={Smartphone} name="React Native" color="cyan" />
-              <SkillPill icon={Server} name="Capacitor" color="blue" />
+              <SkillPill icon={Database} name="Pandas" color="blue" />
+              <SkillPill icon={Cpu} name="NumPy" color="cyan" />
             </div>
           </div>
         </div>
@@ -428,7 +529,78 @@ const Skills = () => {
   );
 };
 
-const ProjectCard = ({ title, desc, tags, color, size, onGithubClick }) => (
+const MediaCard = ({ title, desc, tags, color, videoPreview, thumbnail, onPlayClick }) => {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsPlaying(true);
+    videoRef.current?.play().catch(() => {});
+  };
+
+  const handleMouseLeave = () => {
+    setIsPlaying(false);
+    videoRef.current?.pause();
+  };
+
+  return (
+    <div 
+      className="group relative rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 min-h-[450px] cursor-pointer"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onClick={() => {
+        if (window.innerWidth < 768) {
+          isPlaying ? handleMouseLeave() : handleMouseEnter();
+        }
+      }}
+    >
+      {/* Video Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-slate-950 z-10 opacity-40 group-hover:opacity-20 transition-opacity" />
+        <video 
+          ref={videoRef}
+          src={videoPreview}
+          className="absolute inset-0 w-full h-full object-cover"
+          muted 
+          loop 
+          playsInline
+          poster={thumbnail}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent z-20" />
+      </div>
+
+      <div className="relative z-30 p-8 h-full flex flex-col justify-end">
+        <div className="mb-4 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500">
+           <div className="flex justify-between items-center mb-4">
+              <div className={`p-3 rounded-xl bg-white/10 backdrop-blur-md text-white border border-white/20`}>
+                <Film size={24} />
+              </div>
+              <button 
+                onClick={(e) => { e.stopPropagation(); onPlayClick(); }}
+                className="p-4 rounded-full bg-red-600 text-white shadow-lg shadow-red-600/40 hover:scale-110 transition-transform"
+              >
+                <Play size={20} fill="currentColor" />
+              </button>
+           </div>
+           <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">{title}</h3>
+           <p className="text-slate-300 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 line-clamp-3">
+             {desc}
+           </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
+          {tags.map((tag) => (
+            <span key={tag} className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-medium text-slate-400 uppercase tracking-wider">
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ProjectCard = ({ title, desc, tags, color, size, githubLink, externalLink, videoLink, onArchitectureClick }) => (
   <div className={`group relative rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 overflow-hidden hover:border-${color}-500/50 transition-all duration-500 hover:shadow-xl dark:hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] ${size === 'large' ? 'md:col-span-2' : 'md:col-span-1'}`}>
     {/* Hover Gradient Overlay */}
     <div className={`absolute inset-0 bg-gradient-to-br from-${color}-500/5 dark:from-${color}-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
@@ -437,22 +609,36 @@ const ProjectCard = ({ title, desc, tags, color, size, onGithubClick }) => (
       <div>
         <div className="flex justify-between items-start mb-6">
           <div className={`p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-${color}-600 dark:text-${color}-400`}>
-            {size === 'large' ? <Globe size={24} /> : <Code2 size={24} />}
+            {videoLink ? <Video size={24} /> : size === 'large' ? <Globe size={24} /> : <Code2 size={24} />}
           </div>
           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-             <button onClick={onGithubClick} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors">
-               <Github size={18} />
-             </button>
-             <button className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors">
-               <ExternalLink size={18} />
-             </button>
+             {githubLink && (
+               <a href={githubLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="View Source">
+                 <Github size={18} />
+               </a>
+             )}
+             {videoLink && (
+               <a href={videoLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-red-600 dark:hover:bg-red-500 hover:text-white transition-colors" title="Watch Video">
+                 <Youtube size={18} />
+               </a>
+             )}
+             {externalLink && (
+               <a href={externalLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="Live Demo">
+                 <ExternalLink size={18} />
+               </a>
+             )}
+             {onArchitectureClick && (
+               <button onClick={onArchitectureClick} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-colors" title="View Architecture">
+                 <Zap size={18} />
+               </button>
+             )}
           </div>
         </div>
         
         <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-900 dark:group-hover:from-white group-hover:to-slate-500 dark:group-hover:to-slate-400 transition-all">
           {title}
         </h3>
-        <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
+        <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 line-clamp-4">
           {desc}
         </p>
       </div>
@@ -474,61 +660,104 @@ const Projects = ({ openModal }) => {
       <div className="max-w-6xl mx-auto px-6">
         <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
           <div>
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Featured <span className="text-purple-600 dark:text-purple-400">Work</span></h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Portfolio <span className="text-purple-600 dark:text-purple-400">Showcase</span></h2>
             <p className="text-slate-600 dark:text-slate-400 max-w-md">
-              A curated selection of projects that demonstrate my ability to solve complex problems with code.
+              Bridging the gap between scalable software architecture and high-impact visual storytelling.
             </p>
           </div>
-          <button className="flex items-center gap-2 text-slate-600 dark:text-white border-b border-cyan-500 pb-1 hover:gap-4 transition-all">
-            View All Repositories <Github size={16} />
-          </button>
+          <a href="https://github.com/mishra-aashu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-slate-600 dark:text-white border-b border-cyan-500 pb-1 hover:gap-4 transition-all">
+            Explore All Repositories <Github size={16} />
+          </a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <ProjectCard 
-            title="Nexus Dashboard" 
-            desc="A comprehensive SaaS analytics platform featuring real-time data visualization, user management, and automated reporting systems. Built for scalability."
-            tags={['React', 'TypeScript', 'D3.js', 'Firebase']}
-            color="cyan"
-            size="large"
-          />
-          <ProjectCard 
-            title="Aether Chat" 
-            desc="AI-powered customer support interface with sentiment analysis and automated routing."
-            tags={['Next.js', 'OpenAI', 'Redis']}
-            color="purple"
-            size="small"
-          />
-          <ProjectCard 
-            title="CryptoWatch" 
-            desc="Real-time cryptocurrency tracker with price alerts and portfolio management."
-            tags={['React Native', 'Node.js']}
-            color="green"
-            size="small"
-          />
-          <ProjectCard
-            title="Lumina UI Kit"
-            desc="An open-source React component library focusing on accessibility and dark mode."
-            tags={['React', 'Storybook', 'NPM']}
-            color="pink"
-            size="large"
-          />
-          <ProjectCard
-            title="CaBa"
-            desc="A real-time messaging application with user authentication, chat rooms, and instant message delivery."
-            tags={['React', 'Firebase', 'Real-time']}
-            color="blue"
-            size="small"
-            onGithubClick={() => openModal('CaBa')}
-          />
-          <ProjectCard
-            title="Listen Together"
-            desc="Real-time synchronized music streaming platform with sub-0.5s drift tolerance and resilient multi-layered proxy architecture."
-            tags={['WebRTC', 'Edge Functions', 'WebSocket', 'Tailwind']}
-            color="indigo"
-            size="small"
-            onGithubClick={() => openModal('Listen Together')}
-          />
+        {/* Section: Engineering & Development */}
+        <div className="mb-16">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-600 dark:text-cyan-400">
+              <Monitor size={20} />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Software Engineering</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <ProjectCard 
+              title="Nexus Dashboard" 
+              desc="A comprehensive SaaS analytics platform featuring real-time data visualization, user management, and automated reporting systems. Built for scalability."
+              tags={['React', 'TypeScript', 'D3.js', 'Firebase']}
+              color="cyan"
+              size="large"
+              githubLink="#"
+            />
+            <ProjectCard 
+              title="Kind Heart’s Sangam" 
+              desc="Developed a fully responsive web platform for a non-profit organization. Implemented interactive volunteer registration and donation modules via Supabase."
+              tags={['HTML5', 'CSS3', 'JavaScript', 'Supabase']}
+              color="blue"
+              size="small"
+              externalLink="https://kindheartssangam.org" // Placeholder
+            />
+            <ProjectCard 
+              title="mishra-aashu CLI" 
+              desc="Personalized Terminal-based Developer Card tool. Optimized for Linux environments, demonstrating proficiency in Node.js scripting and system-level tools."
+              tags={['Node.js', 'CLI', 'Bash', 'NPM']}
+              color="green"
+              size="small"
+              githubLink="https://github.com/mishra-aashu"
+            />
+             <ProjectCard
+              title="Listen Together"
+              desc="Real-time synchronized music streaming platform with sub-0.5s drift tolerance and resilient multi-layered proxy architecture."
+              tags={['WebRTC', 'Edge Functions', 'WebSocket', 'Tailwind']}
+              color="indigo"
+              size="small"
+              onArchitectureClick={() => openModal('Listen Together')}
+              githubLink="#"
+            />
+            <ProjectCard
+              title="CaBa Messenger"
+              desc="A real-time messaging application with user authentication, chat rooms, and instant message delivery using Firebase."
+              tags={['React', 'Firebase', 'Real-time']}
+              color="blue"
+              size="small"
+              onArchitectureClick={() => openModal('CaBa')}
+              githubLink="#"
+            />
+          </div>
+        </div>
+
+        {/* Section: Media & Visual Production */}
+        <div>
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-2 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400">
+              <Film size={20} />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Media Production</h3>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <MediaCard 
+              title="WW3: Geopolitical Case Study" 
+              desc="Advanced geopolitical analysis translated into cinematic documentary style. Engineered sophisticated visual effects and data visualizations."
+              tags={['Premiere Pro', 'Capcut', 'VFX', 'Research']}
+              videoPreview="https://assets.mixkit.co/videos/preview/mixkit-world-map-background-animation-32812-large.mp4"
+              thumbnail="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop"
+              onPlayClick={() => openModal('VIDEO_WW3')}
+            />
+            <MediaCard 
+              title="International Event Director" 
+              desc="Lead Media Producer for high-profile international events. Managing complete workflow from on-site cinematography to final broadcast delivery."
+              tags={['Direction', 'Cinematography', 'Editing']}
+              videoPreview="https://assets.mixkit.co/videos/preview/mixkit-awards-ceremony-on-stage-with-curtains-and-lights-34531-large.mp4"
+              thumbnail="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop"
+              onPlayClick={() => openModal('VIDEO_EVENT')}
+            />
+            <MediaCard 
+              title="Cinematic Storytelling" 
+              desc="Capturing key moments with advanced camera techniques and multi-track audio synchronization for broadcast-quality event summaries."
+              tags={['Color Grading', 'Audio Sync', 'Post-Production']}
+              videoPreview="https://assets.mixkit.co/videos/preview/mixkit-cameraman-filming-a-scene-in-a-studio-34503-large.mp4"
+              thumbnail="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1000&auto=format&fit=crop"
+              onPlayClick={() => openModal('VIDEO_STORY')}
+            />
+          </div>
         </div>
       </div>
     </section>
@@ -614,7 +843,7 @@ const ContactForm = ({ user }) => {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
              <div className="space-y-2">
-               <label className="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">01. Name</label>
+               <label className="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Name</label>
                <input
                  type="text"
                  required
@@ -625,7 +854,7 @@ const ContactForm = ({ user }) => {
                />
              </div>
              <div className="space-y-2">
-               <label className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-wider">02. Email</label>
+               <label className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-wider">Email</label>
                <input
                  type="email"
                  required
@@ -638,7 +867,7 @@ const ContactForm = ({ user }) => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-xs font-mono text-green-600 dark:text-green-400 uppercase tracking-wider">03. Message</label>
+            <label className="text-xs font-mono text-green-600 dark:text-green-400 uppercase tracking-wider">Message</label>
             <textarea
               required
               rows={5}
@@ -696,7 +925,7 @@ const Contact = ({ user }) => {
                 </div>
                 <div>
                   <div className="text-xs text-slate-500 uppercase tracking-wider">Email Me</div>
-                  <div className="text-lg font-medium">frontend.dev@iitm.ac.in</div>
+                  <div className="text-lg font-medium">Get in touch</div>
                 </div>
               </a>
               
@@ -846,7 +1075,22 @@ const App = () => {
             <X size={24} />
           </button>
           <div className="w-full h-full max-w-7xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl">
-            <ArchitectureMap projectName={selectedProject} />
+            {selectedProject && selectedProject.startsWith('VIDEO_') ? (
+              <div className="w-full h-full bg-black flex items-center justify-center relative">
+                <video 
+                  src={
+                    selectedProject === 'VIDEO_WW3' ? "https://assets.mixkit.co/videos/preview/mixkit-world-map-background-animation-32812-large.mp4" :
+                    selectedProject === 'VIDEO_EVENT' ? "https://assets.mixkit.co/videos/preview/mixkit-awards-ceremony-on-stage-with-curtains-and-lights-34531-large.mp4" :
+                    "https://assets.mixkit.co/videos/preview/mixkit-cameraman-filming-a-scene-in-a-studio-34503-large.mp4"
+                  }
+                  controls 
+                  autoPlay 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            ) : (
+              <ArchitectureMap projectName={selectedProject} />
+            )}
           </div>
         </div>
       )}
