@@ -212,7 +212,7 @@ const Hero = ({ scrollToSection }) => {
         <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/10 dark:bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
         <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-cyan-500/10 dark:bg-cyan-600/20 rounded-full blur-[120px] animate-pulse delay-75" />
         {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 dark:opacity-20 z-10 pointer-events-none" />
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')] opacity-10 dark:opacity-20 z-10 pointer-events-none" />
       </div>
       
       <div className="max-w-6xl mx-auto px-6 relative z-20 flex flex-col items-center text-center">
@@ -727,7 +727,7 @@ const Contact = ({ user }) => {
 
 const Footer = () => (
   <footer className="py-12 border-t border-slate-200 dark:border-white/5 bg-white dark:bg-slate-950 relative transition-colors duration-300">
-    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 dark:opacity-10 pointer-events-none" />
+    <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')] opacity-5 dark:opacity-10 pointer-events-none" />
     <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 relative z-10">
       <div className="flex items-center gap-2 text-xl font-bold text-slate-900 dark:text-white">
         <Code2 className="text-cyan-600 dark:text-cyan-400" />
@@ -827,14 +827,27 @@ const App = () => {
       <Footer />
 
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm">
+        <div 
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+        >
+          <div className="sr-only">
+            <h2 id="modal-title">{selectedProject} System Architecture</h2>
+            <p id="modal-description">A visual mapping of the technology stack and architecture for the {selectedProject} project.</p>
+          </div>
           <button
             onClick={closeModal}
             className="absolute top-4 right-4 z-50 p-2 rounded-full bg-slate-800 text-white hover:bg-white hover:text-slate-900 transition-colors"
+            aria-label="Close modal"
           >
             <X size={24} />
           </button>
-          <ArchitectureMap projectName={selectedProject} />
+          <div className="w-full h-full max-w-7xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl">
+            <ArchitectureMap projectName={selectedProject} />
+          </div>
         </div>
       )}
     </div>
