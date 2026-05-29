@@ -214,8 +214,16 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
-          {/* Skeuomorphic Toggle Switch */}
+        <div className="flex items-center gap-2">
+          {/* Hire Me button — same style as Contact Me outlined button */}
+          <button 
+            onClick={() => scrollToSection('contact')}
+            className="hidden sm:flex items-center gap-2 px-5 py-2 rounded-full bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-sm font-semibold border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all shadow-sm"
+          >
+            Hire Me
+          </button>
+
+          {/* Skeuomorphic Toggle Switch — last */}
           <div className="relative select-none" style={{ width: '112px', height: '46.4px' }}>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[0.4] origin-center">
               <div className={`relative p-[5px] rounded-[52px] transition-all duration-1000 ${
@@ -239,20 +247,12 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
                     <div className="absolute right-[8%] top-[-55%] w-[190px] h-[190px] rounded-full bg-[#152036]/35" />
                     <div className="absolute right-[22%] top-[-25%] w-[125px] h-[125px] rounded-full bg-[#0a1222]/45 border border-slate-800/15" />
                     
-                    <svg
-                      className="star-sparkle-1 absolute top-[22%] left-[13%] w-5 h-5 text-white/95 fill-current filter drop-shadow-[0_0_4px_rgba(255,255,255,0.85)]"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="star-sparkle-1 absolute top-[22%] left-[13%] w-5 h-5 text-white/95 fill-current filter drop-shadow-[0_0_4px_rgba(255,255,255,0.85)]" viewBox="0 0 24 24">
                       <path d="M12,0 C12,6 6,12 0,12 C6,12 12,18 12,24 C12,18 18,12 24,12 C18,12 12,6 12,0 Z" />
                     </svg>
-
-                    <svg
-                      className="star-sparkle-2 absolute top-[38%] left-[45%] w-[18px] h-[18px] text-white/90 fill-current filter drop-shadow-[0_0_3px_rgba(255,255,255,0.7)]"
-                      viewBox="0 0 24 24"
-                    >
+                    <svg className="star-sparkle-2 absolute top-[38%] left-[45%] w-[18px] h-[18px] text-white/90 fill-current filter drop-shadow-[0_0_3px_rgba(255,255,255,0.7)]" viewBox="0 0 24 24">
                       <path d="M12,0 C12,6 6,12 0,12 C6,12 12,18 12,24 C12,18 18,12 24,12 C18,12 12,6 12,0 Z" />
                     </svg>
-
                     <div className="star-sparkle-3 absolute top-[36%] left-[29%] w-1.5 h-1.5 rounded-full bg-white/85" />
                     <div className="star-sparkle-1 absolute top-[72%] left-[38%] w-2 h-2 rounded-full bg-white/70" />
                     <div className="star-sparkle-2 absolute top-[68%] left-[17%] w-1 h-1 rounded-full bg-white/90" />
@@ -262,82 +262,43 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
                   {/* 2. HIGH-FIDELITY VECTOR CLOUDS (DAY BACKGROUND) */}
                   <div
                     className="absolute inset-0 pointer-events-none transition-transform duration-1000 ease-out"
-                    style={{
-                      transform: isNight ? 'translateY(80px)' : 'translateY(0px)',
-                      opacity: isNight ? 0 : 1,
-                    }}
+                    style={{ transform: isNight ? 'translateY(80px)' : 'translateY(0px)', opacity: isNight ? 0 : 1 }}
                   >
-                    <svg
-                      className="cloud-drift-svg absolute bottom-[-1px] left-0 w-full h-[62px]"
-                      viewBox="0 0 270 62"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                    <svg className="cloud-drift-svg absolute bottom-[-1px] left-0 w-full h-[62px]" viewBox="0 0 270 62" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <defs>
                         <linearGradient id="backCloudGrad" x1="135" y1="10" x2="135" y2="62" gradientUnits="userSpaceOnUse">
                           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
                           <stop offset="60%" stopColor="#d5e9f8" stopOpacity="0.8" />
                           <stop offset="100%" stopColor="#b9daf5" stopOpacity="0.9" />
                         </linearGradient>
-
                         <linearGradient id="frontCloudGrad" x1="135" y1="2" x2="135" y2="62" gradientUnits="userSpaceOnUse">
                           <stop offset="0%" stopColor="#ffffff" />
                           <stop offset="45%" stopColor="#fdfdfd" />
                           <stop offset="100%" stopColor="#e5effa" />
                         </linearGradient>
-
                         <linearGradient id="cloudHighlight" x1="135" y1="0" x2="135" y2="35" gradientUnits="userSpaceOnUse">
                           <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
                           <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
                         </linearGradient>
-
                         <filter id="cloudSoftShadow" x="-10%" y="-10%" width="120%" height="130%" filterUnits="userSpaceOnUse">
                           <feDropShadow dx="0" dy="5" stdDeviation="5" floodColor="#1a5296" floodOpacity="0.25" />
                         </filter>
                       </defs>
-
-                      <path
-                        d="M -10,62 L -10,38 C 15,38 30,22 55,25 C 80,28 95,14 125,18 C 160,22 180,8 215,12 C 240,15 255,28 280,24 L 280,62 Z"
-                        fill="url(#backCloudGrad)"
-                        opacity="0.85"
-                      />
-
-                      <path
-                        d="M -10,62 L -10,35 C 20,35 40,12 75,15 C 115,18 135,-3 175,2 C 210,6 230,22 280,18 L 280,62 Z"
-                        fill="url(#frontCloudGrad)"
-                        filter="url(#cloudSoftShadow)"
-                      />
-
-                      <path
-                        d="M -10,35 C 20,35 40,12 75,15 C 115,18 135,-3 175,2 C 210,6 230,22 280,18"
-                        stroke="url(#cloudHighlight)"
-                        strokeWidth="3.5"
-                        strokeLinecap="round"
-                        fill="none"
-                        opacity="0.9"
-                      />
+                      <path d="M -10,62 L -10,38 C 15,38 30,22 55,25 C 80,28 95,14 125,18 C 160,22 180,8 215,12 C 240,15 255,28 280,24 L 280,62 Z" fill="url(#backCloudGrad)" opacity="0.85" />
+                      <path d="M -10,62 L -10,35 C 20,35 40,12 75,15 C 115,18 135,-3 175,2 C 210,6 230,22 280,18 L 280,62 Z" fill="url(#frontCloudGrad)" filter="url(#cloudSoftShadow)" />
+                      <path d="M -10,35 C 20,35 40,12 75,15 C 115,18 135,-3 175,2 C 210,6 230,22 280,18" stroke="url(#cloudHighlight)" strokeWidth="3.5" strokeLinecap="round" fill="none" opacity="0.9" />
                     </svg>
                   </div>
 
                   {/* 3. THE TOGGLE KNOB (SUN / MOON) */}
                   <div
                     className="absolute top-[8px] left-[8px] rounded-full transition-transform ease-out cursor-pointer select-none"
-                    style={{
-                      width: '88px',
-                      height: '88px',
-                      transform: isNight ? 'translateX(166px)' : 'translateX(0px)',
-                      transitionDuration: '0.8s',
-                      zIndex: 20
-                    }}
+                    style={{ width: '88px', height: '88px', transform: isNight ? 'translateX(166px)' : 'translateX(0px)', transitionDuration: '0.8s', zIndex: 20 }}
                   >
                     {/* A. THE SUN KNOB */}
                     <div
                       className="absolute inset-0 rounded-full bg-gradient-to-br from-[#ffe82b] via-[#f7a202] to-[#e07b00] shadow-[0_8px_20px_rgba(240,120,0,0.45),_inset_-4px_-4px_8px_rgba(0,0,0,0.18),_inset_4px_4px_8px_rgba(255,255,255,0.85)] transition-opacity duration-700"
-                      style={{
-                        opacity: isNight ? 0 : 1,
-                        transform: isNight ? 'rotate(-70deg) scale(0.55)' : 'rotate(0deg) scale(1)',
-                        transition: 'opacity 0.8s, transform 0.8s'
-                      }}
+                      style={{ opacity: isNight ? 0 : 1, transform: isNight ? 'rotate(-70deg) scale(0.55)' : 'rotate(0deg) scale(1)', transition: 'opacity 0.8s, transform 0.8s' }}
                     >
                       <div className="absolute top-[10%] left-[12%] w-[22px] h-[14px] rounded-full bg-white/75 rotate-[-35deg] blur-[0.5px] pointer-events-none" />
                       <div className="absolute inset-[3px] rounded-full bg-gradient-to-br from-white/30 to-transparent pointer-events-none" />
@@ -346,14 +307,9 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
                     {/* B. THE MOON KNOB */}
                     <div
                       className="absolute inset-0 rounded-full bg-gradient-to-br from-[#edf0f3] to-[#b7bfc9] shadow-[0_8px_22px_rgba(0,0,0,0.5),_inset_-5px_-5px_9px_rgba(0,0,0,0.22),_inset_5px_5px_9px_rgba(255,255,255,0.9)] transition-opacity duration-700 overflow-hidden"
-                      style={{
-                        opacity: isNight ? 1 : 0,
-                        transform: isNight ? 'rotate(0deg) scale(1)' : 'rotate(70deg) scale(0.55)',
-                        transition: 'opacity 0.8s, transform 0.8s'
-                      }}
+                      style={{ opacity: isNight ? 1 : 0, transform: isNight ? 'rotate(0deg) scale(1)' : 'rotate(70deg) scale(0.55)', transition: 'opacity 0.8s, transform 0.8s' }}
                     >
                       <div className="absolute inset-0 rounded-full shadow-[inset_7px_0px_9px_-1px_rgba(255,245,200,0.9)] pointer-events-none" />
-                      
                       <div className="absolute top-[23%] left-[58%] w-[18px] h-[18px] rounded-full bg-[#8c95a0]/40 shadow-[inset_2px_2px_3px_rgba(0,0,0,0.35),_1px_1px_1px_rgba(255,255,255,0.35)]" />
                       <div className="absolute top-[54%] left-[63%] w-[15px] h-[15px] rounded-full bg-[#8c95a0]/40 shadow-[inset_2px_2px_3px_rgba(0,0,0,0.35),_1px_1px_1px_rgba(255,255,255,0.35)]" />
                       <div className="absolute top-[42%] left-[28%] w-[21px] h-[21px] rounded-full bg-[#8c95a0]/40 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.35),_1px_1px_1px_rgba(255,255,255,0.35)]" />
@@ -364,13 +320,6 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
               </div>
             </div>
           </div>
-
-          <button 
-            onClick={() => scrollToSection('contact')}
-            className="hidden sm:flex px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold hover:shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all transform hover:scale-105"
-          >
-            Hire Me
-          </button>
         </div>
       </div>
     </nav>
