@@ -26,6 +26,7 @@ import {
   Smartphone,
   MousePointer2,
   X,
+  Menu,
   Sun,
   Moon,
   Youtube,
@@ -131,6 +132,7 @@ const MouseFollower = () => {
 
 const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isFirstRender = useRef(true);
 
   const playToggleSound = () => {
@@ -182,19 +184,21 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
 
   return (
     <nav 
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[95%] max-w-4xl rounded-full border ${
-        isScrolled 
-          ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-slate-200 dark:border-cyan-500/20 shadow-lg dark:shadow-[0_0_30px_rgba(0,0,0,0.5)] py-3' 
-          : 'bg-transparent border-transparent py-4'
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[95%] max-w-4xl border ${
+        mobileMenuOpen
+          ? 'bg-white dark:bg-slate-900 border-slate-200 dark:border-cyan-500/30 rounded-[2rem] shadow-xl p-4'
+          : isScrolled 
+            ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-slate-200 dark:border-cyan-500/20 shadow-lg dark:shadow-[0_0_30px_rgba(0,0,0,0.5)] py-3 rounded-full' 
+            : 'bg-transparent border-transparent py-4 rounded-full'
       }`}
     >
-      <div className="px-6 flex justify-between items-center">
+      <div className="px-4 sm:px-6 flex justify-between items-center">
         <div 
           className="text-base sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-fuchsia-500 cursor-pointer flex items-center gap-1.5 sm:gap-2 shrink-0 select-none" 
           onClick={() => scrollToSection('hero')}
         >
           <Code2 size={20} className="text-cyan-600 dark:text-cyan-400 sm:w-6 sm:h-6 shrink-0" />
-          <span className="text-slate-900 dark:text-white transition-colors">Aashu<span className="hidden sm:inline">'s Portfolio</span></span>
+          <span className="text-slate-900 dark:text-white transition-colors">Aashu<span className="hidden lg:inline">'s Portfolio</span></span>
         </div>
         
         <div className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200 dark:border-white/5">
@@ -214,7 +218,7 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Hire Me button — same style as Contact Me outlined button */}
           <button 
             onClick={() => scrollToSection('contact')}
@@ -223,7 +227,7 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
             Hire Me
           </button>
 
-          {/* Skeuomorphic Toggle Switch — last */}
+          {/* Skeuomorphic Toggle Switch */}
           <div className="relative select-none" style={{ width: '98px', height: '40px' }}>
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[0.35] origin-center">
               <div className={`relative p-[5px] rounded-[52px] transition-all duration-1000 ${
@@ -320,6 +324,53 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
               </div>
             </div>
           </div>
+
+          {/* Mobile Menu Toggle Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors focus:outline-none"
+            aria-label="Toggle Menu"
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Collapsible Drawer */}
+      <div 
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          mobileMenuOpen 
+            ? 'max-h-[350px] opacity-100 mt-4 border-t border-slate-200/60 dark:border-slate-800/80 pt-4 px-2' 
+            : 'max-h-0 opacity-0 pointer-events-none'
+        }`}
+      >
+        <div className="flex flex-col gap-2 pb-2">
+          {navLinks.map((link) => (
+            <button
+              key={link.name}
+              onClick={() => {
+                scrollToSection(link.id);
+                setMobileMenuOpen(false);
+              }}
+              className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-200 ${
+                activeSection === link.id
+                  ? 'bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 font-semibold shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'
+              }`}
+            >
+              {link.icon}
+              <span>{link.name}</span>
+            </button>
+          ))}
+          <button
+            onClick={() => {
+              scrollToSection('contact');
+              setMobileMenuOpen(false);
+            }}
+            className="mt-3 flex items-center justify-center gap-2 w-full py-3 rounded-2xl bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-sm font-bold border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all shadow-sm"
+          >
+            Hire Me
+          </button>
         </div>
       </div>
     </nav>
