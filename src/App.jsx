@@ -197,12 +197,12 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
           <span className="text-slate-900 dark:text-white transition-colors">Aashu<span className="hidden sm:inline">'s Portfolio</span></span>
         </div>
         
-        <div className="hidden md:flex gap-1 bg-slate-100 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200 dark:border-white/5">
+        <div className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200 dark:border-white/5">
           {navLinks.map((link) => (
             <button
               key={link.name}
               onClick={() => scrollToSection(link.id)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 ${
                 activeSection === link.id 
                   ? 'bg-cyan-500/10 dark:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 shadow-sm' 
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-white/5'
@@ -214,18 +214,18 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {/* Hire Me button — same style as Contact Me outlined button */}
           <button 
             onClick={() => scrollToSection('contact')}
-            className="hidden sm:flex items-center gap-2 px-5 py-2 rounded-full bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-sm font-semibold border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all shadow-sm"
+            className="hidden sm:flex items-center gap-2 px-5 py-1.5 rounded-full bg-white dark:bg-slate-900 text-slate-800 dark:text-white text-sm font-semibold border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all shadow-sm"
           >
             Hire Me
           </button>
 
           {/* Skeuomorphic Toggle Switch — last */}
-          <div className="relative select-none" style={{ width: '112px', height: '46.4px' }}>
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[0.4] origin-center">
+          <div className="relative select-none" style={{ width: '98px', height: '40px' }}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[0.35] origin-center">
               <div className={`relative p-[5px] rounded-[52px] transition-all duration-1000 ${
                 isNight
                   ? 'bg-gradient-to-b from-[#1b2536] to-[#0a101a] shadow-[0px_20px_40px_rgba(0,0,0,0.65),0px_6px_14px_rgba(0,0,0,0.35)]'
