@@ -92,6 +92,92 @@ initializeFirebase();
 
 const appId = 'portfolio-bb303';
 
+// --- Plexus Background Generation ---
+const generatePlexus = () => {
+  const nodes = [];
+  const rows = 6;
+  const cols = 8;
+  const width = 1440;
+  const height = 900;
+  const colors = ['#06b6d4', '#8b5cf6', '#ec4899', '#3b82f6', '#f43f5e'];
+  
+  let id = 1;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const baseX = (width / (cols - 1)) * c;
+      const baseY = (height / (rows - 1)) * r;
+      
+      const offsetX = (Math.random() - 0.5) * 160;
+      const offsetY = (Math.random() - 0.5) * 120;
+      
+      const x = Math.max(20, Math.min(width - 20, baseX + offsetX));
+      const y = Math.max(20, Math.min(height - 20, baseY + offsetY));
+      
+      const radius = 3.5 + Math.random() * 3.5;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const isBokeh = id % 6 === 0;
+      
+      nodes.push({
+        id,
+        x,
+        y,
+        r: isBokeh ? 12 + Math.random() * 8 : radius,
+        color,
+        blur: isBokeh
+      });
+      id++;
+    }
+  }
+
+  const lines = [];
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const n1 = nodes[i];
+      const n2 = nodes[j];
+      if (n1.blur || n2.blur) continue;
+      
+      const dist = Math.hypot(n1.x - n2.x, n1.y - n2.y);
+      if (dist < 240) {
+        lines.push({
+          id: `${n1.id}-${n2.id}`,
+          x1: n1.x,
+          y1: n1.y,
+          x2: n2.x,
+          y2: n2.y,
+          opacity: 0.12 + (1 - dist / 240) * 0.45
+        });
+      }
+    }
+  }
+
+  const triangles = [];
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      for (let k = j + 1; k < nodes.length; k++) {
+        const n1 = nodes[i];
+        const n2 = nodes[j];
+        const n3 = nodes[k];
+        if (n1.blur || n2.blur || n3.blur) continue;
+        
+        const d1 = Math.hypot(n1.x - n2.x, n1.y - n2.y);
+        const d2 = Math.hypot(n2.x - n3.x, n2.y - n3.y);
+        const d3 = Math.hypot(n3.x - n1.x, n3.y - n1.y);
+        
+        if (d1 < 240 && d2 < 240 && d3 < 240) {
+          triangles.push({
+            id: `${n1.id}-${n2.id}-${n3.id}`,
+            points: `${n1.x},${n1.y} ${n2.x},${n2.y} ${n3.x},${n3.y}`
+          });
+        }
+      }
+    }
+  }
+
+  return { nodes, lines, triangles };
+};
+
+const plexusData = generatePlexus();
+
 // --- Utility Components ---
 
 const MouseFollower = () => {
@@ -440,24 +526,105 @@ const Hero = ({ scrollToSection }) => {
     <section id="hero" className="relative overflow-hidden bg-transparent">
       {/* Dynamic Background */}
       <div className="absolute inset-0 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0)_0%,rgba(248,250,252,1)_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(17,24,39,0)_0%,rgba(2,6,23,1)_100%)] z-10" />
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/15 dark:bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-cyan-500/15 dark:bg-cyan-600/20 rounded-full blur-[120px] animate-pulse delay-75" />
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')] opacity-10 dark:opacity-20 z-10 pointer-events-none" />
+        {/* Ambient Glowing Blobs */}
+        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/25 dark:bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-cyan-500/25 dark:bg-cyan-600/20 rounded-full blur-[120px] animate-pulse delay-75" />
+
+        {/* Plexus Constellation Mesh */}
+        <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none animate-plexus">
+          <svg className="w-full h-full opacity-35 dark:opacity-75 transition-opacity duration-500" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <defs>
+              <filter id="plexusGlow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="6" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              <filter id="plexusGlowLarge" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="15" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+              
+              <linearGradient id="polyGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.04" />
+                <stop offset="100%" stopColor="#06b6d4" stopOpacity="0.04" />
+              </linearGradient>
+              <linearGradient id="polyGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#ec4899" stopOpacity="0.04" />
+                <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.04" />
+              </linearGradient>
+
+              <linearGradient id="lineGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#a855f7" />
+                <stop offset="100%" stopColor="#06b6d4" />
+              </linearGradient>
+              <linearGradient id="lineGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#06b6d4" />
+                <stop offset="100%" stopColor="#ec4899" />
+              </linearGradient>
+              <linearGradient id="lineGrad3" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" stopColor="#ec4899" />
+                <stop offset="100%" stopColor="#a855f7" />
+              </linearGradient>
+            </defs>
+
+            {/* Filled Triangles */}
+            {plexusData.triangles.map((tri, idx) => (
+              <polygon
+                key={tri.id}
+                points={tri.points}
+                fill={idx % 2 === 0 ? 'url(#polyGrad1)' : 'url(#polyGrad2)'}
+              />
+            ))}
+
+            {/* Lines */}
+            {plexusData.lines.map((line, idx) => {
+              const grads = ['url(#lineGrad1)', 'url(#lineGrad2)', 'url(#lineGrad3)'];
+              return (
+                <line
+                  key={line.id}
+                  x1={line.x1}
+                  y1={line.y1}
+                  x2={line.x2}
+                  y2={line.y2}
+                  stroke={grads[idx % grads.length]}
+                  strokeWidth={1.5}
+                  opacity={line.opacity}
+                />
+              );
+            })}
+
+            {/* Glowing Nodes */}
+            {plexusData.nodes.map((node) => (
+              <circle
+                key={node.id}
+                cx={node.x}
+                cy={node.y}
+                r={node.r}
+                fill={node.color}
+                filter={node.blur ? 'url(#plexusGlowLarge)' : 'url(#plexusGlow)'}
+                opacity={node.blur ? 0.3 : 1}
+              />
+            ))}
+          </svg>
+        </div>
+
+        {/* Soft Vignette Mask Overlay */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0)_20%,rgba(248,250,252,0.85)_80%,rgba(248,250,252,1)_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(2,6,23,0)_20%,rgba(2,6,23,0.85)_80%,rgba(2,6,23,1)_100%)] z-20 pointer-events-none" />
+        
+        {/* Subtle Noise/Grain Pattern overlay */}
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')] opacity-[0.04] dark:opacity-[0.07] z-20 pointer-events-none" />
       </div>
       
       {/* First Fold: Greeting & Title */}
       <div className="min-h-[92vh] md:min-h-screen max-w-6xl mx-auto px-6 relative z-20 flex flex-col items-center justify-center text-center pt-20 pb-8">
-        <h1 className="text-5xl sm:text-7xl md:text-9xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight leading-tight">
-          Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-700 to-purple-800 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-600 animate-gradient-x">Aashutosh</span>
+        <h1 className="text-5xl sm:text-7xl md:text-9xl font-extrabold text-slate-900 dark:text-white mb-3 tracking-tight leading-tight select-none">
+          Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-700 to-purple-800 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-600 animate-gradient-x select-text">Aashutosh</span>
         </h1>
-        <p className="text-base sm:text-2xl md:text-3xl font-medium text-slate-600 dark:text-slate-300 mb-5 uppercase tracking-[0.1em] sm:tracking-[0.18em]">
+        <p className="text-base sm:text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-200 mb-6 uppercase tracking-[0.1em] sm:tracking-[0.18em]">
           Data Science & Engineering
         </p>
         
         <div className="h-10 sm:h-8 mb-8 flex items-center justify-center">
-           <p className="text-sm sm:text-lg md:text-xl font-mono text-cyan-700 dark:text-cyan-400 border-r-2 border-cyan-700 dark:border-cyan-400 pr-2 animate-pulse inline-block">
+           <p className="text-sm sm:text-lg md:text-xl font-mono font-bold text-cyan-800 dark:text-cyan-400 border-r-2 border-cyan-800 dark:border-cyan-400 pr-2 animate-pulse inline-block">
              {'>'} {text}
            </p>
         </div>
@@ -475,7 +642,7 @@ const Hero = ({ scrollToSection }) => {
           
           <button 
             onClick={() => scrollToSection('contact')}
-            className="px-8 py-3.5 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-white font-semibold border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all flex items-center justify-center gap-2 shadow-sm"
+            className="px-8 py-3.5 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-white font-bold border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all flex items-center justify-center gap-2 shadow-sm"
           >
             Contact Me <Mail size={18} />
           </button>

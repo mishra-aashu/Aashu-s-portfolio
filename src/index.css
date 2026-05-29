@@ -102,11 +102,15 @@ html.dark {
 
 html.dark body {
   background-color: #020617; /* slate-950 */
+  background-image: radial-gradient(#1e293b 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
   color: #f1f5f9; /* slate-100 */
 }
 
 html:not(.dark) body {
-  background-color: #ffffff;
+  background-color: #f8fafc; /* slate-50 */
+  background-image: radial-gradient(#e2e8f0 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
   color: #0f172a; /* slate-900 */
 }
 
@@ -136,4 +140,13 @@ html:not(.dark) body {
 .cloud-drift-svg { animation: drift 10s infinite ease-in-out; }
 .float-element { animation: float-slow 5s infinite ease-in-out; }
 .bird-animation { animation: bird-fly 25s infinite linear; }
+
+@keyframes float-plexus {
+  0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+  50% { transform: translateY(-15px) rotate(1deg) scale(1.02); }
+}
+
+.animate-plexus {
+  animation: float-plexus 20s infinite ease-in-out;
+}
 
