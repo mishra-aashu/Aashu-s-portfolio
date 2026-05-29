@@ -35,7 +35,9 @@ import {
   Film,
   Aperture,
   PlayCircle,
-  Palette
+  Palette,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import ArchitectureMap from './ArchitectureMap';
 
@@ -129,6 +131,31 @@ const MouseFollower = () => {
 
 const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const isFirstRender = useRef(true);
+
+  const playToggleSound = () => {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+     
+      osc.type = 'sine';
+      // Din ke liye high tone, raat ke liye deep cozy tone
+      const isNight = theme === 'dark';
+      osc.frequency.setValueAtTime(isNight ? 190 : 360, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(isNight ? 300 : 130, ctx.currentTime + 0.18);
+     
+      gain.gain.setValueAtTime(0.06, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.18);
+     
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.18);
+    } catch (e) {
+      console.log("Audio process fail hua", e);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -136,12 +163,22 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    playToggleSound();
+  }, [theme]);
+
   const navLinks = [
     { name: 'About', id: 'about', icon: <Briefcase size={14} /> },
     { name: 'Expertise', id: 'skills', icon: <Zap size={14} /> },
     { name: 'Work', id: 'projects', icon: <Layers size={14} /> },
     { name: 'Contact', id: 'contact', icon: <Mail size={14} /> },
   ];
+
+  const isNight = theme === 'dark';
 
   return (
     <nav 
@@ -153,11 +190,11 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
     >
       <div className="px-6 flex justify-between items-center">
         <div 
-          className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-fuchsia-500 cursor-pointer flex items-center gap-2" 
+          className="text-base sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-fuchsia-500 cursor-pointer flex items-center gap-1.5 sm:gap-2 shrink-0 select-none" 
           onClick={() => scrollToSection('hero')}
         >
-          <Code2 size={24} className="text-cyan-600 dark:text-cyan-400" />
-          <span className="text-slate-900 dark:text-white">Aashu's<span className="text-cyan-600 dark:text-cyan-400"> Portfolio</span></span>
+          <Code2 size={20} className="text-cyan-600 dark:text-cyan-400 sm:w-6 sm:h-6 shrink-0" />
+          <span className="text-slate-900 dark:text-white transition-colors">Aashu<span className="hidden sm:inline">'s Portfolio</span></span>
         </div>
         
         <div className="hidden md:flex gap-1 bg-slate-100 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200 dark:border-white/5">
@@ -178,14 +215,156 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-            title="Toggle theme"
-          >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          
+          {/* Skeuomorphic Toggle Switch */}
+          <div className="relative select-none" style={{ width: '112px', height: '46.4px' }}>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-[0.4] origin-center">
+              <div className={`relative p-[5px] rounded-[52px] transition-all duration-1000 ${
+                isNight
+                  ? 'bg-gradient-to-b from-[#1b2536] to-[#0a101a] shadow-[0px_20px_40px_rgba(0,0,0,0.65),0px_6px_14px_rgba(0,0,0,0.35)]'
+                  : 'bg-gradient-to-b from-[#f2f6fa] to-[#ced7e2] shadow-[0px_20px_40px_rgba(15,23,42,0.1),0px_6px_14px_rgba(15,23,42,0.05)]'
+              }`}
+              style={{ width: '280px', height: '116px' }}
+              >
+                <button
+                  onClick={toggleTheme}
+                  aria-label="Theme Toggle Switch"
+                  className={`relative w-full h-full rounded-[48px] overflow-hidden cursor-pointer select-none border border-transparent transition-all duration-1000 outline-none focus:ring-4 focus:ring-sky-500/40 ${
+                    isNight
+                      ? 'bg-gradient-to-b from-[#040810] via-[#091120] to-[#111c30] shadow-[inset_0px_9px_16px_rgba(0,0,0,0.75),inset_0px_2px_5px_rgba(0,0,0,0.5),inset_0px_-4px_8px_rgba(255,255,255,0.05)]'
+                      : 'bg-gradient-to-b from-[#3a82e6] via-[#5fa8f5] to-[#9ccbf3] shadow-[inset_0px_9px_16px_rgba(0,30,80,0.35),inset_0px_2px_4px_rgba(0,30,80,0.15),inset_0px_-5px_8px_rgba(255,255,255,0.45)]'
+                  }`}
+                >
+                  {/* 1. NIGHT BACKGROUND TRACK EFFECTS */}
+                  <div className={`absolute inset-0 transition-opacity duration-1000 pointer-events-none ${isNight ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className="absolute right-[8%] top-[-55%] w-[190px] h-[190px] rounded-full bg-[#152036]/35" />
+                    <div className="absolute right-[22%] top-[-25%] w-[125px] h-[125px] rounded-full bg-[#0a1222]/45 border border-slate-800/15" />
+                    
+                    <svg
+                      className="star-sparkle-1 absolute top-[22%] left-[13%] w-5 h-5 text-white/95 fill-current filter drop-shadow-[0_0_4px_rgba(255,255,255,0.85)]"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12,0 C12,6 6,12 0,12 C6,12 12,18 12,24 C12,18 18,12 24,12 C18,12 12,6 12,0 Z" />
+                    </svg>
+
+                    <svg
+                      className="star-sparkle-2 absolute top-[38%] left-[45%] w-[18px] h-[18px] text-white/90 fill-current filter drop-shadow-[0_0_3px_rgba(255,255,255,0.7)]"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M12,0 C12,6 6,12 0,12 C6,12 12,18 12,24 C12,18 18,12 24,12 C18,12 12,6 12,0 Z" />
+                    </svg>
+
+                    <div className="star-sparkle-3 absolute top-[36%] left-[29%] w-1.5 h-1.5 rounded-full bg-white/85" />
+                    <div className="star-sparkle-1 absolute top-[72%] left-[38%] w-2 h-2 rounded-full bg-white/70" />
+                    <div className="star-sparkle-2 absolute top-[68%] left-[17%] w-1 h-1 rounded-full bg-white/90" />
+                    <div className="star-sparkle-3 absolute top-[60%] left-[49%] w-1.5 h-1.5 rounded-full bg-white/60" />
+                  </div>
+
+                  {/* 2. HIGH-FIDELITY VECTOR CLOUDS (DAY BACKGROUND) */}
+                  <div
+                    className="absolute inset-0 pointer-events-none transition-transform duration-1000 ease-out"
+                    style={{
+                      transform: isNight ? 'translateY(80px)' : 'translateY(0px)',
+                      opacity: isNight ? 0 : 1,
+                    }}
+                  >
+                    <svg
+                      className="cloud-drift-svg absolute bottom-[-1px] left-0 w-full h-[62px]"
+                      viewBox="0 0 270 62"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <defs>
+                        <linearGradient id="backCloudGrad" x1="135" y1="10" x2="135" y2="62" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
+                          <stop offset="60%" stopColor="#d5e9f8" stopOpacity="0.8" />
+                          <stop offset="100%" stopColor="#b9daf5" stopOpacity="0.9" />
+                        </linearGradient>
+
+                        <linearGradient id="frontCloudGrad" x1="135" y1="2" x2="135" y2="62" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stopColor="#ffffff" />
+                          <stop offset="45%" stopColor="#fdfdfd" />
+                          <stop offset="100%" stopColor="#e5effa" />
+                        </linearGradient>
+
+                        <linearGradient id="cloudHighlight" x1="135" y1="0" x2="135" y2="35" gradientUnits="userSpaceOnUse">
+                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+                          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                        </linearGradient>
+
+                        <filter id="cloudSoftShadow" x="-10%" y="-10%" width="120%" height="130%" filterUnits="userSpaceOnUse">
+                          <feDropShadow dx="0" dy="5" stdDeviation="5" floodColor="#1a5296" floodOpacity="0.25" />
+                        </filter>
+                      </defs>
+
+                      <path
+                        d="M -10,62 L -10,38 C 15,38 30,22 55,25 C 80,28 95,14 125,18 C 160,22 180,8 215,12 C 240,15 255,28 280,24 L 280,62 Z"
+                        fill="url(#backCloudGrad)"
+                        opacity="0.85"
+                      />
+
+                      <path
+                        d="M -10,62 L -10,35 C 20,35 40,12 75,15 C 115,18 135,-3 175,2 C 210,6 230,22 280,18 L 280,62 Z"
+                        fill="url(#frontCloudGrad)"
+                        filter="url(#cloudSoftShadow)"
+                      />
+
+                      <path
+                        d="M -10,35 C 20,35 40,12 75,15 C 115,18 135,-3 175,2 C 210,6 230,22 280,18"
+                        stroke="url(#cloudHighlight)"
+                        strokeWidth="3.5"
+                        strokeLinecap="round"
+                        fill="none"
+                        opacity="0.9"
+                      />
+                    </svg>
+                  </div>
+
+                  {/* 3. THE TOGGLE KNOB (SUN / MOON) */}
+                  <div
+                    className="absolute top-[8px] left-[8px] rounded-full transition-transform ease-out cursor-pointer select-none"
+                    style={{
+                      width: '88px',
+                      height: '88px',
+                      transform: isNight ? 'translateX(166px)' : 'translateX(0px)',
+                      transitionDuration: '0.8s',
+                      zIndex: 20
+                    }}
+                  >
+                    {/* A. THE SUN KNOB */}
+                    <div
+                      className="absolute inset-0 rounded-full bg-gradient-to-br from-[#ffe82b] via-[#f7a202] to-[#e07b00] shadow-[0_8px_20px_rgba(240,120,0,0.45),_inset_-4px_-4px_8px_rgba(0,0,0,0.18),_inset_4px_4px_8px_rgba(255,255,255,0.85)] transition-opacity duration-700"
+                      style={{
+                        opacity: isNight ? 0 : 1,
+                        transform: isNight ? 'rotate(-70deg) scale(0.55)' : 'rotate(0deg) scale(1)',
+                        transition: 'opacity 0.8s, transform 0.8s'
+                      }}
+                    >
+                      <div className="absolute top-[10%] left-[12%] w-[22px] h-[14px] rounded-full bg-white/75 rotate-[-35deg] blur-[0.5px] pointer-events-none" />
+                      <div className="absolute inset-[3px] rounded-full bg-gradient-to-br from-white/30 to-transparent pointer-events-none" />
+                    </div>
+
+                    {/* B. THE MOON KNOB */}
+                    <div
+                      className="absolute inset-0 rounded-full bg-gradient-to-br from-[#edf0f3] to-[#b7bfc9] shadow-[0_8px_22px_rgba(0,0,0,0.5),_inset_-5px_-5px_9px_rgba(0,0,0,0.22),_inset_5px_5px_9px_rgba(255,255,255,0.9)] transition-opacity duration-700 overflow-hidden"
+                      style={{
+                        opacity: isNight ? 1 : 0,
+                        transform: isNight ? 'rotate(0deg) scale(1)' : 'rotate(70deg) scale(0.55)',
+                        transition: 'opacity 0.8s, transform 0.8s'
+                      }}
+                    >
+                      <div className="absolute inset-0 rounded-full shadow-[inset_7px_0px_9px_-1px_rgba(255,245,200,0.9)] pointer-events-none" />
+                      
+                      <div className="absolute top-[23%] left-[58%] w-[18px] h-[18px] rounded-full bg-[#8c95a0]/40 shadow-[inset_2px_2px_3px_rgba(0,0,0,0.35),_1px_1px_1px_rgba(255,255,255,0.35)]" />
+                      <div className="absolute top-[54%] left-[63%] w-[15px] h-[15px] rounded-full bg-[#8c95a0]/40 shadow-[inset_2px_2px_3px_rgba(0,0,0,0.35),_1px_1px_1px_rgba(255,255,255,0.35)]" />
+                      <div className="absolute top-[42%] left-[28%] w-[21px] h-[21px] rounded-full bg-[#8c95a0]/40 shadow-[inset_2px_2px_4px_rgba(0,0,0,0.35),_1px_1px_1px_rgba(255,255,255,0.35)]" />
+                      <div className="absolute top-[18%] left-[26%] w-[8px] h-[8px] rounded-full bg-[#8c95a0]/30 shadow-[inset_1px_1px_2px_rgba(0,0,0,0.3)]" />
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <button 
             onClick={() => scrollToSection('contact')}
             className="hidden sm:flex px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold hover:shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all transform hover:scale-105"
@@ -198,29 +377,38 @@ const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
   );
 };
 
-const HeroHighlight = ({ icon: Icon, title, sub, detail, color }) => {
+const HeroHighlight = ({ icon: Icon, title, sub, detail, color, index }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
+  const borderClasses = isHovered 
+    ? color === 'cyan' ? 'border-cyan-500/70 dark:border-cyan-400/40 shadow-lg shadow-cyan-500/10 bg-cyan-50 dark:bg-cyan-500/[0.05]'
+      : color === 'purple' ? 'border-purple-500/70 dark:border-purple-400/40 shadow-lg shadow-purple-500/10 bg-purple-50 dark:bg-purple-500/[0.05]'
+      : 'border-orange-500/70 dark:border-orange-400/40 shadow-lg shadow-orange-500/10 bg-orange-50 dark:bg-orange-500/[0.05]'
+    : 'border-slate-300 dark:border-white/10 bg-white dark:bg-slate-900/50';
+
   return (
     <div 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => setIsHovered(!isHovered)}
-      className={`group relative flex flex-col p-6 rounded-3xl bg-white dark:bg-slate-900/50 backdrop-blur-md border border-slate-200 dark:border-white/10 text-left transition-all duration-500 cursor-pointer overflow-hidden h-fit ${isHovered ? 'bg-slate-50 dark:bg-white/10 border-slate-300 dark:border-white/20 shadow-2xl shadow-' + color + '-500/10' : ''}`}
+      style={{ 
+        animationDelay: `${(index) * 150 + 100}ms`,
+      }}
+      className={`hero-card-animate group relative flex flex-col p-6 rounded-3xl backdrop-blur-md border text-left transition-all duration-500 cursor-pointer overflow-hidden h-full shadow-md ${borderClasses}`}
     >
       <div className="flex items-center gap-4">
         <div className={`p-3 rounded-xl bg-${color}-500/10 dark:bg-${color}-500/20 text-${color}-600 dark:text-${color}-400 transition-all duration-500 ${isHovered ? 'scale-110 rotate-12' : ''}`}>
           <Icon size={24} />
         </div>
         <div>
-          <div className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-widest transition-colors">{title}</div>
-          <div className="text-xs text-slate-500 dark:text-slate-400 font-mono">{sub}</div>
+          <div className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-widest">{title}</div>
+          <div className="text-xs text-slate-600 dark:text-slate-400 font-mono">{sub}</div>
         </div>
       </div>
       
       <div className={`grid transition-all duration-500 ease-in-out ${isHovered ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0 mt-0'}`}>
         <div className="overflow-hidden">
-          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed border-l-2 border-slate-200 dark:border-white/10 pl-3">
+          <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed border-l-2 border-slate-300 dark:border-white/10 pl-3">
             {detail}
           </p>
         </div>
@@ -249,59 +437,35 @@ const Hero = ({ scrollToSection }) => {
   }, []);
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
+    <section id="hero" className="relative overflow-hidden bg-transparent">
       {/* Dynamic Background */}
       <div className="absolute inset-0 bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0)_0%,rgba(248,250,252,1)_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,rgba(17,24,39,0)_0%,rgba(2,6,23,1)_100%)] z-10" />
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/10 dark:bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-cyan-500/10 dark:bg-cyan-600/20 rounded-full blur-[120px] animate-pulse delay-75" />
+        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/15 dark:bg-purple-600/20 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[600px] h-[600px] bg-cyan-500/15 dark:bg-cyan-600/20 rounded-full blur-[120px] animate-pulse delay-75" />
         {/* Grid Pattern */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')] opacity-10 dark:opacity-20 z-10 pointer-events-none" />
       </div>
       
-      <div className="max-w-6xl mx-auto px-6 relative z-20 flex flex-col items-center text-center">
-        
-        <h1 className="text-6xl md:text-9xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight leading-none">
+      {/* First Fold: Greeting & Title */}
+      <div className="min-h-[92vh] md:min-h-screen max-w-6xl mx-auto px-6 relative z-20 flex flex-col items-center justify-center text-center pt-20 pb-8">
+        <h1 className="text-5xl sm:text-7xl md:text-9xl font-bold text-slate-900 dark:text-white mb-3 tracking-tight leading-tight">
           Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-700 to-purple-800 dark:from-cyan-400 dark:via-blue-500 dark:to-purple-600 animate-gradient-x">Aashutosh</span>
         </h1>
-        <p className="text-2xl md:text-4xl font-light text-slate-700 dark:text-slate-300 mb-6 uppercase tracking-[0.2em]">
+        <p className="text-base sm:text-2xl md:text-3xl font-medium text-slate-600 dark:text-slate-300 mb-5 uppercase tracking-[0.1em] sm:tracking-[0.18em]">
           Data Science & Engineering
         </p>
         
-        <div className="h-8 mb-12">
-           <p className="text-xl md:text-2xl font-mono text-cyan-600 dark:text-cyan-400 border-r-2 border-cyan-600 dark:border-cyan-400 pr-2 animate-pulse inline-block">
+        <div className="h-10 sm:h-8 mb-8 flex items-center justify-center">
+           <p className="text-sm sm:text-lg md:text-xl font-mono text-cyan-700 dark:text-cyan-400 border-r-2 border-cyan-700 dark:border-cyan-400 pr-2 animate-pulse inline-block">
              {'>'} {text}
            </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-16">
-          <HeroHighlight 
-            icon={Database} 
-            title="Data Insights" 
-            sub="STATISTICAL FOUNDATION"
-            color="cyan"
-            detail="Transforming complex datasets into actionable intelligence. Specializing in exploratory data analysis (EDA) and driving ROI through quantitative evidence."
-          />
-          <HeroHighlight 
-            icon={Cpu} 
-            title="Predictive Models" 
-            sub="ML ARCHITECTURE"
-            color="purple"
-            detail="Designing and deploying machine learning pipelines. From regression models to advanced classification, building systems that predict future trends."
-          />
-          <HeroHighlight 
-            icon={Aperture} 
-            title="Visual Narratives" 
-            sub="HIGH-IMPACT STORYTELLING"
-            color="orange"
-            detail="Bridging data and creativity. Crafting cinematic visual experiences that translate technical metrics into compelling human stories."
-          />
-        </div>
-        
-        <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
           <button 
             onClick={() => scrollToSection('projects')}
-            className="group relative px-8 py-4 rounded-xl bg-cyan-500 text-white dark:text-slate-950 font-bold overflow-hidden transition-all hover:shadow-[0_0_30px_rgba(6,182,212,0.6)]"
+            className="group relative px-8 py-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold overflow-hidden transition-all shadow-md hover:shadow-[0_0_30px_rgba(6,182,212,0.5)]"
           >
             <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             <span className="relative flex items-center justify-center gap-2">
@@ -311,10 +475,40 @@ const Hero = ({ scrollToSection }) => {
           
           <button 
             onClick={() => scrollToSection('contact')}
-            className="px-8 py-4 rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-white font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-600 transition-all flex items-center justify-center gap-2"
+            className="px-8 py-3.5 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-white font-semibold border-2 border-slate-300 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-400 dark:hover:border-slate-600 transition-all flex items-center justify-center gap-2 shadow-sm"
           >
             Contact Me <Mail size={18} />
           </button>
+        </div>
+      </div>
+
+      {/* Second Fold: Expertise Highlight Cards */}
+      <div className="max-w-6xl mx-auto px-6 pb-20 pt-2 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+          <HeroHighlight 
+            index={0}
+            icon={Database} 
+            title="Data Insights" 
+            sub="STATISTICAL FOUNDATION"
+            color="cyan"
+            detail="Transforming complex datasets into actionable intelligence. Specializing in exploratory data analysis (EDA) and driving ROI through quantitative evidence."
+          />
+          <HeroHighlight 
+            index={1}
+            icon={Cpu} 
+            title="Predictive Models" 
+            sub="ML ARCHITECTURE"
+            color="purple"
+            detail="Designing and deploying machine learning pipelines. From regression models to advanced classification, building systems that predict future trends."
+          />
+          <HeroHighlight 
+            index={2}
+            icon={Aperture} 
+            title="Visual Narratives" 
+            sub="HIGH-IMPACT STORYTELLING"
+            color="orange"
+            detail="Bridging data and creativity. Crafting cinematic visual experiences that translate technical metrics into compelling human stories."
+          />
         </div>
       </div>
     </section>
@@ -1047,7 +1241,12 @@ const App = () => {
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-slate-200 selection:bg-cyan-500/30 font-sans cursor-default transition-colors duration-300">
       <MouseFollower />
-      <Navbar activeSection={activeSection} scrollToSection={scrollToSection} theme={theme} toggleTheme={toggleTheme} />
+      <Navbar 
+        activeSection={activeSection} 
+        scrollToSection={scrollToSection} 
+        theme={theme} 
+        toggleTheme={toggleTheme} 
+      />
       <Hero scrollToSection={scrollToSection} />
       <About />
       <Skills />

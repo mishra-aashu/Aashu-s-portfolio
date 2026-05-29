@@ -33,6 +33,23 @@
   animation: gradient-x 15s ease infinite;
 }
 
+@keyframes hero-card-entry {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.hero-card-animate {
+  animation: hero-card-entry 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* Base styling */
 html {
   scroll-behavior: smooth;
@@ -92,3 +109,31 @@ html:not(.dark) body {
   background-color: #ffffff;
   color: #0f172a; /* slate-900 */
 }
+
+/* Skeuomorphic Toggle Animations */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+@keyframes drift {
+  0% { transform: translateX(0px); }
+  50% { transform: translateX(6px) translateY(1px); }
+  100% { transform: translateX(0px); }
+}
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes bird-fly {
+  0% { transform: translate(-10%, 12%) scale(1); }
+  50% { transform: translate(110%, -8%) scale(1.05); }
+  100% { transform: translate(-10%, 12%) scale(1); }
+}
+
+.star-sparkle-1 { animation: twinkle 2.5s infinite ease-in-out; }
+.star-sparkle-2 { animation: twinkle 1.8s infinite ease-in-out 0.4s; }
+.star-sparkle-3 { animation: twinkle 3.5s infinite ease-in-out 0.8s; }
+.cloud-drift-svg { animation: drift 10s infinite ease-in-out; }
+.float-element { animation: float-slow 5s infinite ease-in-out; }
+.bird-animation { animation: bird-fly 25s infinite linear; }
+
