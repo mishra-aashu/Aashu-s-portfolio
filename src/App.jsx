@@ -867,7 +867,7 @@ const ScrollReveal = ({ children, direction = 'up', delay = 0, className = '' })
   );
 };
 
-const SkillPill = ({ icon: Icon, name, color }) => {
+const SkillPill = ({ icon: Icon, name, color, isSelected, onClick }) => {
   const hoverBorders = {
     cyan: 'hover:border-cyan-500/40 dark:hover:border-cyan-400/40',
     blue: 'hover:border-blue-500/40 dark:hover:border-blue-400/40',
@@ -883,17 +883,50 @@ const SkillPill = ({ icon: Icon, name, color }) => {
     emerald: 'hover:border-emerald-500/40 dark:hover:border-emerald-400/40',
   };
 
+  const activeBg = {
+    cyan: 'bg-cyan-500/10 dark:bg-cyan-400/20 border-cyan-500/50 dark:border-cyan-400/50 text-cyan-600 dark:text-cyan-400',
+    blue: 'bg-blue-500/10 dark:bg-blue-400/20 border-blue-500/50 dark:border-blue-400/50 text-blue-600 dark:text-blue-400',
+    purple: 'bg-purple-500/10 dark:bg-purple-400/20 border-purple-500/50 dark:border-purple-400/50 text-purple-600 dark:text-purple-400',
+    green: 'bg-green-500/10 dark:bg-green-400/20 border-green-500/50 dark:border-green-400/50 text-green-600 dark:text-green-400',
+    yellow: 'bg-yellow-500/10 dark:bg-yellow-400/20 border-yellow-500/50 dark:border-yellow-400/50 text-yellow-600 dark:text-yellow-400',
+    red: 'bg-red-500/10 dark:bg-red-500/20 border-red-500/50 dark:border-red-500/50 text-red-600 dark:text-red-400',
+    orange: 'bg-orange-500/10 dark:bg-orange-500/20 border-orange-500/50 dark:border-orange-400/50 text-orange-600 dark:text-orange-400',
+    rose: 'bg-rose-500/10 dark:bg-rose-500/20 border-rose-500/50 dark:border-rose-400/50 text-rose-600 dark:text-rose-400',
+    amber: 'bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/50 dark:border-amber-400/50 text-amber-600 dark:text-amber-400',
+    pink: 'bg-pink-500/10 dark:bg-pink-500/20 border-pink-500/50 dark:border-pink-400/50 text-pink-600 dark:text-pink-400',
+    slate: 'bg-slate-500/10 dark:bg-slate-500/20 border-slate-500/50 dark:border-slate-400/50 text-slate-600 dark:text-slate-400',
+    emerald: 'bg-emerald-500/10 dark:bg-emerald-500/20 border-emerald-500/50 dark:border-emerald-400/50 text-emerald-600 dark:text-emerald-400',
+  };
+
   const hoverBorderClass = hoverBorders[color] || 'hover:border-cyan-500/40';
+  const selectStyle = isSelected 
+    ? activeBg[color] || 'bg-cyan-500/10 border-cyan-500 text-cyan-600'
+    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-white/5 text-slate-600 dark:text-slate-300';
 
   return (
-    <div className={`group flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 ${hoverBorderClass} transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-default shadow-sm dark:shadow-none`}>
-      <Icon size={14} className={`text-${color}-600 dark:text-${color}-400 group-hover:scale-110 transition-transform`} />
-      <span className="text-slate-600 dark:text-slate-300 text-xs font-semibold group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{name}</span>
-    </div>
+    <button 
+      onClick={onClick}
+      className={`group flex items-center gap-2 px-3 py-1.5 rounded-xl border ${selectStyle} ${hoverBorderClass} transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer shadow-sm dark:shadow-none hover:scale-105 active:scale-95`}
+    >
+      <Icon size={14} className={`group-hover:scale-110 transition-transform ${isSelected ? '' : `text-${color}-600 dark:text-${color}-400`}`} />
+      <span className="text-xs font-semibold group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{name}</span>
+    </button>
   );
 };
 
-const Skills = () => {
+const Skills = ({ selectedSkill, setSelectedSkill, scrollToSection }) => {
+  const handleSkillClick = (skillName) => {
+    setSelectedSkill(prev => {
+      const newValue = prev === skillName ? null : skillName;
+      if (newValue) {
+        setTimeout(() => {
+          scrollToSection('projects');
+        }, 150);
+      }
+      return newValue;
+    });
+  };
+
   return (
     <section id="skills" className="py-24 relative overflow-hidden bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/5 dark:bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
@@ -902,7 +935,7 @@ const Skills = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Technical <span className="text-cyan-600 dark:text-cyan-400">Arsenal</span></h2>
           <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            My stack is chosen for reliability, scalability, and developer experience.
+            My stack is chosen for reliability, scalability, and developer experience. Click a skill to highlight matching projects below.
           </p>
         </div>
 
@@ -917,12 +950,12 @@ const Skills = () => {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">Frontend</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                <SkillPill icon={Code2} name="React" color="cyan" />
-                <SkillPill icon={Smartphone} name="React Native" color="blue" />
-                <SkillPill icon={Code2} name="JavaScript" color="yellow" />
-                <SkillPill icon={Layout} name="HTML5 & CSS3" color="cyan" />
-                <SkillPill icon={Layers} name="React Router" color="red" />
-                <SkillPill icon={Globe} name="WordPress" color="blue" />
+                <SkillPill icon={Code2} name="React" color="cyan" isSelected={selectedSkill === "React"} onClick={() => handleSkillClick("React")} />
+                <SkillPill icon={Smartphone} name="React Native" color="blue" isSelected={selectedSkill === "React Native"} onClick={() => handleSkillClick("React Native")} />
+                <SkillPill icon={Code2} name="JavaScript" color="yellow" isSelected={selectedSkill === "JavaScript"} onClick={() => handleSkillClick("JavaScript")} />
+                <SkillPill icon={Layout} name="HTML5 & CSS3" color="cyan" isSelected={selectedSkill === "HTML5 & CSS3"} onClick={() => handleSkillClick("HTML5 & CSS3")} />
+                <SkillPill icon={Layers} name="React Router" color="red" isSelected={selectedSkill === "React Router"} onClick={() => handleSkillClick("React Router")} />
+                <SkillPill icon={Globe} name="WordPress" color="blue" isSelected={selectedSkill === "WordPress"} onClick={() => handleSkillClick("WordPress")} />
               </div>
             </div>
           </ScrollReveal>
@@ -937,13 +970,13 @@ const Skills = () => {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">Backend</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                <SkillPill icon={Terminal} name="Node.js" color="green" />
-                <SkillPill icon={Server} name="PHP" color="purple" />
-                <SkillPill icon={Database} name="PostgreSQL" color="blue" />
-                <SkillPill icon={Database} name="Firebase" color="yellow" />
-                <SkillPill icon={Zap} name="APIs & REST" color="emerald" />
-                <SkillPill icon={Shield} name="OAuth & JWT" color="rose" />
-                <SkillPill icon={MessageSquare} name="FCM Notification" color="amber" />
+                <SkillPill icon={Terminal} name="Node.js" color="green" isSelected={selectedSkill === "Node.js"} onClick={() => handleSkillClick("Node.js")} />
+                <SkillPill icon={Server} name="PHP" color="purple" isSelected={selectedSkill === "PHP"} onClick={() => handleSkillClick("PHP")} />
+                <SkillPill icon={Database} name="PostgreSQL" color="blue" isSelected={selectedSkill === "PostgreSQL"} onClick={() => handleSkillClick("PostgreSQL")} />
+                <SkillPill icon={Database} name="Firebase" color="yellow" isSelected={selectedSkill === "Firebase"} onClick={() => handleSkillClick("Firebase")} />
+                <SkillPill icon={Zap} name="APIs & REST" color="emerald" isSelected={selectedSkill === "APIs & REST"} onClick={() => handleSkillClick("APIs & REST")} />
+                <SkillPill icon={Shield} name="OAuth & JWT" color="rose" isSelected={selectedSkill === "OAuth & JWT"} onClick={() => handleSkillClick("OAuth & JWT")} />
+                <SkillPill icon={MessageSquare} name="FCM Notification" color="amber" isSelected={selectedSkill === "FCM Notification"} onClick={() => handleSkillClick("FCM Notification")} />
               </div>
             </div>
           </ScrollReveal>
@@ -958,11 +991,11 @@ const Skills = () => {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">Creative & Content</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                <SkillPill icon={Film} name="Premiere Pro" color="red" />
-                <SkillPill icon={Palette} name="After Effects" color="purple" />
-                <SkillPill icon={Video} name="Video Editing" color="emerald" />
-                <SkillPill icon={Sparkles} name="Creative Direction" color="yellow" />
-                <SkillPill icon={PenTool} name="Content Strategy" color="pink" />
+                <SkillPill icon={Film} name="Premiere Pro" color="red" isSelected={selectedSkill === "Premiere Pro"} onClick={() => handleSkillClick("Premiere Pro")} />
+                <SkillPill icon={Palette} name="After Effects" color="purple" isSelected={selectedSkill === "After Effects"} onClick={() => handleSkillClick("After Effects")} />
+                <SkillPill icon={Video} name="Video Editing" color="emerald" isSelected={selectedSkill === "Video Editing"} onClick={() => handleSkillClick("Video Editing")} />
+                <SkillPill icon={Sparkles} name="Creative Direction" color="yellow" isSelected={selectedSkill === "Creative Direction"} onClick={() => handleSkillClick("Creative Direction")} />
+                <SkillPill icon={PenTool} name="Content Strategy" color="pink" isSelected={selectedSkill === "Content Strategy"} onClick={() => handleSkillClick("Content Strategy")} />
               </div>
             </div>
           </ScrollReveal>
@@ -977,11 +1010,11 @@ const Skills = () => {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">Tools & AI Stack</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                <SkillPill icon={Github} name="Git & GitHub" color="orange" />
-                <SkillPill icon={Terminal} name="Linux" color="slate" />
-                <SkillPill icon={Layers} name="Gradle" color="purple" />
-                <SkillPill icon={Sparkles} name="Claude, Gemini & DeepSeek" color="cyan" />
-                <SkillPill icon={TrendingUp} name="SEO & Marketing" color="emerald" />
+                <SkillPill icon={Github} name="Git & GitHub" color="orange" isSelected={selectedSkill === "Git & GitHub"} onClick={() => handleSkillClick("Git & GitHub")} />
+                <SkillPill icon={Terminal} name="Linux" color="slate" isSelected={selectedSkill === "Linux"} onClick={() => handleSkillClick("Linux")} />
+                <SkillPill icon={Layers} name="Gradle" color="purple" isSelected={selectedSkill === "Gradle"} onClick={() => handleSkillClick("Gradle")} />
+                <SkillPill icon={Sparkles} name="Claude, Gemini & DeepSeek" color="cyan" isSelected={selectedSkill === "Claude, Gemini & DeepSeek"} onClick={() => handleSkillClick("Claude, Gemini & DeepSeek")} />
+                <SkillPill icon={TrendingUp} name="SEO & Marketing" color="emerald" isSelected={selectedSkill === "SEO & Marketing"} onClick={() => handleSkillClick("SEO & Marketing")} />
               </div>
             </div>
           </ScrollReveal>
@@ -991,7 +1024,78 @@ const Skills = () => {
   );
 };
 
-const MediaCard = ({ title, desc, tags, color, videoPreview, thumbnail, onPlayClick }) => {
+const projectsData = [
+  {
+    id: "elevengram",
+    type: "engineering",
+    title: "Elevengram",
+    desc: "A production-ready, mobile messaging application built with a focus on privacy, real-time communication, and system resilience. It features a custom-built End-to-End Encryption (E2EE) protocol and a robust Voice-over-IP (VoIP) calling system. The architecture is designed to be \"self-healing,\" utilizing an Atomic Task Queue for offline-first reliability. Furthermore, it incorporates a proprietary Over-The-Air (OTA) update system to ensure seamless feature delivery and bug fixes without requiring manual store updates, providing a sophisticated user experience akin to top-tier industry standards. Tech Stack: Leveraged React/React Native and Supabase (PostgreSQL, Auth, Real-time) for a scalable backend-as-a-service architecture. Custom Tooling: Engineered an in-house OTA Update system to bypass traditional store deployment delays for rapid bug fixes. Resilience: Implemented a Self-Healing Architecture with offline task queues to ensure 99.9% data consistency.",
+    tags: ["React", "React Native", "JavaScript", "PostgreSQL", "OAuth & JWT", "Firebase", "Git & GitHub"],
+    color: "cyan",
+    githubLink: "#",
+    onArchitectureClick: "Elevengram"
+  },
+  {
+    id: "ww3-geopolitical",
+    type: "media",
+    title: "World War 3: Geopolitical Case Study | Video Production",
+    desc: "Tools: Adobe Premiere Pro, Capcut (Advanced Effects), Analytical Research Tools. Geopolitical Analysis & Scripting: Conducted extensive research on global conflict triggers and international relations to synthesize complex historical data into a high-retention, documentary-style script. Professional Film Editing: Leveraged Adobe Premiere Pro to architect a professional narrative flow, focusing on cinematic pacing and storytelling precision. Advanced Visual Storytelling: Engineered sophisticated visual effects and data visualizations using Capcut's premium engine, delivering high-quality, infographic-led content comparable to industry-leading educational creators. Case Study Execution: Simplified intricate geopolitical concepts through custom map animations and strategic archival footage integration, creating a visually compelling and informative case study.",
+    tags: ["Premiere Pro", "Video Editing", "Creative Direction", "Content Strategy"],
+    color: "red",
+    videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-world-map-background-animation-32812-large.mp4",
+    thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop",
+    onPlayClick: "VIDEO_WW3"
+  },
+  {
+    id: "international-event",
+    type: "media",
+    title: "International Event Highlight | MLS College of Pharmacy",
+    desc: "Role: Lead Media Producer & Video Editor. Tools: Adobe Premiere Pro, Cinematic Filmmaking Gear, Post-Production Suites. Lead Media Production: Directed and produced the official highlight film for a high-profile international event, managing the complete workflow from on-site cinematography to final delivery. Cinematic Storytelling: Captured key sessions involving global delegates and keynote speakers, utilizing advanced camera techniques to create a high-energy, professional narrative. Advanced Post-Production: Leveraged Adobe Premiere Pro for rhythmic editing, color grading, and multi-track audio synchronization to deliver a broadcast-quality event summary. Branding & Outreach: Engineered a high-impact visual recap designed to enhance the institution's global digital presence and showcase the event’s massive scale.",
+    tags: ["Premiere Pro", "Video Editing", "Creative Direction", "After Effects"],
+    color: "purple",
+    videoPreview: "https://assets.mixkit.co/videos/preview/mixkit-awards-ceremony-on-stage-with-curtains-and-lights-34531-large.mp4",
+    thumbnail: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop",
+    onPlayClick: "VIDEO_EVENT"
+  },
+  {
+    id: "node-cli-card",
+    type: "engineering",
+    title: "Node js Developer card",
+    desc: "mishra-aashu (Custom CLI Tool). Role: Terminal-based Developer Card. Tech Details: Ye ek custom Command Line Interface tool hai jo aapke professional details terminal par display karta. Key Feature: Linux environments ke liye optimized, custom scripting aur branding. Resume Point: Developed a personalized CLI tool to showcase professional identity via terminal, demonstrating proficiency in Node.js/Python scripting and Linux environments.",
+    tags: ["Node.js", "Linux", "Git & GitHub"],
+    color: "green",
+    githubLink: "https://github.com/mishra-aashu"
+  },
+  {
+    id: "ngo-website",
+    type: "engineering",
+    title: "NGO WEBSITE DEVELOPMENT",
+    desc: "Kind Heart’s Sangam Foundation | Non-Profit Web Platform. Tech Stack: SUPABASE (HTML5/CSS3/JavaScript). Digital Presence for Social Good: Developed a fully responsive web platform for a non-profit organization to increase outreach and streamline community engagement. User Engagement & Forms: Implemented interactive volunteer registration and donation modules, ensuring seamless data management via Firebase/Backend. Mission-Driven UI/UX: Designed a clean, impactful user interface focusing on storytelling and high-conversion layouts to highlight the foundation’s social initiatives. Performance Optimization: Leveraged modern front-end practices to ensure fast load times and cross-browser compatibility for a wider audience reach.",
+    tags: ["HTML5 & CSS3", "JavaScript", "PostgreSQL", "Firebase"],
+    color: "blue",
+    externalLink: "https://kindheartssangam.org"
+  },
+  {
+    id: "lagaowallpaper",
+    type: "engineering",
+    title: "Lagaowallpaper.com",
+    desc: "Lagaowallpaper.com | E-commerce Platform. Tech Stack: WordPress, PHP, WooCommerce, Razorpay/Stripe APIs, SEO. Full-Stack Development: Engineered a dynamic e-commerce platform using WordPress and custom PHP, streamlining product catalogs, inventory management, and secure user authentication. Payment Integration: Integrated secure Payment Gateways (Razorpay/Stripe) to facilitate seamless, encrypted transactions and a high-conversion checkout experience. Responsive UI/UX: Developed a mobile-first, responsive design focused on performance and user engagement, ensuring consistency across all devices and browsers. Performance & SEO: Executed Technical SEO and speed optimization strategies, significantly improving search rankings and driving organic traffic growth.",
+    tags: ["WordPress", "PHP", "APIs & REST", "SEO & Marketing"],
+    color: "amber",
+    externalLink: "https://lagaowallpaper.com"
+  },
+  {
+    id: "personal-portfolio",
+    type: "engineering",
+    title: "Personal Portfolio & Professional Identity",
+    desc: "Tech Stack: React.js, Tailwind CSS, Firebase, GitHub Pages. Modern Web Architecture: Developed a high-performance, responsive portfolio website using React.js and Tailwind CSS to showcase technical projects and professional achievements. Serverless Backend: Integrated Firebase for real-time data handling, enabling an automated contact management system to capture and store recruiter inquiries securely. UI/UX Optimization: Designed a clean, minimalist user interface with a focus on component-based architecture for better maintainability and faster rendering. Deployment & Version Control: Managed the complete development lifecycle via GitHub, demonstrating proficiency in CI/CD workflows and modern web deployment strategies.",
+    tags: ["React", "HTML5 & CSS3", "Firebase", "Git & GitHub"],
+    color: "purple",
+    githubLink: "https://github.com/mishra-aashu"
+  }
+];
+
+const MediaCard = ({ title, desc, tags, color, videoPreview, thumbnail, onPlayClick, isHighlighted, isDimmed, activeSkill }) => {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -1005,9 +1109,26 @@ const MediaCard = ({ title, desc, tags, color, videoPreview, thumbnail, onPlayCl
     videoRef.current?.pause();
   };
 
+  const activeBorders = {
+    cyan: 'ring-2 ring-cyan-500 dark:ring-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.4)]',
+    blue: 'ring-2 ring-blue-500 dark:ring-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.4)]',
+    purple: 'ring-2 ring-purple-500 dark:ring-purple-400 shadow-[0_0_30px_rgba(168,85,247,0.4)]',
+    green: 'ring-2 ring-green-500 dark:ring-green-400 shadow-[0_0_30px_rgba(34,197,94,0.4)]',
+    red: 'ring-2 ring-red-500 dark:ring-red-400 shadow-[0_0_30px_rgba(239,68,68,0.4)]',
+    amber: 'ring-2 ring-amber-500 dark:ring-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.4)]',
+  };
+
+  const highlightClass = isHighlighted 
+    ? `${activeBorders[color] || 'ring-2 ring-cyan-500 shadow-[0_0_30px_rgba(6,182,212,0.4)]'} scale-[1.02]` 
+    : '';
+
+  const dimClass = isDimmed 
+    ? 'opacity-30 scale-95 grayscale' 
+    : 'opacity-100';
+
   return (
     <div 
-      className="group relative rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-red-500/20 min-h-[450px] cursor-pointer"
+      className={`group relative rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-${color}-500/20 min-h-[450px] cursor-pointer ${highlightClass} ${dimClass}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => {
@@ -1039,84 +1160,126 @@ const MediaCard = ({ title, desc, tags, color, videoPreview, thumbnail, onPlayCl
               </div>
               <button 
                 onClick={(e) => { e.stopPropagation(); onPlayClick(); }}
-                className="p-4 rounded-full bg-red-600 text-white shadow-lg shadow-red-600/40 hover:scale-110 transition-transform"
+                className={`p-4 rounded-full bg-${color}-600 text-white shadow-lg shadow-${color}-600/40 hover:scale-110 transition-transform`}
               >
                 <Play size={20} fill="currentColor" />
               </button>
            </div>
-           <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-red-400 transition-colors">{title}</h3>
+           <h3 className={`text-2xl font-bold text-white mb-2 group-hover:text-${color}-400 transition-colors`}>{title}</h3>
            <p className="text-slate-300 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 line-clamp-3">
              {desc}
            </p>
         </div>
 
         <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
-          {tags.map((tag) => (
-            <span key={tag} className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-[10px] font-medium text-slate-400 uppercase tracking-wider">
-              {tag}
-            </span>
-          ))}
+          {tags.map((tag) => {
+            const isTagMatch = activeSkill === tag;
+            return (
+              <span 
+                key={tag} 
+                className={`px-3 py-1 rounded-lg border text-[10px] font-medium uppercase tracking-wider transition-all ${
+                  isTagMatch
+                    ? `bg-${color}-500 border-${color}-400 text-white font-bold scale-105`
+                    : 'bg-white/5 border-white/10 text-slate-400'
+                }`}
+              >
+                {tag}
+              </span>
+            );
+          })}
         </div>
       </div>
     </div>
   );
 };
 
-const ProjectCard = ({ title, desc, tags, color, size, githubLink, externalLink, videoLink, onArchitectureClick }) => (
-  <div className={`group relative rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 overflow-hidden hover:border-${color}-500/50 transition-all duration-500 hover:shadow-xl dark:hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] ${size === 'large' ? 'md:col-span-2' : 'md:col-span-1'}`}>
-    {/* Hover Gradient Overlay */}
-    <div className={`absolute inset-0 bg-gradient-to-br from-${color}-500/5 dark:from-${color}-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
-    
-    <div className="relative z-10 p-8 h-full flex flex-col justify-between min-h-[320px]">
-      <div>
-        <div className="flex justify-between items-start mb-6">
-          <div className={`p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-${color}-600 dark:text-${color}-400`}>
-            {videoLink ? <Video size={24} /> : size === 'large' ? <Globe size={24} /> : <Code2 size={24} />}
-          </div>
-          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-             {githubLink && (
-               <a href={githubLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="View Source">
-                 <Github size={18} />
-               </a>
-             )}
-             {videoLink && (
-               <a href={videoLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-red-600 dark:hover:bg-red-500 hover:text-white transition-colors" title="Watch Video">
-                 <Youtube size={18} />
-               </a>
-             )}
-             {externalLink && (
-               <a href={externalLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="Live Demo">
-                 <ExternalLink size={18} />
-               </a>
-             )}
-             {onArchitectureClick && (
-               <button onClick={onArchitectureClick} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-colors" title="View Architecture">
-                 <Zap size={18} />
-               </button>
-             )}
-          </div>
-        </div>
-        
-        <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-900 dark:group-hover:from-white group-hover:to-slate-500 dark:group-hover:to-slate-400 transition-all">
-          {title}
-        </h3>
-        <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 line-clamp-4">
-          {desc}
-        </p>
-      </div>
+const ProjectCard = ({ title, desc, tags, color, size, githubLink, externalLink, videoLink, onArchitectureClick, isHighlighted, isDimmed, activeSkill }) => {
+  const activeBorders = {
+    cyan: 'ring-2 ring-cyan-500 dark:ring-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.4)]',
+    blue: 'ring-2 ring-blue-500 dark:ring-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.4)]',
+    purple: 'ring-2 ring-purple-500 dark:ring-purple-400 shadow-[0_0_30px_rgba(168,85,247,0.4)]',
+    green: 'ring-2 ring-green-500 dark:ring-green-400 shadow-[0_0_30px_rgba(34,197,94,0.4)]',
+    red: 'ring-2 ring-red-500 dark:ring-red-400 shadow-[0_0_30px_rgba(239,68,68,0.4)]',
+    amber: 'ring-2 ring-amber-500 dark:ring-amber-400 shadow-[0_0_30px_rgba(245,158,11,0.4)]',
+  };
 
-      <div className="flex flex-wrap gap-2">
-        {tags.map((tag) => (
-          <span key={tag} className="px-3 py-1 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-white/5 text-xs font-medium text-slate-500 dark:text-slate-300 group-hover:border-slate-300 dark:group-hover:border-white/20 transition-colors">
-            {tag}
-          </span>
-        ))}
+  const highlightClass = isHighlighted 
+    ? `${activeBorders[color] || 'ring-2 ring-cyan-500 shadow-[0_0_30px_rgba(6,182,212,0.4)]'} scale-[1.02]` 
+    : '';
+
+  const dimClass = isDimmed 
+    ? 'opacity-30 scale-95 grayscale' 
+    : 'opacity-100';
+
+  return (
+    <div className={`group relative rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 overflow-hidden hover:border-${color}-500/50 transition-all duration-500 hover:shadow-xl dark:hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] ${size === 'large' ? 'md:col-span-2' : 'md:col-span-1'} ${highlightClass} ${dimClass}`}>
+      {/* Hover Gradient Overlay */}
+      <div className={`absolute inset-0 bg-gradient-to-br from-${color}-500/5 dark:from-${color}-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
+      
+      <div className="relative z-10 p-8 h-full flex flex-col justify-between min-h-[320px]">
+        <div>
+          <div className="flex justify-between items-start mb-6">
+            <div className={`p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-${color}-600 dark:text-${color}-400`}>
+              {videoLink ? <Video size={24} /> : size === 'large' ? <Globe size={24} /> : <Code2 size={24} />}
+            </div>
+            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
+               {githubLink && githubLink !== '#' && (
+                 <a href={githubLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="View Source">
+                   <Github size={18} />
+                 </a>
+               )}
+               {videoLink && (
+                 <a href={videoLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-red-600 dark:hover:bg-red-500 hover:text-white transition-colors" title="Watch Video">
+                   <Youtube size={18} />
+                 </a>
+               )}
+               {externalLink && (
+                 <a href={externalLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="Live Demo">
+                   <ExternalLink size={18} />
+                 </a>
+               )}
+               {onArchitectureClick && (
+                 <button onClick={onArchitectureClick} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-colors" title="View Architecture">
+                   <Zap size={18} />
+                 </button>
+               )}
+            </div>
+          </div>
+          
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-900 dark:group-hover:from-white group-hover:to-slate-500 dark:group-hover:to-slate-400 transition-all">
+            {title}
+          </h3>
+          <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 line-clamp-4">
+            {desc}
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => {
+            const isTagMatch = activeSkill === tag;
+            return (
+              <span 
+                key={tag} 
+                className={`px-3 py-1 rounded-lg border text-xs font-medium transition-all ${
+                  isTagMatch 
+                    ? `bg-${color}-500/20 border-${color}-500 text-${color}-600 dark:text-${color}-400 font-bold scale-105 shadow-[0_0_10px_rgba(6,182,212,0.15)]` 
+                    : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-white/5 text-slate-500 dark:text-slate-300 group-hover:border-slate-300 dark:group-hover:border-white/20'
+                }`}
+              >
+                {tag}
+              </span>
+            );
+          })}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
-const Projects = ({ openModal }) => {
+const Projects = ({ openModal, selectedSkill, setSelectedSkill }) => {
+  const engineeringProjects = projectsData.filter(p => p.type === 'engineering');
+  const mediaProjects = projectsData.filter(p => p.type === 'media');
+
   return (
     <section id="projects" className="py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-6">
@@ -1132,6 +1295,21 @@ const Projects = ({ openModal }) => {
           </a>
         </div>
 
+        {selectedSkill && (
+          <div className="mb-8 flex items-center gap-3 p-3 px-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 w-fit animate-pulse">
+            <span className="text-sm text-slate-700 dark:text-slate-300">
+              Active Filter: <strong className="text-cyan-600 dark:text-cyan-400">{selectedSkill}</strong>
+            </span>
+            <button 
+              onClick={() => setSelectedSkill(null)}
+              className="p-1 rounded-lg bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-500/30 transition-colors"
+              aria-label="Clear filter"
+            >
+              <X size={14} />
+            </button>
+          </div>
+        )}
+
         {/* Section: Engineering & Development */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-8">
@@ -1141,48 +1319,22 @@ const Projects = ({ openModal }) => {
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Software Engineering</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <ProjectCard 
-              title="Nexus Dashboard" 
-              desc="A comprehensive SaaS analytics platform featuring real-time data visualization, user management, and automated reporting systems. Built for scalability."
-              tags={['React', 'TypeScript', 'D3.js', 'Firebase']}
-              color="cyan"
-              size="large"
-              githubLink="#"
-            />
-            <ProjectCard 
-              title="Kind Heart’s Sangam" 
-              desc="Developed a fully responsive web platform for a non-profit organization. Implemented interactive volunteer registration and donation modules via Supabase."
-              tags={['HTML5', 'CSS3', 'JavaScript', 'Supabase']}
-              color="blue"
-              size="small"
-              externalLink="https://kindheartssangam.org" // Placeholder
-            />
-            <ProjectCard 
-              title="mishra-aashu CLI" 
-              desc="Personalized Terminal-based Developer Card tool. Optimized for Linux environments, demonstrating proficiency in Node.js scripting and system-level tools."
-              tags={['Node.js', 'CLI', 'Bash', 'NPM']}
-              color="green"
-              size="small"
-              githubLink="https://github.com/mishra-aashu"
-            />
-             <ProjectCard
-              title="Listen Together"
-              desc="Real-time synchronized music streaming platform with sub-0.5s drift tolerance and resilient multi-layered proxy architecture."
-              tags={['WebRTC', 'Edge Functions', 'WebSocket', 'Tailwind']}
-              color="indigo"
-              size="small"
-              onArchitectureClick={() => openModal('Listen Together')}
-              githubLink="#"
-            />
-            <ProjectCard
-              title="CaBa Messenger"
-              desc="A real-time messaging application with user authentication, chat rooms, and instant message delivery using Firebase."
-              tags={['React', 'Firebase', 'Real-time']}
-              color="blue"
-              size="small"
-              onArchitectureClick={() => openModal('CaBa')}
-              githubLink="#"
-            />
+            {engineeringProjects.map(proj => (
+              <ProjectCard 
+                key={proj.id}
+                title={proj.title}
+                desc={proj.desc}
+                tags={proj.tags}
+                color={proj.color}
+                size={proj.id === 'elevengram' ? 'large' : 'small'}
+                githubLink={proj.githubLink}
+                externalLink={proj.externalLink}
+                onArchitectureClick={proj.onArchitectureClick ? () => openModal(proj.onArchitectureClick) : null}
+                isHighlighted={selectedSkill && proj.tags.includes(selectedSkill)}
+                isDimmed={selectedSkill && !proj.tags.includes(selectedSkill)}
+                activeSkill={selectedSkill}
+              />
+            ))}
           </div>
         </div>
 
@@ -1194,31 +1346,22 @@ const Projects = ({ openModal }) => {
             </div>
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Media Production</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <MediaCard 
-              title="WW3: Geopolitical Case Study" 
-              desc="Advanced geopolitical analysis translated into cinematic documentary style. Engineered sophisticated visual effects and data visualizations."
-              tags={['Premiere Pro', 'Capcut', 'VFX', 'Research']}
-              videoPreview="https://assets.mixkit.co/videos/preview/mixkit-world-map-background-animation-32812-large.mp4"
-              thumbnail="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1000&auto=format&fit=crop"
-              onPlayClick={() => openModal('VIDEO_WW3')}
-            />
-            <MediaCard 
-              title="International Event Director" 
-              desc="Lead Media Producer for high-profile international events. Managing complete workflow from on-site cinematography to final broadcast delivery."
-              tags={['Direction', 'Cinematography', 'Editing']}
-              videoPreview="https://assets.mixkit.co/videos/preview/mixkit-awards-ceremony-on-stage-with-curtains-and-lights-34531-large.mp4"
-              thumbnail="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop"
-              onPlayClick={() => openModal('VIDEO_EVENT')}
-            />
-            <MediaCard 
-              title="Cinematic Storytelling" 
-              desc="Capturing key moments with advanced camera techniques and multi-track audio synchronization for broadcast-quality event summaries."
-              tags={['Color Grading', 'Audio Sync', 'Post-Production']}
-              videoPreview="https://assets.mixkit.co/videos/preview/mixkit-cameraman-filming-a-scene-in-a-studio-34503-large.mp4"
-              thumbnail="https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1000&auto=format&fit=crop"
-              onPlayClick={() => openModal('VIDEO_STORY')}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {mediaProjects.map(proj => (
+              <MediaCard 
+                key={proj.id}
+                title={proj.title}
+                desc={proj.desc}
+                tags={proj.tags}
+                color={proj.color}
+                videoPreview={proj.videoPreview}
+                thumbnail={proj.thumbnail}
+                onPlayClick={() => openModal(proj.onPlayClick)}
+                isHighlighted={selectedSkill && proj.tags.includes(selectedSkill)}
+                isDimmed={selectedSkill && !proj.tags.includes(selectedSkill)}
+                activeSkill={selectedSkill}
+              />
+            ))}
           </div>
         </div>
       </div>
