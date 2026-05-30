@@ -1175,7 +1175,7 @@ const ContactForm = ({ user }) => {
                  type="text"
                  required
                  className="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all outline-none font-mono"
-                 placeholder="John Doe"
+                 placeholder="Enter your name"
                  value={formData.name}
                  onChange={(e) => setFormData({...formData, name: e.target.value})}
                />
@@ -1186,7 +1186,7 @@ const ContactForm = ({ user }) => {
                  type="email"
                  required
                  className="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all outline-none font-mono"
-                 placeholder="john@example.com"
+                 placeholder="Enter your email"
                  value={formData.email}
                  onChange={(e) => setFormData({...formData, email: e.target.value})}
                />
@@ -1199,7 +1199,7 @@ const ContactForm = ({ user }) => {
               required
               rows={5}
               className="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all outline-none font-mono resize-none"
-              placeholder="System.out.print('Hello World')..."
+              placeholder="Type your message here..."
               value={formData.message}
               onChange={(e) => setFormData({...formData, message: e.target.value})}
             />
