@@ -482,17 +482,45 @@ const HeroHighlight = ({ icon: Icon, title, sub, detail, color, index }) => {
 
 const Hero = ({ scrollToSection }) => {
   const [text, setText] = useState('');
-  const fullText = "Full Stack Engineer & Data Science Undergraduate";
-  
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+
+  const phrases = [
+    "Full Stack Engineer",
+    "React Native & Web Developer",
+    "Data Science Undergraduate",
+    "Video Editor & Creative Director",
+    "AI Integration Engineer",
+    "SEO & Digital Marketer"
+  ];
+
   useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      setText(fullText.slice(0, index));
-      index++;
-      if (index > fullText.length) clearInterval(timer);
-    }, 100);
-    return () => clearInterval(timer);
-  }, []);
+    const activePhrase = phrases[loopNum % phrases.length];
+    
+    if (isDeleting) {
+      if (text === '') {
+        setIsDeleting(false);
+        setLoopNum((prev) => prev + 1);
+      } else {
+        const timeout = setTimeout(() => {
+          setText(activePhrase.substring(0, text.length - 1));
+        }, 30);
+        return () => clearTimeout(timeout);
+      }
+    } else {
+      if (text === activePhrase) {
+        const timeout = setTimeout(() => {
+          setIsDeleting(true);
+        }, 2200);
+        return () => clearTimeout(timeout);
+      } else {
+        const timeout = setTimeout(() => {
+          setText(activePhrase.substring(0, text.length + 1));
+        }, 75);
+        return () => clearTimeout(timeout);
+      }
+    }
+  }, [text, isDeleting, loopNum]);
 
   return (
     <section id="hero" className="relative overflow-hidden bg-transparent">
