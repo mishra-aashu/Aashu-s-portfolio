@@ -180,41 +180,7 @@ const plexusData = generatePlexus();
 
 // --- Utility Components ---
 
-const MouseFollower = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [hidden, setHidden] = useState(true);
 
-  useEffect(() => {
-    const handleMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      setHidden(false);
-    };
-    const handleLeave = () => setHidden(true);
-
-    window.addEventListener('mousemove', handleMove);
-    document.addEventListener('mouseleave', handleLeave);
-    
-    return () => {
-      window.removeEventListener('mousemove', handleMove);
-      document.removeEventListener('mouseleave', handleLeave);
-    };
-  }, []);
-
-  if (hidden) return null;
-
-  return (
-    <div 
-      className="fixed w-8 h-8 pointer-events-none z-[100] mix-blend-difference"
-      style={{ 
-        left: position.x, 
-        top: position.y,
-        transform: 'translate(-50%, -50%)'
-      }}
-    >
-      <div className="w-full h-full rounded-full border border-white/50 bg-white/20 backdrop-blur-sm animate-pulse" />
-    </div>
-  );
-};
 
 const Navbar = ({ activeSection, scrollToSection, theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -1407,7 +1373,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-transparent text-slate-900 dark:text-slate-200 selection:bg-cyan-500/30 font-sans cursor-default transition-colors duration-300">
-      <MouseFollower />
       <Navbar 
         activeSection={activeSection} 
         scrollToSection={scrollToSection} 
