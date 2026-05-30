@@ -40,7 +40,11 @@ import {
   Volume2,
   VolumeX,
   User,
-  MessageSquare
+  MessageSquare,
+  Shield,
+  Key,
+  TrendingUp,
+  PenTool
 } from 'lucide-react';
 import ArchitectureMap from './ArchitectureMap';
 
@@ -810,9 +814,11 @@ const Skills = () => {
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Frontend</h3>
             <div className="flex flex-wrap gap-3">
               <SkillPill icon={Code2} name="React" color="cyan" />
-              <SkillPill icon={Zap} name="Next.js" color="slate" />
-              <SkillPill icon={Layout} name="CSS3" color="cyan" />
-              <SkillPill icon={Globe} name="Three.js" color="yellow" />
+              <SkillPill icon={Smartphone} name="React Native" color="blue" />
+              <SkillPill icon={Code2} name="JavaScript" color="yellow" />
+              <SkillPill icon={Layout} name="HTML5 & CSS3" color="cyan" />
+              <SkillPill icon={Layers} name="React Router" color="red" />
+              <SkillPill icon={Globe} name="WordPress" color="blue" />
             </div>
           </div>
 
@@ -824,9 +830,12 @@ const Skills = () => {
             <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Backend</h3>
             <div className="flex flex-wrap gap-3">
               <SkillPill icon={Terminal} name="Node.js" color="green" />
-              <SkillPill icon={Cpu} name="Python" color="blue" />
+              <SkillPill icon={Server} name="PHP" color="purple" />
               <SkillPill icon={Database} name="PostgreSQL" color="blue" />
               <SkillPill icon={Database} name="Firebase" color="yellow" />
+              <SkillPill icon={Zap} name="APIs & REST" color="emerald" />
+              <SkillPill icon={Shield} name="OAuth & JWT" color="rose" />
+              <SkillPill icon={MessageSquare} name="FCM Notification" color="amber" />
             </div>
           </div>
 
@@ -835,26 +844,28 @@ const Skills = () => {
             <div className="w-12 h-12 rounded-xl bg-red-500/10 dark:bg-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400 mb-6">
               <Aperture size={24} />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Creative Suite</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Creative & Content</h3>
             <div className="flex flex-wrap gap-3">
               <SkillPill icon={Film} name="Premiere Pro" color="red" />
-              <SkillPill icon={Play} name="Capcut" color="red" />
               <SkillPill icon={Palette} name="After Effects" color="purple" />
-              <SkillPill icon={Video} name="DaVinci" color="blue" />
+              <SkillPill icon={Video} name="Video Editing" color="emerald" />
+              <SkillPill icon={Sparkles} name="Creative Direction" color="yellow" />
+              <SkillPill icon={PenTool} name="Content Strategy" color="pink" />
             </div>
           </div>
 
-           {/* Tools */}
+           {/* Tools & AI */}
            <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-pink-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
             <div className="w-12 h-12 rounded-xl bg-pink-500/10 dark:bg-pink-500/20 flex items-center justify-center text-pink-600 dark:text-pink-400 mb-6">
               <Smartphone size={24} />
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Tools & Data</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Tools & AI Stack</h3>
             <div className="flex flex-wrap gap-3">
-              <SkillPill icon={Github} name="Git" color="orange" />
+              <SkillPill icon={Github} name="Git & GitHub" color="orange" />
+              <SkillPill icon={Terminal} name="Linux" color="slate" />
               <SkillPill icon={Layers} name="Gradle" color="purple" />
-              <SkillPill icon={Database} name="Pandas" color="blue" />
-              <SkillPill icon={Cpu} name="NumPy" color="cyan" />
+              <SkillPill icon={Sparkles} name="Claude, Gemini & DeepSeek" color="cyan" />
+              <SkillPill icon={TrendingUp} name="SEO & Marketing" color="emerald" />
             </div>
           </div>
         </div>
