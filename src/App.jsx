@@ -785,12 +785,31 @@ const About = () => {
   );
 };
 
-const SkillPill = ({ icon: Icon, name, color }) => (
-  <div className="group flex items-center gap-3 px-5 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 hover:border-cyan-500/30 dark:hover:border-cyan-500/30 transition-all hover:bg-slate-50 dark:hover:bg-slate-800 cursor-default shadow-sm dark:shadow-none">
-    <Icon size={20} className={`text-${color}-600 dark:text-${color}-400 group-hover:scale-110 transition-transform`} />
-    <span className="text-slate-600 dark:text-slate-300 font-medium group-hover:text-slate-900 dark:group-hover:text-white">{name}</span>
-  </div>
-);
+const SkillPill = ({ icon: Icon, name, color }) => {
+  const hoverBorders = {
+    cyan: 'hover:border-cyan-500/40 dark:hover:border-cyan-400/40',
+    blue: 'hover:border-blue-500/40 dark:hover:border-blue-400/40',
+    purple: 'hover:border-purple-500/40 dark:hover:border-purple-400/40',
+    green: 'hover:border-green-500/40 dark:hover:border-green-400/40',
+    yellow: 'hover:border-yellow-500/40 dark:hover:border-yellow-400/40',
+    red: 'hover:border-red-500/40 dark:hover:border-red-400/40',
+    orange: 'hover:border-orange-500/40 dark:hover:border-orange-400/40',
+    rose: 'hover:border-rose-500/40 dark:hover:border-rose-400/40',
+    amber: 'hover:border-amber-500/40 dark:hover:border-amber-400/40',
+    pink: 'hover:border-pink-500/40 dark:hover:border-pink-400/40',
+    slate: 'hover:border-slate-500/40 dark:hover:border-slate-400/40',
+    emerald: 'hover:border-emerald-500/40 dark:hover:border-emerald-400/40',
+  };
+
+  const hoverBorderClass = hoverBorders[color] || 'hover:border-cyan-500/40';
+
+  return (
+    <div className={`group flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 ${hoverBorderClass} transition-all hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-default shadow-sm dark:shadow-none`}>
+      <Icon size={14} className={`text-${color}-600 dark:text-${color}-400 group-hover:scale-110 transition-transform`} />
+      <span className="text-slate-600 dark:text-slate-300 text-xs font-semibold group-hover:text-slate-900 dark:group-hover:text-white transition-colors">{name}</span>
+    </div>
+  );
+};
 
 const Skills = () => {
   return (
@@ -805,14 +824,16 @@ const Skills = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Frontend */}
           <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-cyan-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 dark:bg-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400 mb-6">
-              <Layout size={24} />
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 dark:bg-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+                <Layout size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Frontend</h3>
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Frontend</h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               <SkillPill icon={Code2} name="React" color="cyan" />
               <SkillPill icon={Smartphone} name="React Native" color="blue" />
               <SkillPill icon={Code2} name="JavaScript" color="yellow" />
@@ -824,11 +845,13 @@ const Skills = () => {
 
           {/* Backend */}
           <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-purple-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
-            <div className="w-12 h-12 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-6">
-              <Server size={24} />
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                <Server size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Backend</h3>
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Backend</h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               <SkillPill icon={Terminal} name="Node.js" color="green" />
               <SkillPill icon={Server} name="PHP" color="purple" />
               <SkillPill icon={Database} name="PostgreSQL" color="blue" />
@@ -839,13 +862,15 @@ const Skills = () => {
             </div>
           </div>
 
-           {/* Creative Suite */}
-           <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-red-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
-            <div className="w-12 h-12 rounded-xl bg-red-500/10 dark:bg-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400 mb-6">
-              <Aperture size={24} />
+          {/* Creative & Content */}
+          <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-red-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-red-500/10 dark:bg-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400">
+                <Aperture size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Creative & Content</h3>
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Creative & Content</h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               <SkillPill icon={Film} name="Premiere Pro" color="red" />
               <SkillPill icon={Palette} name="After Effects" color="purple" />
               <SkillPill icon={Video} name="Video Editing" color="emerald" />
@@ -854,13 +879,15 @@ const Skills = () => {
             </div>
           </div>
 
-           {/* Tools & AI */}
-           <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-pink-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
-            <div className="w-12 h-12 rounded-xl bg-pink-500/10 dark:bg-pink-500/20 flex items-center justify-center text-pink-600 dark:text-pink-400 mb-6">
-              <Smartphone size={24} />
+          {/* Tools & AI */}
+          <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-pink-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-pink-500/10 dark:bg-pink-500/20 flex items-center justify-center text-pink-600 dark:text-pink-400">
+                <Cpu size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Tools & AI Stack</h3>
             </div>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Tools & AI Stack</h3>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               <SkillPill icon={Github} name="Git & GitHub" color="orange" />
               <SkillPill icon={Terminal} name="Linux" color="slate" />
               <SkillPill icon={Layers} name="Gradle" color="purple" />
