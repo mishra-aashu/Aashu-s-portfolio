@@ -785,6 +785,60 @@ const About = () => {
   );
 };
 
+const ScrollReveal = ({ children, direction = 'up', delay = 0, className = '' }) => {
+  const ref = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        threshold: 0.05,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, []);
+
+  const directionClasses = {
+    left: 'translate-x-[-60px] opacity-0',
+    right: 'translate-x-[60px] opacity-0',
+    up: 'translate-y-[60px] opacity-0',
+    down: 'translate-y-[-60px] opacity-0',
+    'diagonal-left': 'translate-x-[-65px] translate-y-[50px] opacity-0',
+    'diagonal-right': 'translate-x-[65px] translate-y-[50px] opacity-0',
+  };
+
+  const visibleClass = isVisible 
+    ? 'translate-x-0 translate-y-0 opacity-100' 
+    : directionClasses[direction];
+
+  return (
+    <div
+      ref={ref}
+      style={{ transitionDelay: `${delay}ms` }}
+      className={`transition-all duration-1000 ease-out transform ${visibleClass} ${className}`}
+    >
+      {children}
+    </div>
+  );
+};
+
 const SkillPill = ({ icon: Icon, name, color }) => {
   const hoverBorders = {
     cyan: 'hover:border-cyan-500/40 dark:hover:border-cyan-400/40',
@@ -826,75 +880,83 @@ const Skills = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Frontend */}
-          <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-cyan-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-cyan-500/10 dark:bg-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
-                <Layout size={24} />
+          <ScrollReveal direction="diagonal-left" delay={100} className="h-full">
+            <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-cyan-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none h-full">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-cyan-500/10 dark:bg-cyan-500/20 flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+                  <Layout size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Frontend</h3>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Frontend</h3>
+              <div className="flex flex-wrap gap-2">
+                <SkillPill icon={Code2} name="React" color="cyan" />
+                <SkillPill icon={Smartphone} name="React Native" color="blue" />
+                <SkillPill icon={Code2} name="JavaScript" color="yellow" />
+                <SkillPill icon={Layout} name="HTML5 & CSS3" color="cyan" />
+                <SkillPill icon={Layers} name="React Router" color="red" />
+                <SkillPill icon={Globe} name="WordPress" color="blue" />
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <SkillPill icon={Code2} name="React" color="cyan" />
-              <SkillPill icon={Smartphone} name="React Native" color="blue" />
-              <SkillPill icon={Code2} name="JavaScript" color="yellow" />
-              <SkillPill icon={Layout} name="HTML5 & CSS3" color="cyan" />
-              <SkillPill icon={Layers} name="React Router" color="red" />
-              <SkillPill icon={Globe} name="WordPress" color="blue" />
-            </div>
-          </div>
+          </ScrollReveal>
 
           {/* Backend */}
-          <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-purple-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400">
-                <Server size={24} />
+          <ScrollReveal direction="diagonal-right" delay={150} className="h-full">
+            <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-purple-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none h-full">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                  <Server size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Backend</h3>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Backend</h3>
+              <div className="flex flex-wrap gap-2">
+                <SkillPill icon={Terminal} name="Node.js" color="green" />
+                <SkillPill icon={Server} name="PHP" color="purple" />
+                <SkillPill icon={Database} name="PostgreSQL" color="blue" />
+                <SkillPill icon={Database} name="Firebase" color="yellow" />
+                <SkillPill icon={Zap} name="APIs & REST" color="emerald" />
+                <SkillPill icon={Shield} name="OAuth & JWT" color="rose" />
+                <SkillPill icon={MessageSquare} name="FCM Notification" color="amber" />
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <SkillPill icon={Terminal} name="Node.js" color="green" />
-              <SkillPill icon={Server} name="PHP" color="purple" />
-              <SkillPill icon={Database} name="PostgreSQL" color="blue" />
-              <SkillPill icon={Database} name="Firebase" color="yellow" />
-              <SkillPill icon={Zap} name="APIs & REST" color="emerald" />
-              <SkillPill icon={Shield} name="OAuth & JWT" color="rose" />
-              <SkillPill icon={MessageSquare} name="FCM Notification" color="amber" />
-            </div>
-          </div>
+          </ScrollReveal>
 
           {/* Creative & Content */}
-          <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-red-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-red-500/10 dark:bg-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400">
-                <Aperture size={24} />
+          <ScrollReveal direction="diagonal-left" delay={100} className="h-full">
+            <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-red-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none h-full">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-red-500/10 dark:bg-red-500/20 flex items-center justify-center text-red-600 dark:text-red-400">
+                  <Aperture size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Creative & Content</h3>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Creative & Content</h3>
+              <div className="flex flex-wrap gap-2">
+                <SkillPill icon={Film} name="Premiere Pro" color="red" />
+                <SkillPill icon={Palette} name="After Effects" color="purple" />
+                <SkillPill icon={Video} name="Video Editing" color="emerald" />
+                <SkillPill icon={Sparkles} name="Creative Direction" color="yellow" />
+                <SkillPill icon={PenTool} name="Content Strategy" color="pink" />
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <SkillPill icon={Film} name="Premiere Pro" color="red" />
-              <SkillPill icon={Palette} name="After Effects" color="purple" />
-              <SkillPill icon={Video} name="Video Editing" color="emerald" />
-              <SkillPill icon={Sparkles} name="Creative Direction" color="yellow" />
-              <SkillPill icon={PenTool} name="Content Strategy" color="pink" />
-            </div>
-          </div>
+          </ScrollReveal>
 
           {/* Tools & AI */}
-          <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-pink-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 rounded-xl bg-pink-500/10 dark:bg-pink-500/20 flex items-center justify-center text-pink-600 dark:text-pink-400">
-                <Cpu size={24} />
+          <ScrollReveal direction="diagonal-right" delay={150} className="h-full">
+            <div className="p-8 rounded-3xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-white/5 hover:border-pink-500/20 transition-all hover:transform hover:-translate-y-1 shadow-sm dark:shadow-none h-full">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 rounded-xl bg-pink-500/10 dark:bg-pink-500/20 flex items-center justify-center text-pink-600 dark:text-pink-400">
+                  <Cpu size={24} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Tools & AI Stack</h3>
               </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Tools & AI Stack</h3>
+              <div className="flex flex-wrap gap-2">
+                <SkillPill icon={Github} name="Git & GitHub" color="orange" />
+                <SkillPill icon={Terminal} name="Linux" color="slate" />
+                <SkillPill icon={Layers} name="Gradle" color="purple" />
+                <SkillPill icon={Sparkles} name="Claude, Gemini & DeepSeek" color="cyan" />
+                <SkillPill icon={TrendingUp} name="SEO & Marketing" color="emerald" />
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <SkillPill icon={Github} name="Git & GitHub" color="orange" />
-              <SkillPill icon={Terminal} name="Linux" color="slate" />
-              <SkillPill icon={Layers} name="Gradle" color="purple" />
-              <SkillPill icon={Sparkles} name="Claude, Gemini & DeepSeek" color="cyan" />
-              <SkillPill icon={TrendingUp} name="SEO & Marketing" color="emerald" />
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>
