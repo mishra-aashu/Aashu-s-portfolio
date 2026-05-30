@@ -734,9 +734,14 @@ const About = () => {
               <StatCard icon={CheckCircle2} value="Full Stack" label="Web Developer" color="purple" />
             </div>
 
-            <button className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-semibold hover:gap-4 transition-all group">
+            <a 
+              href="https://drive.google.com/uc?export=download&id=1oZxBAA3vc33VqBBm1mAPMgXpV4l3ZYu6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-cyan-600 dark:text-cyan-400 font-semibold hover:gap-4 transition-all group"
+            >
               Download Resume <ExternalLink size={16} className="group-hover:-translate-y-1 transition-transform" />
-            </button>
+            </a>
           </div>
 
           <div className="space-y-0">
