@@ -38,7 +38,9 @@ import {
   PlayCircle,
   Palette,
   Volume2,
-  VolumeX
+  VolumeX,
+  User,
+  MessageSquare
 } from 'lucide-react';
 import ArchitectureMap from './ArchitectureMap';
 
@@ -1143,92 +1145,124 @@ const ContactForm = ({ user }) => {
   };
 
   return (
-    <div className="relative group">
-      <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl blur opacity-10 dark:opacity-25 group-hover:opacity-20 dark:group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-      <div className="relative bg-white dark:bg-slate-900 rounded-xl p-8 border border-slate-200 dark:border-white/10 shadow-sm dark:shadow-none">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-            <Terminal size={24} className="text-cyan-600 dark:text-cyan-400" />
-            Initialize Contact
-          </h3>
-          <div className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${
-            firebaseStatus === 'connected'
-              ? 'bg-green-500/10 text-green-600 dark:bg-green-500/20 dark:text-green-400 border border-green-500/20 dark:border-green-500/30'
-              : firebaseStatus === 'disconnected'
-              ? 'bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 border border-red-500/20 dark:border-red-500/30'
-              : 'bg-yellow-500/10 text-yellow-600 dark:bg-yellow-500/20 dark:text-yellow-400 border border-yellow-500/20 dark:border-yellow-500/30'
-          }`}>
-            <div className={`w-2 h-2 rounded-full ${
-              firebaseStatus === 'connected' ? 'bg-green-500' :
-              firebaseStatus === 'disconnected' ? 'bg-red-500' : 'bg-yellow-500'
-            }`} />
-            {firebaseStatus === 'connected' ? 'Firebase Connected' :
-             firebaseStatus === 'disconnected' ? 'Firebase Offline' : 'Checking...'}
+    <div className="relative group max-w-2xl mx-auto">
+      {/* Dynamic background glow */}
+      <div className="absolute -inset-1.5 bg-gradient-to-r from-cyan-500 via-purple-500 to-emerald-500 rounded-2xl blur opacity-10 dark:opacity-20 group-hover:opacity-20 dark:group-hover:opacity-35 transition duration-1000 group-hover:duration-200"></div>
+      
+      {/* Terminal Window */}
+      <div className="relative bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-xl overflow-hidden">
+        {/* Terminal Header */}
+        <div className="flex items-center justify-between px-5 py-3.5 bg-slate-100/80 dark:bg-slate-950/60 border-b border-slate-200 dark:border-slate-800/80">
+          <div className="flex items-center gap-1.5">
+            <div className="w-3.5 h-3.5 rounded-full bg-rose-500/90 shadow-[0_0_8px_rgba(244,63,94,0.4)]" />
+            <div className="w-3.5 h-3.5 rounded-full bg-amber-500/90 shadow-[0_0_8px_rgba(245,158,11,0.4)]" />
+            <div className="w-3.5 h-3.5 rounded-full bg-emerald-500/90 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
           </div>
+          <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400 select-none">
+            guest@aashutosh:~/contact_form
+          </span>
+          <div className="w-14" /> {/* spacer for center alignment */}
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-             <div className="space-y-2">
-               <label className="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-wider">Name</label>
-               <input
-                 type="text"
-                 required
-                 className="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all outline-none font-mono"
-                 placeholder="Enter your name"
-                 value={formData.name}
-                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-               />
-             </div>
-             <div className="space-y-2">
-               <label className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-wider">Email</label>
-               <input
-                 type="email"
-                 required
-                 className="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all outline-none font-mono"
-                 placeholder="Enter your email"
-                 value={formData.email}
-                 onChange={(e) => setFormData({...formData, email: e.target.value})}
-               />
-             </div>
+        {/* Form Body */}
+        <div className="p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
+            <div>
+              <h3 className="text-xl font-mono font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span className="text-cyan-500 dark:text-cyan-400 font-extrabold">$</span> ./initialize_contact.sh
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-mono mt-1">
+                Establish secure connection and send message
+              </p>
+            </div>
+            <div className={`self-start sm:self-auto flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-mono font-bold border transition-all ${
+              firebaseStatus === 'connected'
+                ? 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 border-emerald-500/20 dark:border-emerald-500/30'
+                : firebaseStatus === 'disconnected'
+                ? 'bg-rose-500/10 text-rose-600 dark:bg-rose-500/20 dark:text-rose-400 border-rose-500/20 dark:border-rose-500/30'
+                : 'bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 border-amber-500/20 dark:border-amber-500/30'
+            }`}>
+              <div className={`w-2 h-2 rounded-full ${
+                firebaseStatus === 'connected' ? 'bg-emerald-500 animate-pulse' :
+                firebaseStatus === 'disconnected' ? 'bg-rose-500' : 'bg-amber-500 animate-bounce'
+              }`} />
+              {firebaseStatus === 'connected' ? 'DB_CONNECTED' :
+               firebaseStatus === 'disconnected' ? 'DB_OFFLINE' : 'DB_CONNECTING'}
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-xs font-mono text-green-600 dark:text-green-400 uppercase tracking-wider">Message</label>
-            <textarea
-              required
-              rows={5}
-              className="w-full bg-slate-50 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all outline-none font-mono resize-none"
-              placeholder="Type your message here..."
-              value={formData.message}
-              onChange={(e) => setFormData({...formData, message: e.target.value})}
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <div className="space-y-2">
+                 <label className="text-xs font-mono text-cyan-600 dark:text-cyan-400 uppercase tracking-wider block pl-1">Name</label>
+                 <div className="relative flex items-center text-slate-400 dark:text-slate-500 focus-within:text-cyan-500 dark:focus-within:text-cyan-400 transition-colors duration-300">
+                   <User size={18} className="absolute left-4 pointer-events-none" />
+                   <input
+                     type="text"
+                     required
+                     className="w-full bg-slate-50/50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-xl pl-11 pr-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10 dark:focus:ring-cyan-500/20 transition-all outline-none font-mono text-sm"
+                     placeholder="Enter your name"
+                     value={formData.name}
+                     onChange={(e) => setFormData({...formData, name: e.target.value})}
+                   />
+                 </div>
+               </div>
+               <div className="space-y-2">
+                 <label className="text-xs font-mono text-purple-600 dark:text-purple-400 uppercase tracking-wider block pl-1">Email</label>
+                 <div className="relative flex items-center text-slate-400 dark:text-slate-500 focus-within:text-purple-500 dark:focus-within:text-purple-400 transition-colors duration-300">
+                   <Mail size={18} className="absolute left-4 pointer-events-none" />
+                   <input
+                     type="email"
+                     required
+                     className="w-full bg-slate-50/50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-xl pl-11 pr-4 py-3 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 dark:focus:ring-purple-500/20 transition-all outline-none font-mono text-sm"
+                     placeholder="Enter your email"
+                     value={formData.email}
+                     onChange={(e) => setFormData({...formData, email: e.target.value})}
+                   />
+                 </div>
+               </div>
+            </div>
 
-          <button
-            type="submit"
-            disabled={status === 'loading' || status === 'success'}
-            className={`w-full py-4 rounded-lg font-bold uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-2 ${
-              status === 'success' 
-                ? 'bg-green-500 text-white shadow-[0_0_20px_rgba(34,197,94,0.4)]'
-                : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-cyan-500 dark:hover:bg-cyan-400 hover:text-white dark:hover:text-white hover:shadow-[0_0_20px_rgba(34,211,238,0.4)]'
-            }`}
-          >
-            {status === 'loading' ? (
-              <span className="w-5 h-5 border-2 border-slate-900 border-t-transparent rounded-full animate-spin" />
-            ) : status === 'success' ? (
-              <>
-                <CheckCircle2 size={18} />
-                Transmission Sent
-              </>
-            ) : (
-              <>
-                Send Transmission
-                <Send size={18} />
-              </>
-            )}
-          </button>
-        </form>
+            <div className="space-y-2">
+              <label className="text-xs font-mono text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block pl-1">Message</label>
+              <div className="relative text-slate-400 dark:text-slate-500 focus-within:text-emerald-500 dark:focus-within:text-emerald-400 transition-colors duration-300">
+                <MessageSquare size={18} className="absolute left-4 top-3.5 pointer-events-none" />
+                <textarea
+                  required
+                  rows={5}
+                  className="w-full bg-slate-50/50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800 rounded-xl pl-11 pr-4 py-3.5 text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 dark:focus:ring-emerald-500/20 transition-all outline-none font-mono text-sm resize-none"
+                  placeholder="Type your message here..."
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={status === 'loading' || status === 'success'}
+              className={`w-full py-3.5 rounded-xl font-mono font-bold uppercase tracking-wider text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98] ${
+                status === 'success' 
+                  ? 'bg-emerald-500 text-white shadow-[0_0_25px_rgba(16,185,129,0.4)]'
+                  : 'bg-slate-950 dark:bg-slate-100 text-white dark:text-slate-900 hover:bg-cyan-600 dark:hover:bg-cyan-400 hover:text-white dark:hover:text-slate-950 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] shadow-md'
+              }`}
+            >
+              {status === 'loading' ? (
+                <span className="w-5 h-5 border-2 border-slate-900 border-t-transparent rounded-full animate-spin" />
+              ) : status === 'success' ? (
+                <>
+                  <CheckCircle2 size={18} />
+                  Transmission Sent
+                </>
+              ) : (
+                <>
+                  Send Transmission
+                  <Send size={18} className="w-4.5 h-4.5" />
+                </>
+              )}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
