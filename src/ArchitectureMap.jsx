@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Code2,
   Palette,
   Zap,
   Terminal,
   ArrowRight,
+  ArrowLeft,
   Cpu,
   Share2,
   Activity,
@@ -254,6 +256,20 @@ const ARCHITECTURE_DATA = {
   ]
 };
 
+const COLOR_STOPS = {
+  cyan: { start: '#22d3ee', middle: '#06b6d4', end: '#0891b2' },
+  purple: { start: '#c084fc', middle: '#a855f7', end: '#9333ea' },
+  green: { start: '#4ade80', middle: '#22c55e', end: '#16a34a' },
+  amber: { start: '#fbbf24', middle: '#f59e0b', end: '#d97706' },
+  blue: { start: '#60a5fa', middle: '#3b82f6', end: '#2563eb' },
+  rose: { start: '#fb7185', middle: '#f43f5e', end: '#e11d48' },
+  red: { start: '#f87171', middle: '#ef4444', end: '#dc2626' },
+  emerald: { start: '#34d399', middle: '#10b981', end: '#059669' },
+  yellow: { start: '#fde047', middle: '#eab308', end: '#ca8a04' },
+  pink: { start: '#f472b6', middle: '#ec4899', end: '#db2777' },
+  slate: { start: '#94a3b8', middle: '#64748b', end: '#475569' }
+};
+
 const ArchitectureMap = ({ projectName = "CaBa" }) => {
   const techData = ARCHITECTURE_DATA[projectName] || ARCHITECTURE_DATA["CaBa"];
   const [activeCategory, setActiveCategory] = useState(techData[0]);
@@ -263,24 +279,33 @@ const ArchitectureMap = ({ projectName = "CaBa" }) => {
   const containerRef = useRef(null);
   const activeNodeRef = useRef(null);
   const busRef = useRef(null);
+  const rightPanelRef = useRef(null);
+
+  const activeColorKey = activeCategory.color.split('-')[1] || 'cyan';
+  const stops = COLOR_STOPS[activeColorKey] || COLOR_STOPS.cyan;
 
   useEffect(() => {
     let animationFrameId;
     let startTime;
     const calculatePath = () => {
-      if (activeNodeRef.current && busRef.current && containerRef.current) {
+      if (activeNodeRef.current && busRef.current && containerRef.current && rightPanelRef.current) {
         const containerRect = containerRef.current.getBoundingClientRect();
         const nodeRect = activeNodeRef.current.getBoundingClientRect();
         const busRect = busRef.current.getBoundingClientRect();
+        const rightRect = rightPanelRef.current.getBoundingClientRect();
+        
         const startX = nodeRect.right - containerRect.left;
         const startY = nodeRect.top - containerRect.top + nodeRect.height / 2;
         const endX = busRect.left - containerRect.left + busRect.width / 2;
         const endY = busRect.top - containerRect.top + busRect.height / 2;
+        const rightX = rightRect.left - containerRect.left;
+        
         const cp1X = startX + (endX - startX) * 0.5;
         const cp1Y = startY;
         const cp2X = endX - (endX - startX) * 0.2;
         const cp2Y = endY;
-        setLinePath(`M ${startX},${startY} C ${cp1X},${cp1Y} ${cp2X},${cp2Y} ${endX},${endY}`);
+        
+        setLinePath(`M ${startX},${startY} C ${cp1X},${cp1Y} ${cp2X},${cp2Y} ${endX},${endY} L ${rightX},${endY}`);
       }
     };
     calculatePath();
@@ -316,14 +341,19 @@ const ArchitectureMap = ({ projectName = "CaBa" }) => {
                 <div className="text-[10px] md:text-xs font-mono text-slate-500 leading-none mt-0.5">SYSTEM ARCHITECTURE</div>
               </div>
            </div>
-           <div className="hidden md:flex items-center gap-6 text-[10px] font-mono text-slate-500">
-              <div className="flex items-center gap-2">
-                 <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                 <span>OPERATIONAL</span>
+           <div className="flex items-center gap-4">
+              <div className="hidden md:flex items-center gap-6 text-[10px] font-mono text-slate-500 mr-2">
+                 <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                    <span>OPERATIONAL</span>
+                 </div>
+                 <div className="px-2 py-1 bg-slate-900 border border-slate-800 rounded">BUILD: V2.4.0</div>
               </div>
-              <div className="px-2 py-1 bg-slate-900 border border-slate-800 rounded">BUILD: V2.4.0</div>
+              <Link to="/" className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 hover:bg-slate-900/90 transition-all font-mono text-xs shadow-inner">
+                 <ArrowLeft size={14} className="text-cyan-400" />
+                 <span>EXIT_TO_PORTFOLIO</span>
+              </Link>
            </div>
-           <button className="md:hidden text-slate-400"><Menu size={24} /></button>
         </div>
       </nav>
       <div className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: `linear-gradient(to right, #808080 1px, transparent 1px), linear-gradient(to bottom, #808080 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
@@ -346,13 +376,13 @@ const ArchitectureMap = ({ projectName = "CaBa" }) => {
         </header>
         <div ref={containerRef} className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-0 relative">
           <svg className="hidden lg:block absolute inset-0 pointer-events-none z-10 w-full h-full overflow-visible">
-            <path d={linePath} fill="none" stroke="rgba(6,182,212, 0.2)" strokeWidth="2" strokeLinecap="round" />
+            <path d={linePath} fill="none" stroke={stops.middle} strokeOpacity="0.15" strokeWidth="2" strokeLinecap="round" />
             <path d={linePath} fill="none" stroke="url(#vein-gradient)" strokeWidth="3" strokeLinecap="round" className="animate-dash" strokeDasharray="10, 20" />
             <defs>
-              <linearGradient id="vein-gradient" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#22d3ee" stopOpacity="0" />
-                <stop offset="50%" stopColor="#06b6d4" stopOpacity="1" />
-                <stop offset="100%" stopColor="#0891b2" stopOpacity="0" />
+              <linearGradient id="vein-gradient" gradientUnits="userSpaceOnUse" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor={stops.start} stopOpacity="0" />
+                <stop offset="50%" stopColor={stops.middle} stopOpacity="1" />
+                <stop offset="100%" stopColor={stops.end} stopOpacity="0" />
               </linearGradient>
             </defs>
           </svg>
@@ -365,19 +395,21 @@ const ArchitectureMap = ({ projectName = "CaBa" }) => {
                     <button ref={isActive ? activeNodeRef : null} onClick={() => setActiveCategory(category)} className={`relative w-full text-left p-4 lg:p-5 rounded-xl border transition-all duration-300 group z-20 ${isActive ? `bg-slate-900 border-l-4 ${category.borderColor} border-y-slate-800 border-r-slate-800 shadow-lg scale-[1.02] lg:scale-105` : 'bg-slate-900/40 border-slate-800/60 hover:border-slate-700 hover:bg-slate-800/40'}`}>
                       {isActive && <div className={`absolute inset-0 bg-gradient-to-r ${category.gradient} opacity-100 rounded-xl pointer-events-none`} />}
                       <div className="relative z-10 flex items-center gap-4">
-                        <div className={`w-12 h-12 lg:w-12 lg:h-12 rounded-lg flex items-center justify-center border transition-all duration-300 ${isActive ? `bg-slate-950 ${category.color} border-${category.color.split('-')[1]}-500/30 shadow-[0_0_15px_-5px_currentColor]` : 'bg-slate-950 border-slate-800 text-slate-500 group-hover:text-slate-400'}`}>
+                        <div className={`w-12 h-12 lg:w-12 lg:h-12 rounded-lg flex items-center justify-center border transition-all duration-300 ${isActive ? `bg-slate-950 ${category.color}` : 'bg-slate-950 border-slate-800 text-slate-500 group-hover:text-slate-400'}`}
+                             style={isActive ? { borderColor: `${stops.middle}48`, boxShadow: `0 0 15px -5px ${stops.start}` } : {}}>
                           {category.icon}
                         </div>
                         <div>
                           <h3 className={`font-bold tracking-wide text-sm ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-slate-200'}`}>{category.title.toUpperCase()}</h3>
                           <div className="text-[10px] font-mono text-slate-500 mt-1 flex items-center gap-2">
                             <span>ID: {category.id.substring(0,4).toUpperCase()}</span>
-                            {isActive && <span className="text-cyan-500 animate-pulse">● ACTIVE</span>}
+                            {isActive && <span className="text-cyan-500 animate-pulse" style={{ color: stops.start }}>● ACTIVE</span>}
                           </div>
                         </div>
                       </div>
-                      <div className={`hidden lg:block absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 bg-slate-950 z-30 transition-colors duration-300 ${isActive ? `border-cyan-400 shadow-[0_0_10px_cyan]` : 'border-slate-700 opacity-0 group-hover:opacity-100'}`} />
-                      {isActive && <div className={`lg:hidden absolute bottom-0 left-4 right-4 h-[2px] bg-${category.color.split('-')[1]}-500 opacity-50 shadow-[0_0_10px_currentColor]`} />}
+                      <div className={`hidden lg:block absolute -right-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 bg-slate-950 z-30 transition-all duration-300`}
+                           style={{ borderColor: isActive ? stops.start : '#334155', boxShadow: isActive ? `0 0 10px ${stops.middle}` : 'none', opacity: isActive ? 1 : 0 }} />
+                      {isActive && <div className={`lg:hidden absolute bottom-0 left-4 right-4 h-[2px] opacity-50 shadow-[0_0_10px_currentColor]`} style={{ backgroundColor: stops.middle, color: stops.start }} />}
                     </button>
                   </div>
                 );
@@ -386,23 +418,24 @@ const ArchitectureMap = ({ projectName = "CaBa" }) => {
           </div>
           <div className="hidden lg:flex lg:col-span-1 justify-center relative pointer-events-none z-10">
              <div ref={busRef} className="h-full w-[2px] bg-slate-800 relative">
-                <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-b from-transparent via-cyan-500/50 to-transparent opacity-50 blur-sm animate-pulse-slow" />
-                <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-[2px] bg-cyan-500/50">
-                   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_cyan]" />
+                <div className="absolute top-0 bottom-0 left-0 right-0 opacity-50 blur-sm animate-pulse-slow" style={{ backgroundImage: `linear-gradient(to bottom, transparent, ${stops.middle}, transparent)` }} />
+                <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-[2px]" style={{ backgroundColor: `${stops.middle}80` }}>
+                   <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full transition-all duration-300" style={{ backgroundColor: stops.start, boxShadow: `0 0 8px ${stops.middle}` }} />
                 </div>
              </div>
           </div>
-          <div className="lg:col-span-7 mt-4 lg:mt-0 relative z-20">
-            <div className="hidden lg:block absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-cyan-400 bg-slate-950 z-30 shadow-[0_0_10px_cyan]" />
+          <div ref={rightPanelRef} className="lg:col-span-7 mt-4 lg:mt-0 relative z-20">
+            <div className="hidden lg:block absolute -left-1.5 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 bg-slate-950 z-30 transition-all duration-300"
+                 style={{ borderColor: stops.start, boxShadow: `0 0 10px ${stops.middle}` }} />
             <div className="min-h-[500px] lg:h-full bg-slate-900/80 backdrop-blur-xl border border-slate-800 relative overflow-hidden flex flex-col shadow-2xl rounded-2xl lg:rounded-none">
-              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-500/50 rounded-tl-lg lg:rounded-none" />
-              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-cyan-500/50 rounded-tr-lg lg:rounded-none" />
-              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-cyan-500/50 rounded-bl-lg lg:rounded-none" />
-              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-500/50 rounded-br-lg lg:rounded-none" />
+              <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 rounded-tl-lg lg:rounded-none transition-colors duration-300" style={{ borderColor: `${stops.middle}60` }} />
+              <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 rounded-tr-lg lg:rounded-none transition-colors duration-300" style={{ borderColor: `${stops.middle}60` }} />
+              <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 rounded-bl-lg lg:rounded-none transition-colors duration-300" style={{ borderColor: `${stops.middle}60` }} />
+              <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 rounded-br-lg lg:rounded-none transition-colors duration-300" style={{ borderColor: `${stops.middle}60` }} />
               <div className="flex items-center justify-between px-5 py-4 lg:px-6 border-b border-slate-800 bg-slate-950/50">
                 <div className="flex items-center gap-3">
-                   <Activity size={16} className="text-cyan-400" />
-                   <span className="text-[10px] lg:text-xs font-mono text-cyan-400 uppercase tracking-widest truncate max-w-[150px] lg:max-w-none">DATA_STREAM: {activeCategory.id}</span>
+                   <Activity size={16} style={{ color: stops.start }} />
+                   <span className="text-[10px] lg:text-xs font-mono uppercase tracking-widest truncate max-w-[150px] lg:max-w-none" style={{ color: stops.start }}>DATA_STREAM: {activeCategory.id}</span>
                 </div>
                 <Share2 size={16} className="text-slate-600" />
               </div>

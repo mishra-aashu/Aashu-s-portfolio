@@ -47,6 +47,7 @@ import {
   PenTool
 } from 'lucide-react';
 import ArchitectureMap from './ArchitectureMap';
+import { Link, Routes, Route, useParams } from 'react-router-dom';
 
 // Firebase Imports
 import { initializeApp } from "firebase/app";
@@ -1249,9 +1250,9 @@ const ProjectCard = ({ title, desc, tags, color, size, githubLink, externalLink,
                  </a>
                )}
                {onArchitectureClick && (
-                 <button onClick={onArchitectureClick} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-colors" title="View Architecture">
+                 <Link to={`/architecture/${onArchitectureClick}`} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-colors flex items-center justify-center" title="View Architecture">
                    <Zap size={18} />
-                 </button>
+                 </Link>
                )}
             </div>
           </div>
@@ -1339,7 +1340,7 @@ const Projects = ({ openModal, selectedSkill, setSelectedSkill }) => {
                 size={(proj.id === 'elevengram' || proj.id === 'ozomart') ? 'large' : 'small'}
                 githubLink={proj.githubLink}
                 externalLink={proj.externalLink}
-                onArchitectureClick={proj.onArchitectureClick ? () => openModal(proj.onArchitectureClick) : null}
+                onArchitectureClick={proj.onArchitectureClick || null}
                 isHighlighted={selectedSkill && proj.tags.includes(selectedSkill)}
                 isDimmed={selectedSkill && !proj.tags.includes(selectedSkill)}
                 activeSkill={selectedSkill}
@@ -1620,6 +1621,19 @@ const Footer = () => (
   </footer>
 );
 
+const ArchitecturePage = () => {
+  const { projectName } = useParams();
+
+  useEffect(() => {
+    // Force dark theme styling on the HTML/body element for the blueprint page
+    document.documentElement.classList.add('dark');
+    document.documentElement.style.backgroundColor = '#020617';
+    document.body.style.backgroundColor = '#020617';
+  }, []);
+
+  return <ArchitectureMap projectName={projectName} />;
+};
+
 const App = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -1692,60 +1706,63 @@ const App = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-transparent text-slate-900 dark:text-slate-200 selection:bg-cyan-500/30 font-sans cursor-default transition-colors duration-300">
-      <Navbar 
-        activeSection={activeSection} 
-        scrollToSection={scrollToSection} 
-        theme={theme} 
-        toggleTheme={toggleTheme} 
-      />
-      <Hero scrollToSection={scrollToSection} />
-      <About />
-      <Skills />
-      <Projects openModal={openModal} />
-      <Contact user={user} />
-      <Footer />
+    <Routes>
+      <Route path="/" element={
+        <div className="min-h-screen bg-transparent text-slate-900 dark:text-slate-200 selection:bg-cyan-500/30 font-sans cursor-default transition-colors duration-300">
+          <Navbar 
+            activeSection={activeSection} 
+            scrollToSection={scrollToSection} 
+            theme={theme} 
+            toggleTheme={toggleTheme} 
+          />
+          <Hero scrollToSection={scrollToSection} />
+          <About />
+          <Skills />
+          <Projects openModal={openModal} />
+          <Contact user={user} />
+          <Footer />
 
-      {showModal && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-title"
-          aria-describedby="modal-description"
-        >
-          <div className="sr-only">
-            <h2 id="modal-title">{selectedProject} System Architecture</h2>
-            <p id="modal-description">A visual mapping of the technology stack and architecture for the {selectedProject} project.</p>
-          </div>
-          <button
-            onClick={closeModal}
-            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-slate-800 text-white hover:bg-white hover:text-slate-900 transition-colors"
-            aria-label="Close modal"
-          >
-            <X size={24} />
-          </button>
-          <div className="w-full h-full max-w-7xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl">
-            {selectedProject && selectedProject.startsWith('VIDEO_') ? (
-              <div className="w-full h-full bg-black flex items-center justify-center relative">
-                <video 
-                  src={
-                    selectedProject === 'VIDEO_WW3' ? "https://assets.mixkit.co/videos/preview/mixkit-world-map-background-animation-32812-large.mp4" :
-                    selectedProject === 'VIDEO_EVENT' ? "https://assets.mixkit.co/videos/preview/mixkit-awards-ceremony-on-stage-with-curtains-and-lights-34531-large.mp4" :
-                    "https://assets.mixkit.co/videos/preview/mixkit-cameraman-filming-a-scene-in-a-studio-34503-large.mp4"
-                  }
-                  controls 
-                  autoPlay 
-                  className="w-full h-full object-contain"
-                />
+          {showModal && (
+            <div 
+              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="modal-title"
+              aria-describedby="modal-description"
+            >
+              <div className="sr-only">
+                <h2 id="modal-title">{selectedProject} Preview</h2>
+                <p id="modal-description">A preview dialog showing {selectedProject}.</p>
               </div>
-            ) : (
-              <ArchitectureMap projectName={selectedProject} />
-            )}
-          </div>
+              <button
+                onClick={closeModal}
+                className="absolute top-4 right-4 z-50 p-2 rounded-full bg-slate-800 text-white hover:bg-white hover:text-slate-900 transition-colors"
+                aria-label="Close modal"
+              >
+                <X size={24} />
+              </button>
+              <div className="w-full h-full max-w-7xl max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl">
+                {selectedProject && selectedProject.startsWith('VIDEO_') && (
+                  <div className="w-full h-full bg-black flex items-center justify-center relative">
+                    <video 
+                      src={
+                        selectedProject === 'VIDEO_WW3' ? "https://assets.mixkit.co/videos/preview/mixkit-world-map-background-animation-32812-large.mp4" :
+                        selectedProject === 'VIDEO_EVENT' ? "https://assets.mixkit.co/videos/preview/mixkit-awards-ceremony-on-stage-with-curtains-and-lights-34531-large.mp4" :
+                        "https://assets.mixkit.co/videos/preview/mixkit-cameraman-filming-a-scene-in-a-studio-34503-large.mp4"
+                      }
+                      controls 
+                      autoPlay 
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      } />
+      <Route path="/architecture/:projectName" element={<ArchitecturePage />} />
+    </Routes>
   );
 };
 
