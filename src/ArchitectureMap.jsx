@@ -124,6 +124,133 @@ const ARCHITECTURE_DATA = {
         }
       ]
     }
+  ],
+  OzoMart: [
+    {
+      id: 'frontend',
+      title: 'Unified Frontend UI',
+      icon: <Code2 size={20} />,
+      color: 'text-cyan-400',
+      borderColor: 'border-cyan-500',
+      shadowColor: 'shadow-cyan-500/20',
+      gradient: 'from-cyan-500/20 to-blue-500/5',
+      description: 'Role-based dynamic portals optimized for low latency and state sync.',
+      details: [
+        {
+          tech: 'React & Vite',
+          role: 'Core SPA Framework',
+          desc: 'Drives lightning-fast client interface with modular routing for customers, admins, merchants, and riders.',
+          meta: 'v18.2.0',
+          highlight: '#61DAFB'
+        },
+        {
+          tech: 'Zustand',
+          role: 'State Management',
+          desc: 'Maintains client-side cart, wishlist, and session data with seamless real-time inventory updates.',
+          meta: 'v4.4.7',
+          highlight: '#E67E22'
+        },
+        {
+          tech: 'Leaflet Maps',
+          role: 'Geofenced Address Picker',
+          desc: 'Implements interactive pin selector checking delivery range against active store coordinates via Haversine formulas.',
+          meta: 'v1.9.4',
+          highlight: '#19B5FE'
+        }
+      ]
+    },
+    {
+      id: 'backend',
+      title: 'Serverless Edge API',
+      icon: <Server size={20} />,
+      color: 'text-purple-400',
+      borderColor: 'border-purple-500',
+      shadowColor: 'shadow-purple-500/20',
+      gradient: 'from-purple-500/20 to-indigo-500/5',
+      description: 'API routing, third-party payment gateways, and automated search engine indexing.',
+      details: [
+        {
+          tech: 'Vercel Serverless',
+          role: 'Backend APIs & Crons',
+          desc: 'Hosts endpoint logic, geocoding bridges, daily mandi vegetable rate updates, and Stuck Order Managers via crons.',
+          meta: 'Node.js v18',
+          highlight: '#000000'
+        },
+        {
+          tech: 'Deno Edge Functions',
+          role: 'Payment & Push Gateways',
+          desc: 'Processes Razorpay & Cashfree payment verifications and triggers push alerts with high-performance edge compute.',
+          meta: 'Supabase Edge',
+          highlight: '#3ECF8E'
+        },
+        {
+          tech: 'SEO Agent Rewrite',
+          role: 'Search Engine Indexer',
+          desc: 'Intercepts web crawlers to serve pre-rendered semantic HTML (JSON-LD) and notifies search engines via IndexNow.',
+          meta: 'Vercel Edge',
+          highlight: '#F5B041'
+        }
+      ]
+    },
+    {
+      id: 'database',
+      title: 'PostgreSQL Database',
+      icon: <Database size={20} />,
+      color: 'text-green-400',
+      borderColor: 'border-green-500',
+      shadowColor: 'shadow-green-500/20',
+      gradient: 'from-green-500/20 to-emerald-500/5',
+      description: 'Robust database schema with built-in security policies and automation triggers.',
+      details: [
+        {
+          tech: 'Supabase Realtime',
+          role: 'Live DB Sync',
+          desc: 'Synchronizes live order checklists, merchant inventory status, and active delivery captain maps instantly.',
+          meta: 'Postgres PubSub',
+          highlight: '#3ECF8E'
+        },
+        {
+          tech: 'DB Security (RLS)',
+          role: 'Row-Level Security',
+          desc: 'Restricts data access across Customer, Merchant, Captain, and Admin tables based on authenticated session claims.',
+          meta: 'SQL Policies',
+          highlight: '#E74C3C'
+        },
+        {
+          tech: 'Postgres Triggers',
+          role: 'Automation Triggers',
+          desc: 'Calculates dynamic mart markup prices automatically, updates store stocks, and enforces single concurrent device sessions.',
+          meta: 'PL/pgSQL',
+          highlight: '#2980B9'
+        }
+      ]
+    },
+    {
+      id: 'enrichment',
+      title: 'Catalog Enrichment',
+      icon: <Cpu size={20} />,
+      color: 'text-amber-400',
+      borderColor: 'border-amber-500',
+      shadowColor: 'shadow-amber-500/20',
+      gradient: 'from-amber-500/20 to-yellow-500/5',
+      description: 'Smart tools designed for quick catalog entry and automated product metadata scraping.',
+      details: [
+        {
+          tech: 'Flask Local Server',
+          role: 'Image Search Assistant',
+          desc: 'Automates product barcode image enrichment. Runs locally to search, scrape, download and upload details to CDN.',
+          meta: 'Python Flask',
+          highlight: '#FF4A5A'
+        },
+        {
+          tech: 'PhoneCapture App',
+          role: 'QR Mobile Webcam Bridge',
+          desc: 'Allows desktop operators to take mobile camera photos (magic-number checked) via real-time WebSocket session.',
+          meta: 'WebSockets',
+          highlight: '#1ABC9C'
+        }
+      ]
+    }
   ]
 };
 

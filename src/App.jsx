@@ -1026,6 +1026,16 @@ const Skills = ({ selectedSkill, setSelectedSkill, scrollToSection }) => {
 
 const projectsData = [
   {
+    id: "ozomart",
+    type: "engineering",
+    title: "OZO - Hyper-Local Grocery Platform",
+    desc: "A hyper-local instant grocery delivery platform designed for microsecond synchronization, database-level security policies (RLS), and custom catalog-building utilities. Features 4 distinct roles (Customer, Merchant Operator, Delivery Captain, and Admin Control Panel), distance-based rider payouts, geofenced address checks using Haversine formulas, and automated mandi price indexers. Includes a local Flask-based Image Search Tool and QR-linked mobile photo capture pipeline for instant catalog enrichment, with server-side crawler layout rendering for optimized SEO performance.",
+    tags: ["React", "JavaScript", "PostgreSQL", "Node.js", "APIs & REST", "SEO & Marketing", "Linux", "Git & GitHub"],
+    color: "green",
+    githubLink: "https://github.com/mishra-aashu/Ozo",
+    onArchitectureClick: "OzoMart"
+  },
+  {
     id: "elevengram",
     type: "engineering",
     title: "Elevengram",
@@ -1326,7 +1336,7 @@ const Projects = ({ openModal, selectedSkill, setSelectedSkill }) => {
                 desc={proj.desc}
                 tags={proj.tags}
                 color={proj.color}
-                size={proj.id === 'elevengram' ? 'large' : 'small'}
+                size={(proj.id === 'elevengram' || proj.id === 'ozomart') ? 'large' : 'small'}
                 githubLink={proj.githubLink}
                 externalLink={proj.externalLink}
                 onArchitectureClick={proj.onArchitectureClick ? () => openModal(proj.onArchitectureClick) : null}
