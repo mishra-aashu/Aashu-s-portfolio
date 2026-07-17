@@ -1083,7 +1083,7 @@ const projectsData = [
     desc: "Kind Heart’s Sangam Foundation | Non-Profit Web Platform. Tech Stack: SUPABASE (HTML5/CSS3/JavaScript). Digital Presence for Social Good: Developed a fully responsive web platform for a non-profit organization to increase outreach and streamline community engagement. User Engagement & Forms: Implemented interactive volunteer registration and donation modules, ensuring seamless data management via Firebase/Backend. Mission-Driven UI/UX: Designed a clean, impactful user interface focusing on storytelling and high-conversion layouts to highlight the foundation’s social initiatives. Performance Optimization: Leveraged modern front-end practices to ensure fast load times and cross-browser compatibility for a wider audience reach.",
     tags: ["HTML5 & CSS3", "JavaScript", "PostgreSQL", "Firebase"],
     color: "blue",
-    externalLink: "https://kindheartssangam.org"
+    externalLink: "https://mishra-aashu.github.io/Kind-Heart-s-Sangam-Foundation-/"
   },
   {
     id: "lagaowallpaper",
