@@ -307,6 +307,142 @@ const ARCHITECTURE_DATA = {
         }
       ]
     }
+  ],
+  FinTechTerminal: [
+    {
+      id: 'market-stream',
+      title: 'Real-Time Market Streamer',
+      icon: <Activity size={20} />,
+      color: 'text-amber-400',
+      borderColor: 'border-amber-500',
+      shadowColor: 'shadow-amber-500/20',
+      gradient: 'from-amber-500/20 to-yellow-500/5',
+      description: 'High-frequency WebSocket price streams with sub-millisecond dispatch queues.',
+      details: [
+        {
+          tech: 'Angel One API & WS',
+          role: 'LIVE TICKER BRIDGE',
+          desc: 'Streams real-time tick data across BSE/NSE symbols into FastAPI WebSocket handlers.',
+          meta: 'WebSocket',
+          highlight: '#F59E0B'
+        },
+        {
+          tech: 'Redis Cache & PubSub',
+          role: 'O(1) MEMORY STORE',
+          desc: 'Caches dynamic price ticks, depth data, and symbol maps for zero-latency UI broadcast.',
+          meta: 'Redis 7',
+          highlight: '#DC2626'
+        }
+      ]
+    },
+    {
+      id: 'ai-engine',
+      title: 'AI "Kyun?" Analytics Engine',
+      icon: <Cpu size={20} />,
+      color: 'text-cyan-400',
+      borderColor: 'border-cyan-500',
+      shadowColor: 'shadow-cyan-500/20',
+      gradient: 'from-cyan-500/20 to-blue-500/5',
+      description: 'AI sentiment & price anomaly explanation service.',
+      details: [
+        {
+          tech: 'FastAPI Microservice',
+          role: 'ANOMALY DETECTOR',
+          desc: 'Analyzes sudden price spikes, volume spikes, and live news feeds to generate instant trade reasoning.',
+          meta: 'FastAPI',
+          highlight: '#009688'
+        },
+        {
+          tech: 'React Financial UI',
+          role: 'TERMINAL FRONTEND',
+          desc: 'High-density trading dashboard with live sparklines, order depth, and correlation matrices.',
+          meta: 'React + Vite',
+          highlight: '#61DAFB'
+        }
+      ]
+    }
+  ],
+  CampusBuddy: [
+    {
+      id: 'frontend',
+      title: 'Student Productivity UI',
+      icon: <Code2 size={20} />,
+      color: 'text-purple-400',
+      borderColor: 'border-purple-500',
+      shadowColor: 'shadow-purple-500/20',
+      gradient: 'from-purple-500/20 to-indigo-500/5',
+      description: 'Full-stack SSR interface built with TanStack Start and TanStack Router.',
+      details: [
+        {
+          tech: 'TanStack Router & Start',
+          role: 'TYPE-SAFE SPA ENGINE',
+          desc: 'Handles nested routing, layout transitions, and server-side state hydration.',
+          meta: 'v1.170',
+          highlight: '#8B5CF6'
+        },
+        {
+          tech: 'Framer Motion & Tailwind',
+          role: 'ANIMATED DESIGN SYSTEM',
+          desc: 'Delivers fluid micro-interactions, responsive mobile dashboards, and dark-mode styling.',
+          meta: 'Tailwind v4',
+          highlight: '#38BDF8'
+        }
+      ]
+    },
+    {
+      id: 'analytics',
+      title: 'Academic Analytics Engine',
+      icon: <Server size={20} />,
+      color: 'text-green-400',
+      borderColor: 'border-green-500',
+      shadowColor: 'shadow-green-500/20',
+      gradient: 'from-green-500/20 to-emerald-500/5',
+      description: 'Proprietary algorithms for bunk prediction and grade analytics.',
+      details: [
+        {
+          tech: 'Bunk Predictor Engine',
+          role: 'ATTENDANCE ALGORITHM',
+          desc: 'Calculates safe skip counts and minimum required classes based on target percentage rules.',
+          meta: 'Algorithm',
+          highlight: '#10B981'
+        },
+        {
+          tech: 'Supabase Database',
+          role: 'PERSISTENCE & AUTH',
+          desc: 'Stores assignment schedules, exam timelines, and user preferences with security policies.',
+          meta: 'PostgreSQL',
+          highlight: '#3ECF8E'
+        }
+      ]
+    }
+  ],
+  PustakOS: [
+    {
+      id: 'core',
+      title: 'Study Hall Management Core',
+      icon: <Code2 size={20} />,
+      color: 'text-blue-400',
+      borderColor: 'border-blue-500',
+      shadowColor: 'shadow-blue-500/20',
+      gradient: 'from-blue-500/20 to-cyan-500/5',
+      description: 'SaaS seat allocation and license activation portal.',
+      details: [
+        {
+          tech: 'React & TypeScript',
+          role: 'UI COMPONENT ENGINE',
+          desc: 'Powers seat booking layouts, license key management, and instant search command palette (Cmd+K).',
+          meta: 'TS 5.x',
+          highlight: '#3178C6'
+        },
+        {
+          tech: 'Supabase OAuth',
+          role: 'AUTHENTICATION GATEWAY',
+          desc: 'Supports Google OAuth login, password initialization, and license ownership validation.',
+          meta: 'OAuth 2.0',
+          highlight: '#4285F4'
+        }
+      ]
+    }
   ]
 };
 

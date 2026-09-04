@@ -1030,11 +1030,10 @@ const projectsData = [
     id: "ozomart",
     type: "engineering",
     title: "OZO - Hyper-Local Grocery Platform",
-    desc: "A hyper-local instant grocery delivery platform designed for microsecond synchronization, database-level security policies (RLS), and custom catalog-building utilities. Features 4 distinct roles (Customer, Merchant Operator, Delivery Captain, and Admin Control Panel), distance-based rider payouts, geofenced address checks using Haversine formulas, and automated mandi price indexers. Includes a local Flask-based Image Search Tool and QR-linked mobile photo capture pipeline for instant catalog enrichment, with server-side crawler layout rendering for optimized SEO performance.",
+    desc: "A hyper-local instant grocery delivery platform designed for microsecond synchronization, database-level security policies (RLS), and custom catalog-building utilities. Features 4 distinct roles (Customer, Merchant Operator, Delivery Captain, and Admin Control Panel), distance-based rider payouts, geofenced address checks using Haversine formulas, and automated mandi price indexers.",
     tags: ["React", "JavaScript", "PostgreSQL", "Node.js", "APIs & REST", "SEO & Marketing", "Linux", "Git & GitHub"],
     color: "green",
-    githubLink: "https://github.com/mishra-aashu/Ozo",
-    onArchitectureClick: "OzoMart"
+    githubLink: "https://github.com/mishra-aashu/Ozo"
   },
   {
     id: "citysarthi",
@@ -1043,18 +1042,44 @@ const projectsData = [
     desc: "An end-to-end multi-vehicle booking and rental platform (Self-Drive & Cab Hailing) featuring real-time location tracking, driver allocation, automated fare engines, dynamic surge pricing, multi-role user workflows (Customer, Driver, Host & Admin), and Supabase backend integration.",
     tags: ["React Native", "Expo", "React", "Supabase", "PostgreSQL", "JavaScript", "Node.js", "Git & GitHub"],
     color: "cyan",
-    githubLink: "#",
-    onArchitectureClick: "CitySarthi"
+    githubLink: "https://github.com/mishra-aashu/citysarthi"
   },
   {
     id: "elevengram",
     type: "engineering",
     title: "Elevengram",
-    desc: "A production-ready, mobile messaging application built with a focus on privacy, real-time communication, and system resilience. It features a custom-built End-to-End Encryption (E2EE) protocol and a robust Voice-over-IP (VoIP) calling system. The architecture is designed to be \"self-healing,\" utilizing an Atomic Task Queue for offline-first reliability. Furthermore, it incorporates a proprietary Over-The-Air (OTA) update system to ensure seamless feature delivery and bug fixes without requiring manual store updates, providing a sophisticated user experience akin to top-tier industry standards. Tech Stack: Leveraged React/React Native and Supabase (PostgreSQL, Auth, Real-time) for a scalable backend-as-a-service architecture. Custom Tooling: Engineered an in-house OTA Update system to bypass traditional store deployment delays for rapid bug fixes. Resilience: Implemented a Self-Healing Architecture with offline task queues to ensure 99.9% data consistency.",
+    desc: "A production-ready mobile messaging application built with End-to-End Encryption (E2EE) and VoIP calling. Features a local-first self-healing Dexie.js architecture, atomic task queue, and in-house Over-The-Air (OTA) updates for zero-downtime client sync.",
     tags: ["React", "React Native", "JavaScript", "PostgreSQL", "OAuth & JWT", "Firebase", "Git & GitHub"],
     color: "cyan",
-    githubLink: "#",
-    onArchitectureClick: "Elevengram"
+    githubLink: "https://github.com/mishra-aashu/caba-android-app",
+    externalLink: "https://caba-android-app.vercel.app/"
+  },
+  {
+    id: "fintech-terminal",
+    type: "engineering",
+    title: "FinTech Terminal - Bloomberg Clone v3.0",
+    desc: "A high-performance real-time financial data terminal built with FastAPI, Redis, and WebSockets. Features live market streaming via Angel One Trading APIs, O(1) correlation engines, Redis caching layer, and an AI-powered stock movement analysis engine (\"Kyun?\").",
+    tags: ["FastAPI", "Redis", "WebSockets", "Python", "React", "APIs & REST", "Linux", "Git & GitHub"],
+    color: "amber",
+    githubLink: "https://github.com/mishra-aashu/stocker"
+  },
+  {
+    id: "campus-buddy",
+    type: "engineering",
+    title: "Campus Buddy - Academic & Student OS",
+    desc: "An all-in-one student productivity and academic management SaaS platform. Features automated attendance tracking with proprietary Bunk Predictor algorithms, assignment deadline managers, exam schedulers, and grade analytics dashboards.",
+    tags: ["React", "TypeScript", "Supabase", "PostgreSQL", "Tailwind CSS", "APIs & REST", "Git & GitHub"],
+    color: "purple",
+    githubLink: "https://github.com/mishra-aashu/campus-buddy"
+  },
+  {
+    id: "pustak-os",
+    type: "engineering",
+    title: "Pustak OS - Library & Study Hall SaaS",
+    desc: "An enterprise-grade SaaS management platform for libraries and study hall centers. Features interactive real-time seat booking maps, command-palette (Cmd+K) navigation, license key activation portals, admin management dashboards, and Supabase OAuth.",
+    tags: ["React", "TypeScript", "Supabase", "OAuth & JWT", "JavaScript", "SEO & Marketing", "Git & GitHub"],
+    color: "blue",
+    githubLink: "https://github.com/mishra-aashu/pushtak-os-website"
   },
   {
     id: "ww3-geopolitical",
@@ -1243,9 +1268,9 @@ const ProjectCard = ({ title, desc, tags, color, size, githubLink, externalLink,
             <div className={`p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 text-${color}-600 dark:text-${color}-400`}>
               {videoLink ? <Video size={20} /> : size === 'large' ? <Globe size={20} /> : <Code2 size={20} />}
             </div>
-            <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
+            <div className="flex gap-1.5 opacity-90 group-hover:opacity-100 transition-all duration-300">
                {githubLink && githubLink !== '#' && (
-                 <a href={githubLink} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="View Source">
+                 <a href={githubLink} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="View GitHub Source">
                    <Github size={16} />
                  </a>
                )}
@@ -1258,11 +1283,6 @@ const ProjectCard = ({ title, desc, tags, color, size, githubLink, externalLink,
                  <a href={externalLink} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="Live Demo">
                    <ExternalLink size={16} />
                  </a>
-               )}
-               {onArchitectureClick && (
-                 <Link to={`/architecture/${onArchitectureClick}`} className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-colors flex items-center justify-center" title="View Architecture">
-                   <Zap size={16} />
-                 </Link>
                )}
             </div>
           </div>
@@ -1350,7 +1370,6 @@ const Projects = ({ openModal, selectedSkill, setSelectedSkill }) => {
                 size="small"
                 githubLink={proj.githubLink}
                 externalLink={proj.externalLink}
-                onArchitectureClick={proj.onArchitectureClick || null}
                 isHighlighted={selectedSkill && proj.tags.includes(selectedSkill)}
                 isDimmed={selectedSkill && !proj.tags.includes(selectedSkill)}
                 activeSkill={selectedSkill}
