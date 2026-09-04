@@ -1033,7 +1033,8 @@ const projectsData = [
     desc: "A hyper-local instant grocery delivery platform designed for microsecond synchronization, database-level security policies (RLS), and custom catalog-building utilities. Features 4 distinct roles (Customer, Merchant Operator, Delivery Captain, and Admin Control Panel), distance-based rider payouts, geofenced address checks using Haversine formulas, and automated mandi price indexers.",
     tags: ["React", "JavaScript", "PostgreSQL", "Node.js", "APIs & REST", "SEO & Marketing", "Linux", "Git & GitHub"],
     color: "green",
-    githubLink: "https://github.com/mishra-aashu/Ozo"
+    githubLink: "https://github.com/mishra-aashu/Ozo",
+    externalLink: "https://ozomart.store"
   },
   {
     id: "citysarthi",
@@ -1060,8 +1061,7 @@ const projectsData = [
     title: "FinTech Terminal - Bloomberg Clone v3.0",
     desc: "A high-performance real-time financial data terminal built with FastAPI, Redis, and WebSockets. Features live market streaming via Angel One Trading APIs, O(1) correlation engines, Redis caching layer, and an AI-powered stock movement analysis engine (\"Kyun?\").",
     tags: ["FastAPI", "Redis", "WebSockets", "Python", "React", "APIs & REST", "Linux", "Git & GitHub"],
-    color: "amber",
-    githubLink: "https://github.com/mishra-aashu/stocker"
+    color: "amber"
   },
   {
     id: "campus-buddy",
