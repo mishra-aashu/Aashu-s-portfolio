@@ -253,6 +253,60 @@ const ARCHITECTURE_DATA = {
         }
       ]
     }
+  ],
+  CitySarthi: [
+    {
+      id: 'frontend',
+      title: 'Mobile & Web Application',
+      icon: <Code2 size={20} />,
+      color: 'text-cyan-400',
+      borderColor: 'border-cyan-500',
+      shadowColor: 'shadow-cyan-500/20',
+      gradient: 'from-cyan-500/20 to-blue-500/5',
+      description: 'Cross-platform Expo / React Native mobile apps for Users & Drivers alongside Web portals.',
+      details: [
+        {
+          tech: 'React Native & Expo',
+          role: 'CROSS-PLATFORM ENGINE',
+          desc: 'Drives mobile experiences for customer ride booking, vehicle host listings, and driver dispatch operations.',
+          meta: 'Expo SDK 51',
+          highlight: '#000000'
+        },
+        {
+          tech: 'Google Maps & Geofencing',
+          role: 'LOCATION & LIVE DISPATCH',
+          desc: 'Provides real-time GPS tracking, driver allocation ETA calculations, and interactive pickup/drop map markers.',
+          meta: 'Maps API',
+          highlight: '#4285F4'
+        }
+      ]
+    },
+    {
+      id: 'backend',
+      title: 'Database & Edge Infrastructure',
+      icon: <Server size={20} />,
+      color: 'text-emerald-400',
+      borderColor: 'border-emerald-500',
+      shadowColor: 'shadow-emerald-500/20',
+      gradient: 'from-emerald-500/20 to-green-500/5',
+      description: 'Supabase PostgreSQL backend with Row-Level Security and automated booking fare engines.',
+      details: [
+        {
+          tech: 'Supabase Postgres',
+          role: 'REALTIME DATABASE & RLS',
+          desc: 'Manages user KYC verifications, vehicle availability, booking ledgers, and driver payouts securely.',
+          meta: 'v2.110.8',
+          highlight: '#3ECF8E'
+        },
+        {
+          tech: 'Dynamic Fare Engine',
+          role: 'AUTOMATED BILLING & FARES',
+          desc: 'Calculates base fares, per-km rates, dynamic surge multipliers, night surcharges, and cancellation policies.',
+          meta: 'Node.js Edge',
+          highlight: '#F59E0B'
+        }
+      ]
+    }
   ]
 };
 

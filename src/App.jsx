@@ -1037,6 +1037,16 @@ const projectsData = [
     onArchitectureClick: "OzoMart"
   },
   {
+    id: "citysarthi",
+    type: "engineering",
+    title: "CitySarthi - Vehicle Booking & Rental Platform",
+    desc: "An end-to-end multi-vehicle booking and rental platform (Self-Drive & Cab Hailing) featuring real-time location tracking, driver allocation, automated fare engines, dynamic surge pricing, multi-role user workflows (Customer, Driver, Host & Admin), and Supabase backend integration.",
+    tags: ["React Native", "Expo", "React", "Supabase", "PostgreSQL", "JavaScript", "Node.js", "Git & GitHub"],
+    color: "cyan",
+    githubLink: "#",
+    onArchitectureClick: "CitySarthi"
+  },
+  {
     id: "elevengram",
     type: "engineering",
     title: "Elevengram",
@@ -1139,7 +1149,7 @@ const MediaCard = ({ title, desc, tags, color, videoPreview, thumbnail, onPlayCl
 
   return (
     <div 
-      className={`group relative rounded-3xl bg-slate-900 border border-slate-800 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-${color}-500/20 min-h-[450px] cursor-pointer ${highlightClass} ${dimClass}`}
+      className={`group relative rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-${color}-500/20 min-h-[320px] cursor-pointer ${highlightClass} ${dimClass}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => {
@@ -1163,32 +1173,32 @@ const MediaCard = ({ title, desc, tags, color, videoPreview, thumbnail, onPlayCl
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent z-20" />
       </div>
 
-      <div className="relative z-30 p-8 h-full flex flex-col justify-end">
-        <div className="mb-4 transform translate-y-8 group-hover:translate-y-0 transition-all duration-500">
-           <div className="flex justify-between items-center mb-4">
-              <div className={`p-3 rounded-xl bg-white/10 backdrop-blur-md text-white border border-white/20`}>
-                <Film size={24} />
+      <div className="relative z-30 p-5 sm:p-6 h-full flex flex-col justify-end">
+        <div className="mb-3 transform translate-y-6 group-hover:translate-y-0 transition-all duration-500">
+           <div className="flex justify-between items-center mb-3">
+              <div className={`p-2.5 rounded-lg bg-white/10 backdrop-blur-md text-white border border-white/20`}>
+                <Film size={20} />
               </div>
               <button 
                 onClick={(e) => { e.stopPropagation(); onPlayClick(); }}
-                className={`p-4 rounded-full bg-${color}-600 text-white shadow-lg shadow-${color}-600/40 hover:scale-110 transition-transform`}
+                className={`p-3 rounded-full bg-${color}-600 text-white shadow-lg shadow-${color}-600/40 hover:scale-110 transition-transform`}
               >
-                <Play size={20} fill="currentColor" />
+                <Play size={16} fill="currentColor" />
               </button>
            </div>
-           <h3 className={`text-2xl font-bold text-white mb-2 group-hover:text-${color}-400 transition-colors`}>{title}</h3>
-           <p className="text-slate-300 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-all duration-500 line-clamp-3">
+           <h3 className={`text-lg sm:text-xl font-bold text-white mb-1.5 group-hover:text-${color}-400 transition-colors`}>{title}</h3>
+           <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 opacity-0 group-hover:opacity-100 transition-all duration-500 line-clamp-2">
              {desc}
            </p>
         </div>
 
-        <div className="flex flex-wrap gap-2 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
+        <div className="flex flex-wrap gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100">
           {tags.map((tag) => {
             const isTagMatch = activeSkill === tag;
             return (
               <span 
                 key={tag} 
-                className={`px-3 py-1 rounded-lg border text-[10px] font-medium uppercase tracking-wider transition-all ${
+                className={`px-2.5 py-0.5 rounded-md border text-[10px] font-medium uppercase tracking-wider transition-all ${
                   isTagMatch
                     ? `bg-${color}-500 border-${color}-400 text-white font-bold scale-105`
                     : 'bg-white/5 border-white/10 text-slate-400'
@@ -1223,55 +1233,55 @@ const ProjectCard = ({ title, desc, tags, color, size, githubLink, externalLink,
     : 'opacity-100';
 
   return (
-    <div className={`group relative rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 overflow-hidden hover:border-${color}-500/50 transition-all duration-500 hover:shadow-xl dark:hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] ${size === 'large' ? 'md:col-span-2' : 'md:col-span-1'} ${highlightClass} ${dimClass}`}>
+    <div className={`group relative rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 overflow-hidden hover:border-${color}-500/50 transition-all duration-500 hover:shadow-xl dark:hover:shadow-[0_0_30px_rgba(0,0,0,0.5)] ${size === 'large' ? 'md:col-span-2' : 'md:col-span-1'} ${highlightClass} ${dimClass}`}>
       {/* Hover Gradient Overlay */}
       <div className={`absolute inset-0 bg-gradient-to-br from-${color}-500/5 dark:from-${color}-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0`} />
       
-      <div className="relative z-10 p-8 h-full flex flex-col justify-between min-h-[320px]">
+      <div className="relative z-10 p-5 sm:p-6 h-full flex flex-col justify-between min-h-[220px]">
         <div>
-          <div className="flex justify-between items-start mb-6">
-            <div className={`p-3 rounded-xl bg-slate-50 dark:bg-slate-800 text-${color}-600 dark:text-${color}-400`}>
-              {videoLink ? <Video size={24} /> : size === 'large' ? <Globe size={24} /> : <Code2 size={24} />}
+          <div className="flex justify-between items-start mb-4">
+            <div className={`p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 text-${color}-600 dark:text-${color}-400`}>
+              {videoLink ? <Video size={20} /> : size === 'large' ? <Globe size={20} /> : <Code2 size={20} />}
             </div>
-            <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
+            <div className="flex gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
                {githubLink && githubLink !== '#' && (
-                 <a href={githubLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="View Source">
-                   <Github size={18} />
+                 <a href={githubLink} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="View Source">
+                   <Github size={16} />
                  </a>
                )}
                {videoLink && (
-                 <a href={videoLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-red-600 dark:hover:bg-red-500 hover:text-white transition-colors" title="Watch Video">
-                   <Youtube size={18} />
+                 <a href={videoLink} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-red-600 dark:hover:bg-red-500 hover:text-white transition-colors" title="Watch Video">
+                   <Youtube size={16} />
                  </a>
                )}
                {externalLink && (
-                 <a href={externalLink} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="Live Demo">
-                   <ExternalLink size={18} />
+                 <a href={externalLink} target="_blank" rel="noopener noreferrer" className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-900 dark:hover:bg-white hover:text-white dark:hover:text-slate-900 transition-colors" title="Live Demo">
+                   <ExternalLink size={16} />
                  </a>
                )}
                {onArchitectureClick && (
-                 <Link to={`/architecture/${onArchitectureClick}`} className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-colors flex items-center justify-center" title="View Architecture">
-                   <Zap size={18} />
+                 <Link to={`/architecture/${onArchitectureClick}`} className="p-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-cyan-600 dark:hover:bg-cyan-500 hover:text-white transition-colors flex items-center justify-center" title="View Architecture">
+                   <Zap size={16} />
                  </Link>
                )}
             </div>
           </div>
           
-          <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-900 dark:group-hover:from-white group-hover:to-slate-500 dark:group-hover:to-slate-400 transition-all">
+          <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-slate-900 dark:group-hover:from-white group-hover:to-slate-500 dark:group-hover:to-slate-400 transition-all">
             {title}
           </h3>
-          <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6 line-clamp-4">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4 line-clamp-3">
             {desc}
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {tags.map((tag) => {
             const isTagMatch = activeSkill === tag;
             return (
               <span 
                 key={tag} 
-                className={`px-3 py-1 rounded-lg border text-xs font-medium transition-all ${
+                className={`px-2.5 py-0.5 rounded-md border text-[11px] font-medium transition-all ${
                   isTagMatch 
                     ? `bg-${color}-500/20 border-${color}-500 text-${color}-600 dark:text-${color}-400 font-bold scale-105 shadow-[0_0_10px_rgba(6,182,212,0.15)]` 
                     : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-white/5 text-slate-500 dark:text-slate-300 group-hover:border-slate-300 dark:group-hover:border-white/20'
@@ -1292,23 +1302,23 @@ const Projects = ({ openModal, selectedSkill, setSelectedSkill }) => {
   const mediaProjects = projectsData.filter(p => p.type === 'media');
 
   return (
-    <section id="projects" className="py-24 bg-white dark:bg-slate-950 transition-colors duration-300">
+    <section id="projects" className="py-16 sm:py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
+        <div className="mb-10 sm:mb-12 flex flex-col md:flex-row justify-between items-end gap-4">
           <div>
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4">Portfolio <span className="text-purple-600 dark:text-purple-400">Showcase</span></h2>
-            <p className="text-slate-600 dark:text-slate-400 max-w-md">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-2">Portfolio <span className="text-purple-600 dark:text-purple-400">Showcase</span></h2>
+            <p className="text-slate-600 dark:text-slate-400 max-w-md text-sm">
               Bridging the gap between scalable software architecture and high-impact visual storytelling.
             </p>
           </div>
-          <a href="https://github.com/mishra-aashu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-slate-600 dark:text-white border-b border-cyan-500 pb-1 hover:gap-4 transition-all">
-            Explore All Repositories <Github size={16} />
+          <a href="https://github.com/mishra-aashu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs sm:text-sm text-slate-600 dark:text-white border-b border-cyan-500 pb-1 hover:gap-4 transition-all">
+            Explore All Repositories <Github size={14} />
           </a>
         </div>
 
         {selectedSkill && (
-          <div className="mb-8 flex items-center gap-3 p-3 px-4 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 w-fit animate-pulse">
-            <span className="text-sm text-slate-700 dark:text-slate-300">
+          <div className="mb-6 flex items-center gap-2.5 p-2.5 px-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/20 w-fit animate-pulse">
+            <span className="text-xs text-slate-700 dark:text-slate-300">
               Active Filter: <strong className="text-cyan-600 dark:text-cyan-400">{selectedSkill}</strong>
             </span>
             <button 
@@ -1316,20 +1326,20 @@ const Projects = ({ openModal, selectedSkill, setSelectedSkill }) => {
               className="p-1 rounded-lg bg-cyan-500/20 text-cyan-700 dark:text-cyan-300 hover:bg-cyan-500/30 transition-colors"
               aria-label="Clear filter"
             >
-              <X size={14} />
+              <X size={12} />
             </button>
           </div>
         )}
 
         {/* Section: Engineering & Development */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
+        <div className="mb-12">
+          <div className="flex items-center gap-2.5 mb-6">
             <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-600 dark:text-cyan-400">
-              <Monitor size={20} />
+              <Monitor size={18} />
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Software Engineering</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Software Engineering</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
             {engineeringProjects.map(proj => (
               <ProjectCard 
                 key={proj.id}
@@ -1337,7 +1347,7 @@ const Projects = ({ openModal, selectedSkill, setSelectedSkill }) => {
                 desc={proj.desc}
                 tags={proj.tags}
                 color={proj.color}
-                size={(proj.id === 'elevengram' || proj.id === 'ozomart') ? 'large' : 'small'}
+                size="small"
                 githubLink={proj.githubLink}
                 externalLink={proj.externalLink}
                 onArchitectureClick={proj.onArchitectureClick || null}
@@ -1351,13 +1361,13 @@ const Projects = ({ openModal, selectedSkill, setSelectedSkill }) => {
 
         {/* Section: Media & Visual Production */}
         <div>
-          <div className="flex items-center gap-3 mb-8">
+          <div className="flex items-center gap-2.5 mb-6">
             <div className="p-2 rounded-lg bg-red-500/10 text-red-600 dark:text-red-400">
-              <Film size={20} />
+              <Film size={18} />
             </div>
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Media Production</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Media Production</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {mediaProjects.map(proj => (
               <MediaCard 
                 key={proj.id}
